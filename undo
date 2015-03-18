@@ -1,0 +1,444 @@
+#!/bin/bash
+# An attempt to undo the install and revert to the original
+# base cli Debian system.
+# NB This is an experimental script, 100% success is not guaranteed.
+# USAGE
+# This script should come in a folder called cb-?-netinstall
+# (or also be found in .cb-netinstall-logs),
+# along with a collection of other necessary files.
+# Change directory (cd) into that folder and run
+# ./undo
+# to start the uninstallation process.
+
+################################################
+
+set -o nounset # do not accept unset variables
+# If not running in terminal, exit with message
+[[ -t 0 && -t 1 && -t 2 ]] || { echo "$0: This script must be run from a terminal" >&2; exit 1; }
+
+[[ -r config ]] || { echo "$0: Cannot find necessary file \"config\"" >&2; exit 1; }
+. config
+for i in log_dir backup_dir backup_suffix
+do
+    [[ $i ]] || { echo "$0: Config variable $i has not been set. Please check the \"config\" file." >&2; exit 1; }
+done
+
+install_backup_dir="${backup_dir}"/install
+snapshots_dir="${backup_dir}"/snapshots
+backup_dir="${backup_dir}"/undo
+install_log_dir=$log_dir
+log_dir="$log_dir"/undo-logs
+
+necessary_files=(pkgs-manual pkgs-norecs pkgs-auto) # array
+necessary_logfiles=("${install_log_dir}"/{sysfiles-added,sysdirs-added,userfiles-added,userdirs-added,netinstall-core-apps,netinstall-auto-apps})
+
+logfile=error.log # temporary logfile in installer directory
+user=$USER
+
+msg() {
+    echo "$1" | tee -a "$logfile"
+}
+
+bigmsg() {
+    tput bold
+    echo "
+$1
+------------------------------------------------" | tee -a "$logfile"
+    tput sgr0
+    sleep 3
+}
+
+errmsg() {
+    tput bold
+    echo "######## ERROR ########
+$1
+------------------------------------------------" | tee -a "$logfile" >&2
+    tput sgr0
+    sleep 4
+}
+
+log() {
+    echo "$1" >> "$logfile"
+}
+
+warnlog() {
+    echo "######## WARNING ########
+$1
+------------------------------------------------" >> "$logfile"
+}
+
+confirm() { # $1 is message, $2 is desired return value: 0 or 1 (passed to 'giveup')
+    echo "
+$1
+(press enter to continue, any other key to exit)
+" | tee -a "$logfile"
+    read -srn1
+    [[ $REPLY ]] && giveup "terminated by $user, goodbye!" $2
+    log "$user chose to continue"
+}
+
+option() {
+    echo "
+$1
+(press enter to agree, any other key to pass)
+" | tee -a "$logfile"
+    read -srn1
+    [[ $REPLY ]] && { log "$user did not agree"; return 1; }
+    log "$user agreed"
+    return 0
+}
+
+giveup() { # $1 is message, $2 is desired return value: 0 or 1
+    if [[ ${2:-1} = 0 ]]
+    then
+        bigmsg "$1"
+    else
+        errmsg "$1"
+    fi
+    echo "now exiting..."
+    exit ${2:-1}
+}
+
+net_test() {
+    tries=4
+    printf 'checking network connection... ' | tee -a "$logfile"
+    while [[ $tries -gt 0 ]]
+    do
+        wget -O - 'http://ftp.debian.org/debian/README' >/dev/null 2>&1 && {
+            msg '[OK]'
+            return 0
+        }
+        ((tries--))
+        sleep 1
+    done
+    msg '[FAILED]'
+    return 1
+}
+
+trap 'giveup "Script terminated." 1' 1 2 3 15
+[[ $user = root ]] && giveup "This script should be run by a normal user, not root" 1
+
+log "
+########################################################################
+Starting uninstall script for $user at $(date)"
+
+#clear
+tput bold
+echo "Hi $user, this is the uninstall script!"
+tput sgr0
+echo "
+
+This script will UNINSTALL YOUR SYSTEM
+and try to restore system files to the state they were in
+before running the install script.
+It will probably not succeed 100%,
+but might be able to restore something close to a basic Debian cli system.
+"
+confirm "ARE YOU SURE you want to run the UNINSTALL script now?" 0
+
+[[ -d "$install_log_dir" ]] || giveup "Could not find necessary log directory $install_log_dir" 1
+[[ -d "$install_backup_dir" ]] || confirm "Could not find backup directory $install_backup_dir
+It may not be possible to restore some system files to the exact state
+they were in before running the install script.
+Would you like to continue the uninstall anyway?" 1
+
+# check for needed files
+missing_files=
+for i in "${necessary_files[@]}" "${necessary_logfiles[@]}"
+do
+    [[ -r $i ]] || missing_files+=" $i"
+done
+[[ $missing_files ]] && giveup "Some necessary files were missing: $missing_files" 1 || msg "Necessary files: OK"
+
+# setup logfile
+mkdir -p "$log_dir" || giveup "failed to make $log_dir" 1
+cat "$logfile" >> "$log_dir"/uninstall.log
+rm "$logfile" # finished with temporary logfile
+logfile="$log_dir"/uninstall.log # this logfile will remain after the install
+bigmsg "messages are being saved to $logfile"
+
+# check debian version FIXME Is /etc/debian_version the best way?
+grep -q '\(wheezy\|\(^\|[^a-zA-Z0-9.]\)7\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
+    confirm "You do not appear to have Debian Wheezy installed.
+If you think this is incorrect,
+you may wish to continue with the installation,
+otherwise it would be safer to stop.
+Would you like to continue anyway?" 1; }
+
+# test if X is running
+[[ ${DISPLAY:-} ]] && giveup "You seem to have X running.
+Please shut it down with 'sudo service slim stop'
+and run the script from a tty." 1
+
+# can use sudo?
+echo "
+You will need your password to perform certain system tasks.
+Please enter it now and it will be stored for a while.
+(You may need to enter it again later.)"
+sudo -v || giveup "You do not appear to have permission to use sudo,
+which is needed in this script.
+Please make the necessary adjustments to your system and try again." 1
+
+############ file copying functions ############
+# rsync would do almost the same, but this allows us to keep records and be picky about corner cases.
+
+are_identical() { # two files have same content and same permissions
+    sudo cmp -s "$1" "$2" && [[ $(sudo stat -c %a "$1") = $(sudo stat -c %a "$2") ]] && return 0
+    return 1
+}
+
+install_sysdir() { # recursively copy contents of $1 into $2, make backups in $3 of replaced files and keep records of changes
+    [[ $# = 3 ]] || giveup "install_sysdir() needs three arguments" 1
+    # use 'sudo test' in case file is only accessible to root
+    sudo test -d "$1" || giveup "$1 is not an existing directory" 1
+    sudo test -d "$2" || giveup "$2 is not an existing directory" 1
+    sudo mkdir -p "$3" > >( tee -a "$logfile" ) 2>&1 || giveup "Unable to make directory $3." 1
+    for i in "$1"/*
+    do
+        sudo test -e "$i" || break # $1 is empty
+        [[ $i = *$'\n'* ]] && giveup "Line-break in filename: $i
+Please contact the software provider, or remove this file
+before running the script again." 1
+        [[ $i = *~ ]] && { msg "ignoring backup file $i"; continue; }
+        filename="${i##*/}"
+        target="${2%/}/${filename}" # avoid double slash if $2 is /
+        if sudo test -d "$i"
+        then
+            if sudo test -e "${target}"
+            then
+                sudo test -d "${target}" || giveup "${target} exists, but is not a directory." 1
+                sudo rsync --dirs --perms "${target}" "$3" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying ${target} to $3/${filename}." 1
+            else
+                msg "adding directory ${target}"
+                sudo rsync --dirs --perms "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "${target}" >> "$log_dir"/sysdirs-added
+            fi
+            install_sysdir "$i" "${target}" "$3/${filename}"
+        else
+            if sudo test -e "${target}"
+            then
+                if are_identical "$i" "${target}"
+                then # probably this file was added on a previous run of script
+                    msg "$i and ${target} are identical"
+                else
+                    msg "replacing ${target}"
+                    if sudo test -e "$3/${filename}"
+                    then
+                        msg "A backup copy of ${target} already exists..." # do our best to keep meaningful backups
+                        if are_identical "${target}" "$3/${filename}"
+                        then
+                            msg "but is identical with ${target}"
+                        else
+                            msg "but an extra backup will be made at $3/${filename}${backup_suffix}"
+                            sudo mv "${target}" "$3/${filename}${backup_suffix}" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem moving ${target} to $3/${filename}." 1
+                        fi
+                    else
+                        sudo mv "${target}" "$3/${filename}" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem moving ${target} to $3/${filename}." 1
+                    fi
+                    sudo cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                    echo "${target}" >> "$log_dir"/sysfiles-replaced
+                fi
+            else
+                msg "adding ${target}"
+                sudo cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "${target}" >> "$log_dir"/sysfiles-added
+            fi
+        fi
+    done
+}
+
+install_userdir() { # recursively copy contents of $1 into $2, make backups of replaced files in $2 and keep records of changes
+    [[ $# = 2 ]] || giveup "install_userdir() needs two arguments" 1
+    [[ -d $1 ]] || giveup "$1 is not an existing directory." 1
+    [[ -d $2 ]] || giveup "$2 is not an existing directory." 1
+    for i in "$1"/*
+    do
+        [[ -e $i ]] || break # $1 is empty
+        [[ $i = *$'\n'* ]] && giveup "Line-break in filename: $i
+Please contact the software provider, or remove this file
+before running the script again." 1
+        filename="${i##*/}"
+        if [[ -d $i ]]
+        then
+            if [[ -e "$2/${filename}" ]]
+            then
+                [[ -d "$2/${filename}" ]] || giveup "$2/${filename} exists, but is not a directory." 1
+            else
+                msg "adding directory $2/${filename}"
+                rsync --dirs --perms "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "$2/${filename}" >> "$log_dir"/userdirs-added
+            fi
+            install_userdir "$i" "$2/${filename}"
+        else
+            if [[ -e "$2/${filename}" ]]; then
+                if are_identical "$i" "$2/${filename}"; then # probably this file was added on a previous run of script
+                    msg "$i and $2/${filename} are identical"
+                else
+                    msg "replacing $2/${filename}"
+                    # keep original backup, but try not to fill user's home with meaningless backup files
+                    mv --no-clobber "$2/${filename}" "$2/${filename}${backup_suffix}" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem renaming $2/${filename} to $2/${filename}${backup_suffix}." 1
+                    cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                    echo "$2/${filename}" >> "$log_dir"/userfiles-replaced
+                fi
+            else
+                msg "adding $2/${filename}"
+                cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "$2/${filename}" >> "$log_dir"/userfiles-added
+            fi
+        fi
+    done
+}
+
+########## end file copying functions ##########
+
+bigmsg "Uninstalling packages."
+
+pkgs_to_remove=($(comm -23 <(sed 's/\#.*$//' pkgs-manual pkgs-norecs | sort) <(sort ${install_log_dir}/netinstall-core-apps)))
+sudo apt-get purge "${pkgs_to_remove[@]}" > >( tee -a "$logfile" ) 2>&1 || errmsg "'apt-get purge' returned an error.
+There may be some information in ${logfile}."
+
+bigmsg "Removing dependencies..."
+sudo apt-get --quiet --purge autoremove > >( tee -a "$logfile" ) 2>&1 || errmsg "There was a problem with 'apt-get autoremove'.
+There may be some information in ${logfile}."
+bigmsg "Packages uninstalled"
+
+bigmsg "Restoring original packages"
+
+pkgs_to_remove=($(comm -23 <(apt-mark showmanual|sort) <(sort ${install_log_dir}/netinstall-core-apps)))
+pkgs_to_restore=($(comm -13 <(apt-mark showmanual|sort) <(sort ${install_log_dir}/netinstall-core-apps)))
+missing_auto=($(comm -13 <(apt-mark showauto|sort) <(sort ${install_log_dir}/netinstall-auto-apps)))
+
+[[ ${#pkgs_to_remove[@]} -gt 0 ]] && {
+    option "Some extra packages seem to have been installed since the netinstall script was run:
+${pkgs_to_remove[@]}
+Would you like to remove the above packages now?" && {
+        sudo apt-get purge "${pkgs_to_remove[@]}" > >( tee -a "$logfile" ) 2>&1 || errmsg "'apt-get purge' returned an error.
+There may be some information in ${logfile}."
+    }
+}
+
+netup=false
+[[ ${#pkgs_to_restore[@]} -gt 0 || ${#missing_auto[@]} -gt 0 ]] && {
+    while true
+    do
+        net_test && { netup=true; break;}
+        option "Your network seems to be down.
+Would you like to try to fix it (maybe edit /etc/network/interfaces)
+and check again, or skip installing missing packages?
+(Enter when ready to to check again, other key to skip.)" || { netup=false; break;}
+    done
+}
+$netup && {
+    [[ ${#pkgs_to_restore[@]} -gt 0 ]] && {
+        option "Some packages seem to have been removed since the netinstall script was run:
+    ${pkgs_to_restore[@]}
+    Would you like to install the above packages now?" && {
+            sudo apt-get install "${pkgs_to_restore[@]}" > >( tee -a "$logfile" ) 2>&1 || errmsg "'apt-get install' returned an error.
+    There may be some information in ${logfile}."
+        }
+    }
+    [[ ${#missing_auto[@]} -gt 0 ]] && {
+        option "Some auto-installed packages seem to be missing:
+    ${missing_auto[@]}
+    Would you like to install the above packages now?" && {
+            sudo apt-get install "${missing_auto[@]}" > >( tee -a "$logfile" ) 2>&1 || errmsg "'apt-get install' returned an error.
+    There may be some information in ${logfile}."
+        }
+    }
+}
+
+msg "removing unnecessary packages"
+sudo apt-get --purge autoremove > >( tee -a "$logfile" ) 2>&1 || errmsg "There was a problem with 'apt-get autoremove'.
+There may be some information in ${logfile}."
+
+msg "marking auto packages"
+sudo apt-mark auto $(< ${install_log_dir}/netinstall-auto-apps) > >( tee -a "$logfile" ) 2>&1 || errmsg "unable to mark packages as auto-installed"
+
+bigmsg "Restoring former system files."
+shopt -s dotglob # want dotfiles too
+install_sysdir "${install_backup_dir}" / "${backup_dir}"
+shopt -u dotglob
+
+bigmsg "removing unnecessary files and directories"
+mapfile -t unwanted_sysfiles < <(sed 's/\#.*$//' "$install_log_dir"/sysfiles-added)
+for i in "${unwanted_sysfiles[@]}"
+do
+    [[ $i ]] || continue # blank line
+    if sudo test -e "$i"
+    then
+        msg "removing file $i"
+        sudo rm "$i"  > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to remove system file $i"
+    else
+        msg "file $i does not exist"
+    fi
+done
+mapfile -t unwanted_sysdirs < <(sed 's/\#.*$//' "$install_log_dir"/sysdirs-added)
+for i in "${unwanted_sysdirs[@]}"
+do
+    [[ $i ]] || continue # blank line
+    if sudo test -d "$i"
+    then
+        msg "removing directory $i"
+        sudo rm -r "$i"  > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to remove system directory $i"
+    else
+        msg "directory $i does not exist"
+    fi
+done
+
+bigmsg "Removing your personal configuration files and restoring default settings."
+mapfile -t unwanted_userfiles < <(sed 's/\#.*$//' "$install_log_dir"/userfiles-added)
+for i in "${unwanted_userfiles[@]}"
+do
+    [[ $i ]] || continue # blank line
+    if test -e "$i"
+    then
+        msg "removing file $i"
+        rm "$i"  > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to remove  file $i"
+    else
+        msg "user file $i does not exist"
+    fi
+done
+mapfile -t unwanted_userdirs < <(sed 's/\#.*$//' "$install_log_dir"/userdirs-added)
+for i in "${unwanted_userdirs[@]}"
+do
+    [[ $i ]] || continue # blank line
+    if test -d "$i"
+    then
+        msg "removing directory $i"
+        rm -r "$i"  > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to remove user directory $i"
+    else
+        msg "directory $i does not exist"
+    fi
+done
+
+[[ ${#snapshots[@]} -gt 0 ]] && {
+    bigmsg "Restoring snapshots"
+    for i in "${snapshots[@]}"
+    do
+        [[ $i ]] || continue # blank line
+        sudo test -e "${snapshots_dir}${i}" || { errmsg "no snapshot ${snapshots_dir}${i} exists"; continue;}
+        msg "restoring snapshot of $i from ${snapshots_dir}${i}"
+        sudo test -e "$i" && {
+            sudo mkdir -p "${backup_dir}${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to make directory ${backup_dir}${i%/*}"
+            sudo test -e "${backup_dir}${i}" && {
+                msg "backup copy of $i already exists at ${backup_dir}${i}
+making new copy at ${backup_dir}${i}${backup_suffix}"
+                sudo mv -T "$i" "${backup_dir}${i}${backup_suffix}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to move $i to ${backup_dir}${i}${backup_suffix}"
+            } || {
+                sudo mv "$i" "${backup_dir}${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to move $i to ${backup_dir}${i%/*}"
+            }
+        }
+        sudo mkdir -p "${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to make directory ${i%/*}"
+        sudo cp -a "${snapshots_dir}${i}" "${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to copy ${snapshots_dir}${i} into ${i%/*}"
+    done
+}
+
+bigmsg "Restoring default user files from /etc/skel."
+shopt -s dotglob # want dotfiles too
+install_userdir /etc/skel $HOME
+shopt -u dotglob
+
+bigmsg "UNINSTALL FINISHED"
+msg "You may find some system files are still different
+from their original state..."
+exit

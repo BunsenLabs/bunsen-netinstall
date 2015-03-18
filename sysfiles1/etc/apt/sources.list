@@ -1,0 +1,13 @@
+## CRUNCHBANG
+## Compatible with Debian Wheezy, but use at your own risk.
+deb http://packages.crunchbang.org/waldorf waldorf main
+# deb-src http://packages.crunchbang.org/waldorf waldorf main
+
+## DEBIAN
+deb http://ftp.debian.org/debian wheezy main contrib non-free
+# deb-src http://ftp.debian.org/debian wheezy main contrib non-free
+
+## DEBIAN SECURITY
+deb http://security.debian.org/ wheezy/updates contrib non-free main
+deb http://ftp.debian.org/debian wheezy-updates contrib non-free main
+# deb-src http://security.debian.org/ wheezy/updates main

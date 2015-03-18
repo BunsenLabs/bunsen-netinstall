@@ -1,0 +1,14 @@
+This folder contains files created during the installation of
+CrunchBang by the cb-netinstall script.
+They could be useful in restoring a failed install to its
+previous state, or in bugfixing.
+There is also a copy of the "undo" script, which attempts to 
+return the system to its original state. This is experimental, and
+not expected to work 100%.
+
+If the installation was successful and no issues occurred subsequently,
+this whole folder may safely be deleted.
+
+A folder /backup on your root file system holds backups of
+system files replaced during the install.
+This may also be removed if desired.

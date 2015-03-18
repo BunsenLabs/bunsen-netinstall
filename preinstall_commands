@@ -1,0 +1,9 @@
+# commands to run after basic checks but before starting the installation
+
+msg "adjusting permissions of new system files before installing"
+# (git does not preserve permissions)
+# reset permissions on system files to default
+chmod --preserve-root --recursive u=Xrw,g=Xr,o=Xr sysfiles1 > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to reset permissions in sysfiles1"
+chmod --preserve-root --recursive u=Xrw,g=Xr,o=Xr sysfiles2 > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to reset permissions in sysfiles2"
+# set special permissions on some file
+chmod --preserve-root g=,o= sysfiles2/etc/polkit-1/localauthority > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to change permissions on sysfiles2/etc/polkit-1/localauthority"

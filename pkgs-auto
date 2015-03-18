@@ -1,0 +1,8 @@
+# These are packages that are automatically installed on Waldorf,
+# but may not have been brought in as dependencies of the
+# packages in pkgs-manual, so they are added here.
+# After installation they will be marked as automatically-installed.
+ 
+miscfiles
+uuid-runtime
+xserver-xorg-video-all

@@ -1,0 +1,14 @@
+# This file is sourced by the install script just before installing
+# the main packages.
+# You can add code to install APT GPG keys here.
+# Use the existing CrunchBang code as a template.
+#
+# LOGGING:
+# bigmsg "..." will output a bold message to the terminal and logfile.
+# End your command lines with:
+#  > >( tee -a "$logfile" ) 2>&1 || giveup "Some message..." 1
+# so that output will be logged, and success checked.
+
+bigmsg "Installing CrunchBang APT key."
+wget --no-verbose http://packages.crunchbang.org/waldorf-dev/crunchbang.key > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to download CrunchBang APT key." 1
+sudo apt-key add crunchbang.key > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install CrunchBang APT key." 1

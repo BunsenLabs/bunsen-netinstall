@@ -1,0 +1,7 @@
+[Local Users]
+Identity=unix-group:*
+Action=org.freedesktop.udisks.*
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+

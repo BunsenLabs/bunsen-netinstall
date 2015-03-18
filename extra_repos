@@ -1,0 +1,22 @@
+
+## THIS SECTION APPENDED BY NETINSTALL SCRIPT ##
+
+## DEBIAN
+## Assuming only "main" repositories have already been added
+## by the Debian netinstall, add contrib, non-free.
+deb http://ftp.debian.org/debian/ wheezy contrib non-free
+#deb-src http://ftp.debian.org/debian/ wheezy contrib non-free
+
+## DEBIAN SECURITY
+## Assuming only "main" repositories have already been added
+## by the Debian netinstall, add contrib, non-free.
+deb http://security.debian.org/ wheezy/updates contrib non-free
+#deb-src http://security.debian.org/ wheezy/updates contrib non-free
+deb http://ftp.debian.org/debian wheezy-updates contrib non-free
+
+## CRUNCHBANG
+## Compatible with Debian Wheezy, but use at your own risk.
+deb http://packages.crunchbang.org/waldorf waldorf main
+#deb-src http://packages.crunchbang.org/waldorf waldorf main
+
+## END NETINSTALL SECTION ##

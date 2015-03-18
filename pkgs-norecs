@@ -1,0 +1,9 @@
+# Packages here will be installed without recommends.
+
+# If you want all your packages installed without recommends,
+# do not use this file. Put your packages in pkgs-manual
+# and edit the files in
+# sysfiles1/etc/apt/apt.conf.d
+# to make no recommends the system default.
+
+file-roller

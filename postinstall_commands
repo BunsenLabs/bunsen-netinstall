@@ -1,0 +1,30 @@
+# commands to run after installing all files and packages
+
+# add any needed extra groups
+for i in cbnetwork
+do
+    if grep -q "^${i}:" /etc/group
+    then
+        msg "group $i already exists"
+    else
+        msg "adding group $i"
+        sudo addgroup $i > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to add group: $i"
+    fi
+done
+
+# add user to necessary extra groups
+# NB You should also check sysfiles2/etc/adduser.conf for default groups to add new users to
+for i in scanner bluetooth netdev fuse cbnetwork
+do
+    sudo adduser $user $i > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to add user: $user to group: $i"
+done
+
+# make sure gksu runs in sudo mode
+sudo update-alternatives --set libgksu-gconf-defaults /usr/share/libgksu/debian/gconf-defaults.libgksu-sudo > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to edit alternative for libgksu-gconf-defaults"
+sudo update-gconf-defaults > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to update gconf defaults"
+
+# to pre-empt /usr/share/crunchbang/cb-user-setup
+[[ -w "$HOME/.gtk-bookmarks" ]] && sed --in-place "s/REPLACEME/$user/" $HOME/.gtk-bookmarks > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to edit .gtk-bookmarks"
+[[ -e $HOME/images/wallpapers/shared ]] || ln -s /usr/share/backgrounds $HOME/images/wallpapers/shared > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to add symlink to shared wallpapers"
+
+touch $HOME/.config/crunchbang/cb-setup > >( tee -a "$logfile" ) 2>&1 || errmsg "failed to touch .config/crunchbang/cb-setup"

@@ -1,0 +1,555 @@
+#!/bin/bash
+# This is intended to be a general-purpose script to install
+# a desktop environment, possibly CrunchBang,
+# on a Debian netinstall base. (See README for more details.)
+# It will modify and add some system files, install the necessary
+# packages and copy configuration files into your home directory.
+# These changes might be reversible, but no guarantees are offered,
+# and all the usual caveats apply.
+# This install script is intended to be run on a newly installed
+# system with no personal settings or data. Attempts will be made to
+# backup any such data that might exist, but do not rely on it.
+
+# USAGE
+# This script should come in a folder called cb-?-netinstall,
+# along with a collection of other necessary files.
+# Change directory (cd) into that folder and run
+# ./install
+# to start the installation process.
+# A folder called .cb-netinstall-logs will be added to your home folder.
+# This may safely be removed if the installation was successful.
+# A folder /backup (or other name) on your root file system will hold
+# backups of system files replaced during the install.
+
+################################################
+
+set -o nounset # do not accept unset variables
+# If not running in terminal, exit with message
+[[ -t 0 && -t 1 && -t 2 ]] || { echo "$0: This script must be run from a terminal" >&2; exit 1; }
+
+[[ -r config ]] || { echo "$0: Cannot find necessary file \"config\"" >&2; exit 1; }
+. config
+for i in log_dir backup_dir backup_suffix necessary_files replaced_dirs
+do
+    [[ $i ]] || { echo "$0: Config variable $i has not been set. Please check the \"config\" file." >&2; exit 1; }
+done
+install_backup_dir="${backup_dir}"/install
+snapshots_dir="${backup_dir}"/snapshots
+backup_dir="$install_backup_dir"
+
+logfile=error.log # temporary logfile in installer directory
+user=$USER
+
+msg() {
+    echo "$1" | tee -a "$logfile"
+}
+
+bigmsg() {
+    tput bold
+    echo "
+$1
+------------------------------------------------" | tee -a "$logfile"
+    tput sgr0
+    sleep 3
+}
+
+errmsg() {
+    tput bold
+    echo "######## ERROR ########
+$1
+------------------------------------------------" | tee -a "$logfile" >&2
+    tput sgr0
+    sleep 4
+}
+
+log() {
+    echo "$1" >> "$logfile"
+}
+
+warnlog() {
+    echo "######## WARNING ########
+$1
+------------------------------------------------" >> "$logfile"
+}
+
+confirm() { # $1 is message, $2 is desired return value: 0 or 1 (passed to 'giveup')
+    echo "
+$1
+(press enter to continue, any other key to exit)
+" | tee -a "$logfile"
+    read -srn1
+    [[ $REPLY ]] && giveup "terminated by $user, goodbye!" $2
+    log "$user chose to continue"
+}
+
+option() {
+    echo "
+$1
+(press enter to agree, any other key to pass)
+" | tee -a "$logfile"
+    read -srn1
+    [[ $REPLY ]] && { log "$user did not agree"; return 1; }
+    log "$user agreed"
+    return 0
+}
+
+giveup() { # $1 is message, $2 is desired return value: 0 or 1
+    if [[ ${2:-1} = 0 ]]
+    then
+        bigmsg "$1"
+    else
+        errmsg "$1"
+    fi
+    [[ ${replaced_dirs[0]} != "none" ]] && {
+        for i in "${replaced_dirs[@]}"
+        do
+            sudo test -d "$i" || { # if dir has not been replaced by new version, put back the original backup
+                if sudo test -d  "${i%/*}"
+                then
+                    sudo test -d "${backup_dir}/$i" && sudo mv "${backup_dir}/$i" "${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Unable to restore missing folder $i ."
+                else
+                    errmsg "Cannot move $i to ${i%/*} : no such directory."
+                fi
+            }
+        done
+    }
+    echo "now exiting..."
+    exit ${2:-1}
+}
+
+net_test() {
+    tries=4
+    printf 'checking network connection... ' | tee -a "$logfile"
+    while [[ $tries -gt 0 ]]
+    do
+        wget -O - 'http://ftp.debian.org/debian/README' >/dev/null 2>&1 && {
+            msg '[OK]'
+            return 0
+        }
+        ((tries--))
+        sleep 1
+    done
+    msg '[FAILED]'
+    return 1
+}
+
+trap 'giveup "Script terminated." 1' 1 2 3 15
+[[ $user = root ]] && giveup "This script should be run by a normal user, not root" 1
+
+log "
+########################################################################
+Starting CrunchBang netinstall script for $user at $(date)"
+
+clear
+tput bold
+echo "Hi $user, welcome to the CrunchBang Waldorf netinstall script!"
+tput sgr0
+echo "
+$( < greeting )
+
+This script is expected to be run just after completing a netinstall
+installation of the Debian Wheezy CORE SYSTEM ONLY.
+(See \"Debian Netinstall Hints\" in the README file.)
+"
+confirm "Would you like to start the install now?" 0
+
+net_test || giveup "You do not seem to have a working network connection.
+Please fix this issue and run the script again." 1
+
+# check for needed files
+missing_files=
+for i in "${necessary_files[@]}"
+do
+    [[ -r $i ]] || missing_files+=" $i"
+done
+[[ $missing_files ]] && giveup "Some necessary files or folders were missing: $missing_files" 1 || msg "Necessary files: OK"
+
+# setup logfile
+[[ -d "$log_dir" ]] || { cp -r cb-netinstall-logs "$log_dir" || giveup "failed to copy logfiles directory into $HOME" 1; }
+cat "$logfile" >> "$log_dir"/install.log
+rm "$logfile" # finished with temporary logfile
+logfile="$log_dir"/install.log # this logfile will remain after the install
+bigmsg "messages are being saved to $logfile"
+cp -f pkgs-manual pkgs-norecs pkgs-auto config undo "$log_dir"
+
+# check debian version FIXME Is /etc/debian_version the best way?
+grep -q '\(wheezy\|\(^\|[^a-zA-Z0-9.]\)7\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
+    confirm "You do not appear to have Debian Wheezy installed.
+If you think this is incorrect,
+you may wish to continue with the installation,
+otherwise it would be safer to stop.
+Would you like to continue anyway?" 1; }
+
+# is X already installed? FIXME Is this the best way to check if there is a desktop system installed already?
+hash startx > /dev/null 2>&1 && { warnlog "Command 'startx' is available. Desktop system already installed?"
+    confirm "You seem to have some kind of desktop environment already installed.
+If you continue with this CrunchBang installation you may have problems,
+or even end up with an unusable system.
+Would you like to continue anyway?" 1; }
+
+# can use sudo?
+echo "
+You will need your password to perform certain system tasks.
+Please enter it now and it will be stored for a while.
+(You may need to enter it again later.)"
+sudo -v || giveup "You do not appear to have permission to use sudo,
+which is needed in this script.
+Please make the necessary adjustments to your system and try again." 1
+
+# initial tweaking
+bigmsg "Adjusting some system settings."
+[[ -r preinstall_commands ]] && {
+    . preinstall_commands
+}
+
+bigmsg "Upgrading system before install
+(this may take a little while)"
+
+msg "Updating database..."
+sudo apt-get --quiet update > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem with 'apt-get update'.
+There may be some information in ${logfile}." 1
+
+msg "Upgrading packages..."
+sudo apt-get --quiet --yes dist-upgrade > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem with 'apt-get dist-upgrade'.
+There may be some information in ${logfile}." 1
+
+msg "Removing unnecessary packages..."
+sudo apt-get --quiet --yes autoremove > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem with 'apt-get autoremove'.
+There may be some information in ${logfile}." 1
+
+log "Packages originally installed by the Debian netinstaller are recorded in $log_dir/netinstall-core-apps"
+[[ -f "$log_dir"/netinstall-core-apps ]] || apt-mark showmanual > "$log_dir"/netinstall-core-apps
+log "Packages originally auto-installed by the Debian netinstaller are recorded in $log_dir/netinstall-auto-apps"
+[[ -f "$log_dir"/netinstall-auto-apps ]] || apt-mark showauto > "$log_dir"/netinstall-auto-apps
+
+msg "Installing rsync."
+sudo apt-get --quiet --yes install rsync > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install necessary package 'rsync'." 1
+
+[[ ${#snapshots[@]} -gt 0 ]] && {
+    bigmsg "Making snapshots of some files or directories"
+    for i in "${snapshots[@]}"
+    do
+        [[ $i ]] || continue # blank line
+        i="${i%/}" # remove any trailing slash
+        sudo test -e "${snapshots_dir}${i}" && { msg "snapshot of $i already made"; continue;}
+        msg "making snapshot of $i in ${snapshots_dir}"
+        sudo mkdir -p "${snapshots_dir}${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to make directory ${snapshots_dir}${i%/*}"
+        sudo cp -a "$i" "${snapshots_dir}${i%/*}" > >( tee -a "$logfile" ) 2>&1 || errmsg "Failed to copy $i to ${snapshots_dir}${i%/*}."
+    done
+}
+
+############ file copying functions ############
+# rsync would do almost the same, but this allows us to keep records and be picky about corner cases.
+
+are_identical() { # two files have same content and same permissions
+    sudo cmp -s "$1" "$2" && [[ $(sudo stat -c %a "$1") = $(sudo stat -c %a "$2") ]] && return 0
+    return 1
+}
+
+install_sysdir() { # recursively copy contents of $1 into $2, make backups in $3 of replaced files and keep records of changes
+    [[ $# = 3 ]] || giveup "install_sysdir() needs three arguments" 1
+    # use 'sudo test' in case file is only accessible to root
+    sudo test -d "$1" || giveup "$1 is not an existing directory" 1
+    sudo test -d "$2" || giveup "$2 is not an existing directory" 1
+    sudo mkdir -p "$3" > >( tee -a "$logfile" ) 2>&1 || giveup "Unable to make directory $3." 1
+    for i in "$1"/*
+    do
+        sudo test -e "$i" || break # $1 is empty
+        [[ $i = *$'\n'* ]] && giveup "Line-break in filename: $i
+Please contact the software provider, or remove this file
+before running the script again." 1
+        [[ $i = *~ ]] && { msg "ignoring backup file $i"; continue; }
+        filename="${i##*/}"
+        target="${2%/}/${filename}" # avoid double slash if $2 is /
+        if sudo test -d "$i"
+        then
+            if sudo test -e "${target}"
+            then
+                sudo test -d "${target}" || giveup "${target} exists, but is not a directory." 1
+                sudo rsync --dirs --perms "${target}" "$3" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying ${target} to $3/${filename}." 1
+            else
+                msg "adding directory ${target}"
+                sudo rsync --dirs --perms "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "${target}" >> "$log_dir"/sysdirs-added
+            fi
+            install_sysdir "$i" "${target}" "$3/${filename}"
+        else
+            if sudo test -e "${target}"
+            then
+                if are_identical "$i" "${target}"
+                then # probably this file was added on a previous run of script
+                    msg "$i and ${target} are identical"
+                else
+                    msg "replacing ${target}"
+                    if sudo test -e "$3/${filename}"
+                    then
+                        msg "A backup copy of ${target} already exists..." # do our best to keep meaningful backups
+                        if are_identical "${target}" "$3/${filename}"
+                        then
+                            msg "but is identical with ${target}"
+                        else
+                            msg "but an extra backup will be made at $3/${filename}${backup_suffix}"
+                            sudo mv "${target}" "$3/${filename}${backup_suffix}" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem moving ${target} to $3/${filename}." 1
+                        fi
+                    else
+                        sudo mv "${target}" "$3/${filename}" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem moving ${target} to $3/${filename}." 1
+                    fi
+                    sudo cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                    echo "${target}" >> "$log_dir"/sysfiles-replaced
+                fi
+            else
+                msg "adding ${target}"
+                sudo cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "${target}" >> "$log_dir"/sysfiles-added
+            fi
+        fi
+    done
+}
+
+install_userdir() { # recursively copy contents of $1 into $2, make backups of replaced files in $2 and keep records of changes
+    [[ $# = 2 ]] || giveup "install_userdir() needs two arguments" 1
+    [[ -d $1 ]] || giveup "$1 is not an existing directory." 1
+    [[ -d $2 ]] || giveup "$2 is not an existing directory." 1
+    for i in "$1"/*
+    do
+        [[ -e $i ]] || break # $1 is empty
+        [[ $i = *$'\n'* ]] && giveup "Line-break in filename: $i
+Please contact the software provider, or remove this file
+before running the script again." 1
+        filename="${i##*/}"
+        if [[ -d $i ]]
+        then
+            if [[ -e "$2/${filename}" ]]
+            then
+                [[ -d "$2/${filename}" ]] || giveup "$2/${filename} exists, but is not a directory." 1
+            else
+                msg "adding directory $2/${filename}"
+                rsync --dirs --perms "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "$2/${filename}" >> "$log_dir"/userdirs-added
+            fi
+            install_userdir "$i" "$2/${filename}"
+        else
+            if [[ -e "$2/${filename}" ]]; then
+                if are_identical "$i" "$2/${filename}"; then # probably this file was added on a previous run of script
+                    msg "$i and $2/${filename} are identical"
+                else
+                    msg "replacing $2/${filename}"
+                    # keep original backup, but try not to fill user's home with meaningless backup files
+                    mv --no-clobber "$2/${filename}" "$2/${filename}${backup_suffix}" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem renaming $2/${filename} to $2/${filename}${backup_suffix}." 1
+                    cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                    echo "$2/${filename}" >> "$log_dir"/userfiles-replaced
+                fi
+            else
+                msg "adding $2/${filename}"
+                cp --preserve=mode "$i" "$2" > >( tee -a "$logfile" ) 2>&1 || giveup "There was a problem copying $i to $2." 1
+                echo "$2/${filename}" >> "$log_dir"/userfiles-added
+            fi
+        fi
+    done
+}
+
+########## end file copying functions ##########
+
+bigmsg "Adjusting package management (apt) settings
+and adding CrunchBang repositories.
+Replaced files will be backed up to ${backup_dir}/etc/apt"
+
+# If extra_repos exists, append to sources.list
+# instead of totally replacing it.
+# This way you keep the Debian mirror chosen during the netinstall.
+# In this case, omit sysfiles1/etc/apt/sources.list .
+# If sysfiles1/etc/apt/sources.list is also present, user will be asked
+# which to use.
+append_repos=false
+[[ -s extra_repos ]] && { # extra_repos is non-zero
+    append_repos=true
+    [[ -s sysfiles1/etc/apt/sources.list ]] && {
+        if are_identical /etc/apt/sources.list sysfiles1/etc/apt/sources.list
+        then
+            msg "/etc/apt/sources.list has already been modified."
+            append_repos=false
+        elif [[ $(<sysfiles1/etc/apt/sources.list) = *$(<extra_repos)* ]]
+        then
+            msg "extra_repos already appended to sysfiles1/etc/apt/sources.list"
+            append_repos=false
+        else
+            echo "
+Your /etc/apt/sources.list file entries will be replaced by the
+Crunchbang default repositories. If you would prefer to keep the
+Debian main mirror you chose during the netinstall, choose the \"append\"
+option instead: the needed extra repositories will be appended to your
+existing sources.list file. Otherwise choose the \"replace\" option.
+( A backup copy of your sources.list file will be kept
+ in ${backup_dir}/etc/apt )
+
+If you are unsure, choose \"replace\".
+
+(Press a to append, any other key to replace.)
+"
+            log "Both extra_repos and sysfiles1/etc/apt/sources.list exist.
+User chooses which to use."
+            read -rsn1
+            if [[ $REPLY = a ]]
+            then
+                mv sysfiles1/etc/apt/sources.list sysfiles1/etc/apt/sources.list~cb-orig~
+                log "User chose to append extra_repos to sources.list."
+            else
+                log "User chose to replace sources.list."
+                append_repos=false
+            fi
+        fi
+    }
+}
+[[ $append_repos = true ]] && {
+    msg "adding extra repositories to existing sources.list file"
+    sed '/deb-src/s/^/#/' /etc/apt/sources.list 2> >( tee -a "$logfile" ) > sysfiles1/etc/apt/sources.list || giveup "There was a problem editing sources.list." 1
+    cat extra_repos 2> >( tee -a "$logfile" ) >> sysfiles1/etc/apt/sources.list || giveup "There was a problem appending extra_repos to sources.list." 1
+}
+[[ -s sysfiles1/etc/apt/sources.list ]] || giveup "There is no sources.list file." 1
+
+msg "installing apt configuration files"
+
+install_sysdir sysfiles1 / "${backup_dir}"
+bigmsg "Apt settings adjusted."
+
+# Install necessary APT keys.
+[[ -r apt-keys ]] && {
+    . apt-keys
+}
+
+bigmsg "Installing packages needed for the system.
+This may take some time."
+#bigmsg "Please press 'y' if prompted at some point."
+
+msg "updating apt database..."
+sudo apt-get --quiet update > >( tee -a "$logfile" ) 2>&1 || {
+    warnlog "'apt-get --quiet update' returned an error"
+    confirm "There was a problem with 'apt-get update'.
+There may be some information in ${logfile}.
+Would you like to continue anyway, or exit?" 1
+}
+
+msg "upgrading existing packages..."
+# FIXME grub may be downgraded, requiring a prompt or apt-get will abort if using --yes.
+# Using the (dangerous) --force-yes option for now.
+sudo apt-get --yes --force-yes --quiet dist-upgrade > >( tee -a "$logfile" ) 2>&1 || {
+    warnlog "'apt-get --quiet dist-upgrade' returned an error"
+    confirm "There was a problem with 'apt-get dist-upgrade'.
+There may be some information in ${logfile}.
+Would you like to continue anyway, or exit?" 1
+}
+
+bigmsg "Installing new packages.
+There may be around 1000 packages to install,
+ so this will probably take a while..."
+sudo apt-get --yes --quiet --ignore-missing install $( sed 's/\#.*$//' pkgs-manual ) > >( tee -a "$logfile" ) 2>&1 || {
+    warnlog "'apt-get --yes --quiet --ignore-missing install' returned an error"
+    confirm "There was a problem installing some packages.
+There may be some information in ${logfile}.
+You might want to exit the script, comment out packages causing problems
+in pkgs-manual, and run the script again.
+If the missing packages are unimportant, you might prefer to continue
+with the install and fix the issues later.
+Would you like to ignore the errors and continue now,
+or exit and try to fix the problems?" 1
+}
+
+# If there are packages that need to be installed without recommends,
+# do it here.
+unset pkgs_norecs
+pkgs_norecs=($( sed 's/\#.*$//' pkgs-norecs )) && [[ ${#pkgs_norecs[@]} -gt 0 ]] && {
+    bigmsg "Installing extra packages, without recommends."
+    sudo apt-get --no-install-recommends --yes --quiet --ignore-missing install ${pkgs_norecs[@]} > >( tee -a "$logfile" ) 2>&1 || {
+        warnlog "'apt-get --yes --quiet --ignore-missing install' returned an error"
+        confirm "There was a problem installing some packages.
+    There may be some information in ${logfile}.
+    You might want to exit the script, comment out packages causing problems
+    in pkgs-norecs, and run the script again.
+    If the missing packages are unimportant, you might prefer to continue
+    with the install and fix the issues later.
+    Would you like to ignore the errors and continue now,
+    or exit and try to fix the problems?" 1
+    }
+}
+
+missing_auto=($( comm -23 <( sed 's/\#.*$//' pkgs-auto | sort ) <( apt-mark showauto | sort ) ))
+[[ ${#missing_auto[@]} -gt 0 ]] && {
+    msg "Missing auto packages:
+${missing_auto[@]}"
+    bigmsg "Installing extra auto-installed packages."
+    sudo apt-get --no-install-recommends --yes --quiet --ignore-missing install ${missing_auto[@]} > >( tee -a "$logfile" ) 2>&1 || {
+        warnlog "'apt-get --no-install-recommends --yes --quiet --ignore-missing install' returned an error"
+        confirm "There was a problem installing some packages.
+There may be some information in ${logfile}.
+You might want to exit the script, comment out packages causing problems
+in pkgs-auto, and run the script again.
+If the missing packages are unimportant, you might prefer to continue
+with the install and fix the issues later.
+Would you like to ignore the errors and continue now,
+or exit and try to fix the problems?" 1
+    }
+    sudo apt-mark auto ${missing_auto[@]} > >( tee -a "$logfile" ) 2>&1 || {
+        warnlog "'apt-mark auto' returned an error"
+        confirm "There was a problem marking some packages as auto.
+There may be some information in ${logfile}.
+You might want to exit the script, comment out packages causing problems
+in pkgs-auto, and run the script again.
+Alternatively, you might prefer to continue
+with the install and fix the issues later.
+Would you like to ignore the errors and continue now,
+or exit and try to fix the problems?" 1
+    }
+    msg "extra auto packages installed"
+}
+
+bigmsg "New packages installed"
+
+bigmsg "Copying in new system files.
+Replaced files will be backed up to ${backup_dir}"
+
+# move dirs that will be replaced to backup dir
+[[ ${replaced_dirs[0]} != "none" ]] && {
+    for i in "${replaced_dirs[@]}"
+    do
+        sudo test -d "$i" || { errmsg "directory $i set in \"replaced_dirs\" in file \"config\" does not exist"; continue; }
+        if sudo test -d "${backup_dir}/$i"
+        then
+            msg "${backup_dir}/$i already exists.
+No need to backup $i"
+        else
+            bigmsg "$i will be replaced: moving it to ${backup_dir}" # we want to completely replace the directory
+            sudo mkdir -p "${backup_dir}/${i%/*}" > >( tee -a "$logfile" ) 2>&1 || giveup "Unable to make directory ${backup_dir}/${i%/*}." 1
+            sudo mv "$i" "${backup_dir}/${i%/*}" > >( tee -a "$logfile" ) 2>&1 || giveup "Unable to move $i to ${backup_dir}/${i%/*}" 1
+        fi
+    done
+}
+
+shopt -s dotglob # want dotfiles too
+install_sysdir sysfiles2 / "${backup_dir}"
+shopt -u dotglob
+bigmsg "system files installed"
+
+bigmsg "Updating your personal configuration files.
+Replaced files wil be backed up with a suffix of $backup_suffix"
+
+shopt -s dotglob # want dotfiles too
+install_userdir /etc/skel $HOME
+shopt -u dotglob
+
+bigmsg "Files updated."
+
+# final tweaking
+bigmsg "Adjusting some system settings."
+[[ -r postinstall_commands ]] && {
+    . postinstall_commands
+}
+
+
+bigmsg "INSTALL FINISHED!"
+confirm "You need to restart your computer to log into your new system.
+Would you like to continue to restart now,
+or exit the script and restart later?" 0
+bigmsg "REBOOTING...
+(thank you for your patience so far)"
+sudo shutdown -r now
+exit
