@@ -1,5 +1,5 @@
 This folder contains files created during the installation of
-CrunchBang by the cb-netinstall script.
+BunsenLabs by the bunsen-alpha-netinstall script.
 They could be useful in restoring a failed install to its
 previous state, or in bugfixing.
 There is also a copy of the "undo" script, which attempts to 

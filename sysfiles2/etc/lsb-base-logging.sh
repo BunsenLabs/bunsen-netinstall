@@ -1,1 +1,0 @@
-FANCYTTY=0

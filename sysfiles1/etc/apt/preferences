@@ -1,7 +1,0 @@
-Package: *
-Pin: release a=waldorf
-Pin-Priority: 1001
-
-Package: *
-Pin: release a=wheezy
-Pin-Priority: 500

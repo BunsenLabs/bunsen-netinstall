@@ -1,46 +1,32 @@
 This is a collection of files intended to install
-an identical copy of the CrunchBang Waldorf desktop environment
-on a basic command-line-only Debian Wheezy system.
-It will modify and add some system files, install the necessary
-packages and copy configuration files into your home directory.
-These changes might be reversible, but no guarantees are offered,
-and all the usual caveats apply.
+an alpha version of BunsenLabs Linux
+on a basic command-line-only Debian Jessie system.
+It will use the BunsenLabs repositories on GitHub
+to build .deb files, put them in a locally created repository
+and install them from there.
+The exact content of those files will vary with time,
+as will the likelihood of building a viable system.
 
-This is NOT an official CrunchBang install medium.
-Any problems you may experience are not the responsibility of
-CrunchBang, although you may possibly be able to resolve some of them
-by asking other users at the CrunchBang Forums. The support thread for
-this installer is here:
-http://crunchbang.org/forums/viewtopic.php?id=25098
-There is also a thread for discussion of bugs, improvements
-or customization here:
-http://crunchbang.org/forums/viewtopic.php?id=21266
-
-This installer is intended to be run on a newly installed
-system with no personal settings or data,
-ie just after completing a netinstall installation of the
-Debian Wheezy CORE SYSTEM ONLY.
-(See "Debian Netinstall Hints" below.)
-
-Attempts will be made to backup any data that might exist,
-but please do not rely on it.
+WARNING: THIS INSTALLER IS FOR TESTING PURPOSES ONLY.
+No support will be provided on the forums
+for any problems that may occur, though bug reports are welcome!
 
 HOW TO USE
 
 Boot into your Debian Netinstall cli system,
 log in and run these commands, as a normal user:
-(A fresh copy of this cb-netinstall package will be downloaded.)
+(A fresh copy of this bunsen-alpha-netinstall package will be downloaded.)
 
-wget https://github.com/johnraff/cb-netinstall/archive/master.tar.gz
+wget https://github.com/bunsenlabs/bunsen-alpha-netinstall/archive/master.tar.gz
 tar -xpf master.tar.gz
-cd cb-netinstall-master
+cd bunsen-alpha-netinstall-master
 ./install
 
 The installation process will start.
 Follow any prompts that appear on the screen.
 
-A folder called .cb-netinstall-logs will be added to your home folder.
-(The file ~/.cb-netinstall-logs/install.log will contain
+A folder called .bunsen-netinstall-logs will be added to your home folder.
+(The file ~/.bunsen-netinstall-logs/install.log will contain
 verbose information about the install process.)
 This folder may safely be removed if the installation was successful,
 and no issues arose subsequently.
@@ -57,37 +43,30 @@ should still work.
 FILES IN THIS COLLECTION
 
 README: this file
+LICENSE: a copy of the GPL3 license
 install: the installation script
 copyright: GNU licence statement
 greeting: message to user
-pkgs-manual: packages to install
+pkgs-recs: packages to install with recommends
 pkgs-norecs: packages to install without recommends
-pkgs-auto: checklist of some auto-installed packages
 extra_repos: repository(ies) to add to /etc/apt/sources.list
-apt-keys: commands to install necessary APT GPG keys
 sysfiles1: system files to copy in before installing packages (mainly apt-related)
 sysfiles2: system files to copy in after installing packages
 preinstall_commands: commands to run before installing packages and files
 postinstall_commands: commands to run after installing packages and files
+github_install: commands to build .deb files and install them from a local repository
+git2deb-bl: script to build .deb files from a git repository
 config: sets some directory paths etc
-cb-netinstall-logs: folder to copy into user's home directory
+bunsen-netinstall-logs: folder to copy into user's home directory
 undo: an experimental script to attempt to return the system to the state it was in before running the install script
-
-(NOTE Of the two files extra_repos and sysfiles1/etc/apt/sources.list:
-If only extra_repos is present then those repositories will be added to
-the /etc/apt/sources.list that was generated during the Debian Netinstall.
-If only sysfiles1/etc/apt/sources.list is present, that file will be
-substituted for the current /etc/apt/sources.list.
-If both files are present, the user will be asked which one to use.
-This allows the user to keep the mirror that was set up during the install.)
 
 DEBIAN NETINSTALL HINTS
 
-Installing Debian Wheezy by the netinstall CD is
+Installing Debian Jessie by the netinstall CD is
 similar to using the standard installer.
 
 Two points to watch if you want to use
-the CrunchBang netinstall script afterwards:
+this netinstall script afterwards:
 
 1) At the "Set up users and passwords" screen,
 do NOT enter a password for root.
@@ -107,16 +86,3 @@ Use the up/down arrows to move, and the spacebar to toggle selection.)
 
 The netinstall download and links to documentation can be found here:
 http://www.debian.org/CD/netinst/
-
-NOTE on WIRELESS
-Once the CrunchBang installation is complete, any Debian non-free
-packages needed by your system will have been installed and wireless
-should work out of the box. However, the Debian Netinstall CD
-does not contain any non-free software and the installation
-may have to be done using a wired net connection. This is preferred
-in any case, as it is more stable, but if for some reason you are
-forced to install via wireless there are "unofficial" Debian netinstall
-images here:
-http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/
-These images include the non-free firmware needed for many
-wireless cards to work.

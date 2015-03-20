@@ -1,0 +1,113 @@
+#!/bin/bash
+
+# git2deb -- Building .deb packages from git repositories
+# Copyright (C) 2015 Jens John <dev .at. 2ion .dot. de>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+if [[ "$(id -u)" = 0 ]] ; then
+  echo "This script refuses to run as root. If required, we obtain root privileges using sudo."
+  exit 1
+fi
+
+usage () {
+  echo "Usage:"
+  echo "  ${0##*/} [-h] git-url [git-branch]"
+  echo "Where:"
+  echo "  -h          Print this message and exit"
+  echo "  git-url     Git clone URL, see git-clone(1)"
+  echo "  git-branch  Git branch the package sources are located on"
+  echo "Minimal dependencies:"
+  echo "  devscripts, equivs, dh-make, sudo, debhelper"
+}
+
+cleanup () {
+  rm -rf "${tmpdir}"
+}
+
+if [[ $1 = -h ]] ; then
+  usage
+  exit 0
+fi
+
+set -e
+set -u
+
+if (( $# < 1 )) ; then
+  usage
+  exit 0
+fi
+
+trap cleanup EXIT
+trap cleanup SIGTERM
+
+readonly giturl=${1}
+readonly gitbranch=${2:-master}
+readonly tmpdir=$(mktemp -d)
+readonly scripthome=$PWD
+
+cd "$tmpdir"
+
+# Clone the git repository
+git clone "$giturl"
+
+# Find package directory
+readonly pkgdir=$(find . -maxdepth 1 -type d -not -name '.*' | sed 's_^./__;q')
+
+cd "$pkgdir"
+
+# Checking out the correct branch
+git checkout "$gitbranch"
+
+# Crude check for the correct 3.0 source format
+if [[ ! -d debian ]] ; then
+  echo "Error: Missing a ./debian directory on the current branch -- wrong branch or not a debian package? Abort."
+  exit 1
+fi
+if [[ ! -r debian/source/format || "$(<debian/source/format)" != "3.0 (quilt)" ]] ; then
+  echo "Error: Wrong source format (not '3.0 (quilt)') Abort."
+  exit 1
+fi
+
+(
+  readonly pkgname=$(grep -- ^Source: debian/control | cut -d' ' -f2)
+  #readonly pkgversion=$(head -n1 -- debian/changelog | cut -d' ' -f2 | tr -d '()' | cut -d- -f1)
+  readonly pkgversion=$(sed -rn "s/^.*\(([^)]+)\).*$/\1/;s/-[^-]+$//p;q"  debian/changelog)
+
+  # Ensure DEBFULLNAME and DEBEMAIL are set, needed by dh_make
+  [[ -z ${DEBFULLNAME+x} ]] && export DEBFULLNAME=root
+  [[ -z ${DEBEMAIL+x} ]] && export DEBEMAIL=root@localhost
+
+  # Create pristine tarball
+  dh_make -y -s -p "${pkgname}_${pkgversion}" --createorig || true # unfortunately, the exit code is useless
+
+  ## Detect build dependencies and install them, see man mk-build-deps
+  ##sudo -k -p 'SUDO: install build dependencies >> ' -- mk-build-deps --install --remove debian/control
+  sudo mk-build-deps --install --remove debian/control
+
+  ## Check if a ${pkgname}-build-deps package has been installed, and remove it again
+  readonly helperpkg="${pkgname}-build-deps"
+  if dpkg-query -s "$helperpkg" &>/dev/null ; then
+    ##sudo -k -p "SUDO: remove helper package [$helperpkg] >> " -- dpkg --remove "$helperpkg"
+    sudo dpkg --remove "$helperpkg"
+  fi
+
+  # Build an unsigned package
+  dpkg-buildpackage -us -uc
+)
+
+# Move the .deb, .changes and .dsc files into the script's original working directory
+cd "$tmpdir" && mv -n -- *.{deb,changes,dsc} "${scripthome}/"
+
+exit # cleanup() via trap

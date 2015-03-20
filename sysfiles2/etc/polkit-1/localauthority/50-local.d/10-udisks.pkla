@@ -1,6 +1,6 @@
 [Local Users]
 Identity=unix-group:*
-Action=org.freedesktop.udisks.*
+Action=org.freedesktop.udisks2.*
 ResultAny=no
 ResultInactive=no
 ResultActive=yes

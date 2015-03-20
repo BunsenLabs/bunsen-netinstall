@@ -1,0 +1,38 @@
+# build deb files from GitHub, setup local repo
+# populate with debs, install needed ones
+
+readonly scriptdir="$PWD"
+readonly builddir="$HOME/build"
+
+# set up local repo
+sudo apt-get install git dpkg-dev devscripts equivs dh-make debhelper || giveup "Failed to install git and packaging tools." 1
+sudo mkdir -p /var/local/debs || giveup "Failed to make directory /var/local/debs" 1
+entry='# local debs
+deb file:///var/local/debs ./
+'
+printf '%s' "$entry" | sudo tee /etc/apt/sources.list.d/local_repo.list >/dev/null
+grep -q "$entry" /etc/apt/sources.list.d/local_repo.list || giveup "Failed to add local repo to apt sources" 1
+
+# build debs from github
+mkdir -p "$builddir/debs"
+cd "$builddir/debs"
+for i in https://github.com/BunsenLabs/bunsen{1-theme,-{welcome,pipemenus,common,user-setup,lock,wmhacks,configs,exit}}
+do
+    "$scriptdir/git2deb-bl" "$i"
+done
+
+sudo cp "$builddir/debs"/*.deb /var/local/debs
+cd /var/local/debs
+dpkg-scanpackages . 2>> "$builddir/dpkg-scanpackages.log" | gzip -c | sudo tee Packages.gz >/dev/null
+
+cd "$scriptdir"
+sudo apt-get --quiet update  || giveup "There was a problem with 'apt-get update'.
+There may be some information in ${logfile}." 1
+
+sudo apt-get --quiet install bunsen-welcome bunsen-pipemenus bunsen-common\
+ bunsen-user-setup bunsen-lock bunsen-wmhacks bunsen-configs bunsen-exit bunsen1-theme bunsen1-wallpapers || {
+    warnlog "apt-get returned an error installing bunsen packages"
+    confirm "There was a problem installing the local .deb files.
+There may be some information in ${logfile}.
+Would you like to continue anyway, or exit?" 1
+}
