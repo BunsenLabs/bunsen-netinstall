@@ -171,6 +171,7 @@ done
 cat "$logfile" >> "$log_dir"/install.log
 rm "$logfile" # finished with temporary logfile
 logfile="$log_dir"/install.log # this logfile will remain after the install
+exec > >( tee -a "$logfile" ) 2>&1
 bigmsg "messages are being saved to $logfile"
 cp -f pkgs-recs pkgs-norecs config undo "$log_dir"
 
