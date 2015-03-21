@@ -3,8 +3,8 @@
 # base cli Debian system.
 # NB This is an experimental script, 100% success is not guaranteed.
 # USAGE
-# This script should come in a folder called cb-?-netinstall
-# (or also be found in .cb-netinstall-logs),
+# This script should come in a folder called bunsen-?-netinstall
+# (or also be found in .bunsen-netinstall-logs),
 # along with a collection of other necessary files.
 # Change directory (cd) into that folder and run
 # ./undo
@@ -29,7 +29,7 @@ backup_dir="${backup_dir}"/undo
 install_log_dir=$log_dir
 log_dir="$log_dir"/undo-logs
 
-necessary_files=(pkgs-manual pkgs-norecs pkgs-auto) # array
+necessary_files=(pkgs-recs pkgs-norecs) # array
 necessary_logfiles=("${install_log_dir}"/{sysfiles-added,sysdirs-added,userfiles-added,userdirs-added,netinstall-core-apps,netinstall-auto-apps})
 
 logfile=error.log # temporary logfile in installer directory
@@ -293,7 +293,7 @@ before running the script again." 1
 
 bigmsg "Uninstalling packages."
 
-pkgs_to_remove=($(comm -23 <(sed 's/\#.*$//' pkgs-manual pkgs-norecs | sort) <(sort ${install_log_dir}/netinstall-core-apps)))
+pkgs_to_remove=($(comm -23 <(sed 's/\#.*$//' pkgs-recs pkgs-norecs | sort) <(sort ${install_log_dir}/netinstall-core-apps)))
 sudo apt-get purge "${pkgs_to_remove[@]}" > >( tee -a "$logfile" ) 2>&1 || errmsg "'apt-get purge' returned an error.
 There may be some information in ${logfile}."
 
