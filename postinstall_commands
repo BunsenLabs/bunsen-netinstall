@@ -24,7 +24,7 @@ sudo update-alternatives --set libgksu-gconf-defaults /usr/share/libgksu/debian/
 sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 
 # to pre-empt /usr/lib/bunsen/bunsen-user-setup/bl-user-setup
-[[ -w "$HOME/.gtk-bookmarks" ]] && sed --in-place "s/REPLACEME/$user/" $HOME/.gtk-bookmarks || errmsg "failed to edit .gtk-bookmarks"
-[[ -e $HOME/images/wallpapers/shared ]] || ln -s /usr/share/backgrounds $HOME/images/wallpapers/shared || errmsg "failed to add symlink to shared wallpapers"
+#[[ -w "$HOME/.gtk-bookmarks" ]] && sed --in-place "s/REPLACEME/$user/" $HOME/.gtk-bookmarks || errmsg "failed to edit .gtk-bookmarks"
+#[[ -e $HOME/images/wallpapers/shared ]] || ln -s /usr/share/backgrounds $HOME/images/wallpapers/shared || errmsg "failed to add symlink to shared wallpapers"
 
-touch $HOME/.config/bunsen/bl-setup || errmsg "failed to touch .config/bunsen/bl-setup"
+#touch $HOME/.config/bunsen/bl-setup || errmsg "failed to touch .config/bunsen/bl-setup"
