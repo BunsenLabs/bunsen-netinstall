@@ -474,14 +474,14 @@ install_sysdir sysfiles2 / "${backup_dir}"
 shopt -u dotglob
 bigmsg "system files installed"
 
-bigmsg "Updating your personal configuration files.
-Replaced files wil be backed up with a suffix of $backup_suffix"
+#bigmsg "Updating your personal configuration files.
+#Replaced files wil be backed up with a suffix of $backup_suffix"
 
-shopt -s dotglob # want dotfiles too
-install_userdir /etc/skel $HOME
-shopt -u dotglob
+#shopt -s dotglob # want dotfiles too
+#install_userdir /etc/skel $HOME
+#shopt -u dotglob
 
-bigmsg "Files updated."
+#bigmsg "Files updated."
 
 # final tweaking
 bigmsg "Adjusting some system settings."
