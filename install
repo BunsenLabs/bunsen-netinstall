@@ -358,11 +358,17 @@ bigmsg "Adjusting package management (apt) settings."
 if [[ -s extra_repos ]]; then
     if [[ $(</etc/apt/sources.list) = *$(<extra_repos)* ]]
     then
-        msg "extra_repos already appended to sysfiles1/etc/apt/sources.list"
+        msg "extra_repos already appended to /etc/apt/sources.list"
     else
         msg "adding extra repositories to sources.list"
         sed '/deb-src/s/^/#/' /etc/apt/sources.list 2> >( tee -a "$logfile" ) > sysfiles1/etc/apt/sources.list || giveup "There was a problem editing sources.list." 1
         cat extra_repos 2> >( tee -a "$logfile" ) >> sysfiles1/etc/apt/sources.list || giveup "There was a problem appending extra_repos to sources.list." 1
+    fi
+elif [[ -r gen_sources ]]; then
+    if [[ -s  sysfiles1/etc/apt/sources.list ]]; then
+        msg "sysfiles1/etc/apt/sources.list already generated"
+    else
+        . gen_sources # commands to generate sysfiles1/etc/apt/sources.list
     fi
 fi
 
