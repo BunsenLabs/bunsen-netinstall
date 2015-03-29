@@ -368,6 +368,7 @@ elif [[ -r gen_sources ]]; then
     if [[ -s  sysfiles1/etc/apt/sources.list ]]; then
         msg "sysfiles1/etc/apt/sources.list already generated"
     else
+        msg "generating new sources.list"
         . gen_sources # commands to generate sysfiles1/etc/apt/sources.list
     fi
 fi
