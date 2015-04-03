@@ -15,6 +15,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#########
+# Hacked version to avoid use of git by John Crawley 2015/4/3
+# Choice of branch is lost. Sudo -k option removed. Keep .deb files only.
 
 if [[ "$(id -u)" = 0 ]] ; then
   echo "This script refuses to run as root. If required, we obtain root privileges using sudo."
@@ -23,11 +26,11 @@ fi
 
 usage () {
   echo "Usage:"
-  echo "  ${0##*/} [-h] git-url [git-branch]"
+  echo "  ${0##*/} [-h] git-url"
   echo "Where:"
   echo "  -h          Print this message and exit"
   echo "  git-url     Git clone URL, see git-clone(1)"
-  echo "  git-branch  Git branch the package sources are located on"
+  echo "  disabled: git-branch  Git branch the package sources are located on"
   echo "Minimal dependencies:"
   echo "  devscripts, equivs, dh-make, sudo, debhelper"
 }
@@ -53,22 +56,28 @@ trap cleanup EXIT
 trap cleanup SIGTERM
 
 readonly giturl=${1}
-readonly gitbranch=${2:-master}
+#readonly gitbranch=${2:-master}
 readonly tmpdir=$(mktemp -d)
 readonly scripthome=$PWD
+
+readonly tarurl="$giturl/archive/master.tar.gz"
 
 cd "$tmpdir"
 
 # Clone the git repository
-git clone "$giturl"
+#git clone "$giturl"
+
+# Download and unpack the tarball
+wget "$tarurl"
+tar -xf 'master.tar.gz'
 
 # Find package directory
-readonly pkgdir=$(find . -maxdepth 1 -type d -not -name '.*' | sed 's_^./__;q')
+readonly pkgdir=$(find . -maxdepth 1 -type d -name '*-master' | sed 's_^./__;q')
 
 cd "$pkgdir"
 
 # Checking out the correct branch
-git checkout "$gitbranch"
+#git checkout "$gitbranch"
 
 # Crude check for the correct 3.0 source format
 if [[ ! -d debian ]] ; then
@@ -99,7 +108,7 @@ fi
   ## Check if a ${pkgname}-build-deps package has been installed, and remove it again
   readonly helperpkg="${pkgname}-build-deps"
   if dpkg-query -s "$helperpkg" &>/dev/null ; then
-    ##sudo -k -p "SUDO: remove helper package [$helperpkg] >> " -- dpkg --remove "$helperpkg"
+    #sudo -k -p "SUDO: remove helper package [$helperpkg] >> " -- dpkg --remove "$helperpkg"
     sudo dpkg --remove "$helperpkg"
   fi
 
@@ -107,7 +116,7 @@ fi
   dpkg-buildpackage -us -uc
 )
 
-# Move the .deb, .changes and .dsc files into the script's original working directory
-cd "$tmpdir" && mv -n -- *.{deb,changes,dsc} "${scripthome}/"
+# Move the .deb files into the script's original working directory
+cd "$tmpdir" && mv -n -- *.deb "${scripthome}/"
 
 exit # cleanup() via trap
