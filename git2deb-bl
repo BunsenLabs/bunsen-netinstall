@@ -30,7 +30,7 @@ usage () {
   echo "Where:"
   echo "  -h          Print this message and exit"
   echo "  git-url     Git clone URL, see git-clone(1)"
-  echo "  disabled: git-branch  Git branch the package sources are located on"
+  echo "  DISABLED: git-branch  Git branch the package sources are located on"
   echo "Minimal dependencies:"
   echo "  devscripts, equivs, dh-make, sudo, debhelper"
 }
