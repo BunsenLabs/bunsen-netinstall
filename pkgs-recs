@@ -59,7 +59,6 @@ xscreensaver
 ntp
 curl
 gparted
-gdebi
 fonts-dejavu
 fonts-droid
 fonts-freefont-ttf
@@ -80,7 +79,7 @@ gsimplecal
 hexchat
 transmission-gtk
 xfce4-power-manager
-xfce4-power-manager-plugins
+#xfce4-power-manager-plugins
 thunar-archive-plugin
 thunar-media-tags-plugin
 ghostscript
@@ -115,7 +114,8 @@ xfce4-mixer
 xfce4-volumed
 pavucontrol
 xfburn
-volumeicon-alsa
+#volumeicon-alsa
+volti
 bash-completion
 libnss-mdns
 gvfs-bin

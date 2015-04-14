@@ -213,11 +213,11 @@ sudo apt-get --quiet update  || giveup "There was a problem with 'apt-get update
 There may be some information in ${logfile}." 1
 
 msg "Upgrading packages..."
-sudo apt-get --quiet --yes dist-upgrade  || giveup "There was a problem with 'apt-get dist-upgrade'.
+sudo apt-get --quiet dist-upgrade  || giveup "There was a problem with 'apt-get dist-upgrade'.
 There may be some information in ${logfile}." 1
 
 #msg "Removing unnecessary packages..."
-#sudo apt-get --quiet --yes autoremove  || giveup "There was a problem with 'apt-get autoremove'.
+#sudo apt-get --quiet autoremove  || giveup "There was a problem with 'apt-get autoremove'.
 #There may be some information in ${logfile}." 1
 
 log "Packages originally installed by the Debian netinstaller are recorded in $log_dir/netinstall-core-apps"
@@ -226,7 +226,7 @@ log "Packages originally auto-installed by the Debian netinstaller are recorded 
 [[ -f "$log_dir"/netinstall-auto-apps ]] || apt-mark showauto > "$log_dir"/netinstall-auto-apps
 
 msg "Installing rsync."
-sudo apt-get --quiet --yes install rsync  || giveup "Failed to install necessary package 'rsync'." 1
+sudo apt-get --quiet install rsync  || giveup "Failed to install necessary package 'rsync'." 1
 
 [[ ${#snapshots[@]} -gt 0 ]] && {
     bigmsg "Making snapshots of some files or directories"
@@ -411,21 +411,6 @@ There may be around 1000 packages to install,
 
 # recommends settings here will override whatever is set in apt.conf.d
 
-recs=($( sed 's/\#.*$//' pkgs-recs )) && [[ ${#recs[@]} -gt 0 ]] && {
-    bigmsg "Installing packages, with recommends."
-    sudo apt-get -o APT::Install-Recommends=true --quiet install $( sed 's/\#.*$//' pkgs-recs )  || {
-    warnlog "'apt-get -o APT::Install-Recommends=true --quiet install' returned an error"
-    confirm "There was a problem installing some packages.
-There may be some information in ${logfile}.
-You might want to exit the script, comment out packages causing problems
-in pkgs-manual, and run the script again.
-If the missing packages are unimportant, you might prefer to continue
-with the install and fix the issues later.
-Would you like to ignore the errors and continue now,
-or exit and try to fix the problems?" 1
-    }
-}
-
 norecs=($( sed 's/\#.*$//' pkgs-norecs )) && [[ ${#norecs[@]} -gt 0 ]] && {
     bigmsg "Installing packages, without recommends."
     sudo apt-get --no-install-recommends --quiet install ${norecs[@]}  || {
@@ -438,6 +423,21 @@ norecs=($( sed 's/\#.*$//' pkgs-norecs )) && [[ ${#norecs[@]} -gt 0 ]] && {
     with the install and fix the issues later.
     Would you like to ignore the errors and continue now,
     or exit and try to fix the problems?" 1
+    }
+}
+
+recs=($( sed 's/\#.*$//' pkgs-recs )) && [[ ${#recs[@]} -gt 0 ]] && {
+    bigmsg "Installing packages, with recommends."
+    sudo apt-get -o APT::Install-Recommends=true --quiet install $( sed 's/\#.*$//' pkgs-recs )  || {
+    warnlog "'apt-get -o APT::Install-Recommends=true --quiet install' returned an error"
+    confirm "There was a problem installing some packages.
+There may be some information in ${logfile}.
+You might want to exit the script, comment out packages causing problems
+in pkgs-manual, and run the script again.
+If the missing packages are unimportant, you might prefer to continue
+with the install and fix the issues later.
+Would you like to ignore the errors and continue now,
+or exit and try to fix the problems?" 1
     }
 }
 

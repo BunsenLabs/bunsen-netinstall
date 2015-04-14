@@ -4,8 +4,10 @@
 readonly scriptdir="$PWD"
 readonly builddir="$HOME/build"
 
-bigmsg "setting up local repo"
+bigmsg "installing packaging tools"
 sudo apt-get install dpkg-dev devscripts equivs dh-make debhelper || giveup "Failed to install packaging tools." 1
+
+bigmsg "setting up local repo"
 sudo mkdir -p /var/local/debs || giveup "Failed to make directory /var/local/debs" 1
 entry='# local debs
 deb file:///var/local/debs ./
