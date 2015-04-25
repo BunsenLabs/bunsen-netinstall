@@ -20,7 +20,8 @@ mkdir -p "$builddir/debs"
 cd "$builddir/debs"
 for i in https://github.com/BunsenLabs/bunsen{1-theme,-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme}}
 do
-    "$scriptdir/git2deb-bl" "$i" || giveup "Failed to build $i" 1
+    msg "building ${i##*/}..."
+    "$scriptdir/git2deb-bl" "$i" || giveup "Failed to build ${i##*/}." 1
 done
 
 bigmsg "populating and updating local repo"

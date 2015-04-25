@@ -72,7 +72,7 @@ wget "$tarurl"
 tar -xf 'master.tar.gz'
 
 # Find package directory
-readonly pkgdir=$(find . -maxdepth 1 -type d -name '*-master' | sed 's_^./__;q')
+readonly pkgdir=$(find . -maxdepth 1 -type d -not -name '.*' | sed 's_^./__;q')
 
 cd "$pkgdir"
 

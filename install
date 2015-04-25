@@ -444,7 +444,7 @@ or exit and try to fix the problems?" 1
 bigmsg "New packages installed"
 
 # get stuff from GitHub, make local repo, install from there
-bigmsg "Setting up local repository"
+bigmsg "Importing packages from GitHub"
 [[ -r github_install ]] && {
     . github_install
 }
