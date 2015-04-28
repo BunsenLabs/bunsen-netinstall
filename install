@@ -43,7 +43,9 @@ exec > >( tee -a "$logfile" ) 2>&1
 user=$USER
 
 msg() {
-    echo "$1"
+    echo "
+    $1
+"
 }
 
 bigmsg() {
