@@ -5,7 +5,7 @@ readonly scriptdir="$PWD"
 readonly builddir="$HOME/build"
 
 bigmsg "installing packaging tools"
-sudo apt-get install dpkg-dev devscripts equivs dh-make debhelper || giveup "Failed to install packaging tools." 1
+sudo apt-get install --no-install-recommends devscripts dh-make equivs || giveup "Failed to install packaging tools." 1
 
 bigmsg "setting up local repo"
 sudo mkdir -p /var/local/debs || giveup "Failed to make directory /var/local/debs" 1
