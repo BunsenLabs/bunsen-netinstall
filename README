@@ -19,7 +19,7 @@ log in and run these commands, as a normal user:
 
 wget https://github.com/bunsenlabs/bunsen-netinstall/archive/master.tar.gz
 tar -xpf master.tar.gz
-cd bunsen-alpha-netinstall-master
+cd bunsen-netinstall-master
 ./install
 
 The installation process will start.
