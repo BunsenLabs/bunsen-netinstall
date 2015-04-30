@@ -18,7 +18,7 @@ grep -q "$entry" /etc/apt/sources.list.d/local_repo.list || giveup "Failed to ad
 bigmsg "building debs from github"
 mkdir -p "$builddir/debs"
 cd "$builddir/debs"
-for i in https://github.com/BunsenLabs/bunsen{1-theme,-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme}}
+for i in https://github.com/BunsenLabs/bunsen{1-theme,-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme,docs}}
 do
     msg "building ${i##*/}..."
     "$scriptdir/git2deb-bl" "$i" || giveup "Failed to build ${i##*/}." 1
