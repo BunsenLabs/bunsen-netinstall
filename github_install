@@ -18,9 +18,9 @@ grep -q "$entry" /etc/apt/sources.list.d/local_repo.list || giveup "Failed to ad
 bigmsg "building debs from github"
 mkdir -p "$builddir/debs"
 cd "$builddir/debs"
-for i in https://github.com/BunsenLabs/bunsen{1-theme,-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme,docs}}
+for i in https://github.com/BunsenLabs/bunsen{1-theme,-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme,docs,images}}
 do
-    msg "building ${i##*/}..."
+    bigmsg "building ${i##*/}..."
     "$scriptdir/git2deb-bl" "$i" || giveup "Failed to build ${i##*/}." 1
 done
 
@@ -33,7 +33,7 @@ cd "$scriptdir"
 sudo apt-get --quiet update  || giveup "There was a problem with 'apt-get update'.
 There may be some information in ${logfile}." 1
 
-sudo apt-get --quiet install bunsen-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme,docs} bunsen1-{wallpapers,theme} || {
+sudo apt-get --quiet install bunsen-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme,docs,images} bunsen1-{wallpapers,theme} || {
     warnlog "apt-get returned an error installing bunsen packages"
     confirm "There was a problem installing the local .deb files.
 There may be some information in ${logfile}.
