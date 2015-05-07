@@ -162,7 +162,9 @@ upgrade)
     bigmsg "Starting upgrade of BunsenLabs packages."
     ;;
 add)
-    bigmsg "Adding new BunsenLabs GitHub repositories."
+    repos=${!repo_list[@]}
+    bigmsg "Adding new BunsenLabs GitHub repositories:
+$repos"
     ;;
 *)
     giveup "$mode: mode not recognized" 1
@@ -185,14 +187,18 @@ Please fix this issue and run the script again." 1
 Upgrade the other repos anyway?" 1
             continue
         }
-        dpkg --compare-versions "$remote_version" gt "$version" && repo_list[$reponame]=1
+        dpkg --compare-versions "$remote_version" gt "$version" && {
+            msg "$reponame will be upgraded."
+            repo_list[$reponame]=1
+        }
     done <<< "$(dpkg-query --show --showformat='${Package} ${db:Status-Abbrev} ${Version}\n' "$PKGGLOB")"
 
     [[ ${#repo_list[@]} -gt 0 ]] || {
         bigmsg "No repositories to upgrade."
         exit 0
     }
-    confirm "These repositories will be upgraded: ${!repo_list[@]}
+    repos=${!repo_list[@]}
+    confirm "These repositories will be upgraded: $repos
 Continue?" 0
 }
 
