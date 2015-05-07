@@ -1,0 +1,325 @@
+#!/bin/bash
+# check versions of installed BunsenLabs packages
+# upgrade if version on GitHub is newer
+
+help="  upgrade-bunsen-pkgs
+Upgrade BunsenLabs installed packages by rebuilding from
+GitHub repositories, or add other repositories.
+Options:
+-h|--help - display this message.
+-u|--upgrade - download latest repositories if newer,
+put built .deb files in local repository
+and upgrade with apt-get.
+-a|--add name1 [name2...] - add other repositories and
+place built .deb files in local repository."
+
+set -o nounset # do not accept unset variables
+
+# If not running in terminal, exit with message
+[[ -t 0 && -t 1 && -t 2 ]] || { echo "$0: This script must be run from a terminal" >&2; exit 1; }
+
+readonly LOCAL_REPO='/var/local/debs'
+
+# base url for GitHub repository names
+readonly GITHUB_ROOT=https://github.com/BunsenLabs
+readonly GITHUB_CONTENT_ROOT=https://raw.githubusercontent.com/BunsenLabs
+# all installed package names match this (for dpkg-query --show)
+readonly PKGGLOB='bunsen-*'
+
+# Associative array: repositories whose names differ from a package they install
+# format: [packagename]=repositoryname
+# Edit as necessary.
+declare -A REPOS=([bunsen1-wallpapers]=bunsen1-theme [bunsen-meta-printer-support]=bunsen-welcome [bunsen-meta-java]=bunsen-welcome [bunsen-meta-libreoffice]=bunsen-welcome [bunsen-meta-vcs]=bunsen-welcome [bunsen-meta-ssh]=bunsen-welcome [bunsen-meta-lamp]=bunsen-welcome [bunsen-meta-packaging]=bunsen-welcome )
+readonly REPOS
+
+# get name of repository which builds package
+# default is same as package name, unless listed in REPOS
+get_repo() {
+    printf '%s' "${REPOS[$1]:-$1}"
+}
+
+# place to build debs before installing
+readonly builddir="$HOME/build"
+
+log_dir="$HOME/.bunsen-netinstall-logs"
+mkdir -p "$log_dir"
+logfile="$log_dir"/upgrade.log
+exec > >( tee -a "$logfile" ) 2>&1
+
+readonly user=$USER
+readonly scriptdir="$PWD"
+
+msg() {
+    echo "
+$1
+"
+}
+
+bigmsg() {
+    tput bold
+    echo "
+$1
+------------------------------------------------"
+    tput sgr0
+    sleep 2
+}
+
+errmsg() {
+    tput bold
+    echo "######## ERROR ########
+$1
+------------------------------------------------"
+    tput sgr0
+    sleep 4
+}
+
+log() {
+    echo "$1" >> "$logfile"
+}
+
+confirm() { # $1 is message, $2 is desired return value: 0 or 1 (passed to 'giveup')
+    echo "
+$1
+(press enter to continue, any other key to exit)
+"
+    read -srn1
+    [[ $REPLY ]] && giveup "terminated by $user, goodbye!" $2
+    log "$user chose to continue"
+}
+
+giveup() { # $1 is message, $2 is desired return value: 0 or 1
+    if [[ ${2:-1} = 0 ]]
+    then
+        bigmsg "$1"
+    else
+        errmsg "$1"
+    fi
+    cleanup
+    echo "now exiting..."
+    exit ${2:-1}
+}
+
+cleanup () {
+    cd "$scriptdir"
+    [[ ${tmpdir:+x} = x && -d $tmpdir && $tmpdir = '/tmp*' ]] && {
+        rm -rf "${tmpdir}"
+    }
+}
+
+net_test() {
+    tries=4
+    printf 'checking network connection... '
+    while [[ $tries -gt 0 ]]
+    do
+        wget -O - 'http://ftp.debian.org/debian/README' >/dev/null 2>&1 && {
+            msg '[OK]'
+            return 0
+        }
+        ((tries--))
+        sleep 1
+    done
+    msg '[FAILED]'
+    return 1
+}
+
+trap 'giveup "Script terminated." 1' 1 2 3 15
+trap 'cleanup' EXIT
+[[ $user = root ]] && giveup "This script should be run by a normal user, not root" 1
+
+declare -A repo_list=()
+case ${1:-''} in
+''|-h|--help)
+    echo "$help"
+    exit 0
+    ;;
+-a|--add)
+    shift
+    for i in "$@"
+    do
+        repo_list[$i]=1
+    done
+    [[ ${#repo_list[@]} -gt 0 ]] || giveup "Please pass repository names as arguments." 1
+    readonly mode=add
+    ;;
+-u|--upgrade)
+    readonly mode=upgrade
+    ;;
+*)
+    echo "$1: unknown option.
+
+$help"
+    exit 1
+    ;;
+esac
+
+log "
+########################################################################
+Starting upgrade-bunsen-pkgs script for $user at $(date)"
+
+clear
+case $mode in
+upgrade)
+    bigmsg "Starting upgrade of BunsenLabs packages."
+    ;;
+add)
+    bigmsg "Adding new BunsenLabs GitHub repositories."
+    ;;
+*)
+    giveup "$mode: mode not recognized" 1
+    ;;
+esac
+
+net_test || giveup "You do not seem to have a working network connection.
+Please fix this issue and run the script again." 1
+
+[[ $mode = upgrade ]] && {
+# get list of repos to upgrade
+    while read package status version; do
+        [[ $status = ii ]] || continue
+        msg "Checking $package..."
+        unset reponame chlog remote_version
+        reponame=$(get_repo $package)
+        chlog="${GITHUB_CONTENT_ROOT}/${reponame}/master/debian/changelog"
+        remote_version="$(curl -s "$chlog" | sed -rn "0,/${reponame}/s/.+\(([0-9]+[a-zA-Z0-9.+~:-]*)\).*/\1/p;")" || {
+            confirm "Failed to get changelog for $reponame
+Upgrade the other repos anyway?" 1
+            continue
+        }
+        dpkg --compare-versions "$remote_version" gt "$version" && repo_list[$reponame]=1
+    done <<< "$(dpkg-query --show --showformat='${Package} ${db:Status-Abbrev} ${Version}\n' "$PKGGLOB")"
+
+    [[ ${#repo_list[@]} -gt 0 ]] || {
+        bigmsg "No repositories to upgrade."
+        exit 0
+    }
+    confirm "These repositories will be upgraded: ${!repo_list[@]}
+Continue?" 0
+}
+
+bigmsg "Checking if local repository exists."
+
+[[ -d $LOCAL_REPO ]] || {
+    confirm "You do not seem to have a local debian repository set up.
+Would you like to make one now, or give up?" 1
+    sudo mkdir -p "$LOCAL_REPO" || giveup "Failed to make directory $LOCAL_REPO" 1
+}
+
+shopt -s nullglob
+grep -q "$LOCAL_REPO" /etc/apt/sources.list.d/* /etc/apt/sources.list || {
+    confirm "You do not have $LOCAL_REPO in your apt sources.
+Add it now, or give up?" 1
+    [[ -f /etc/apt/sources.list.d/local_repo.list ]] && {
+        confirm "/etc/apt/sources.list.d/local_repo.list exists.
+Is it OK to overwrite it?" 1
+    }
+    entry="# local debs
+deb file://$LOCAL_REPO ./
+"
+    printf '%s' "$entry" | sudo tee /etc/apt/sources.list.d/local_repo.list >/dev/null
+    grep -q "$entry" /etc/apt/sources.list.d/local_repo.list || giveup "Failed to add local repo to apt sources" 1
+}
+shopt -u nullglob
+
+bigmsg "installing packaging tools"
+sudo apt-get install --no-install-recommends devscripts dh-make equivs  || giveup "Failed to install packaging tools." 1
+
+bigmsg "building debs from github"
+
+mkdir -p "$builddir/debs"
+
+# Ensure DEBFULLNAME and DEBEMAIL are set, needed by dh_make
+[[ -z ${DEBFULLNAME+x} ]] && export DEBFULLNAME=root
+[[ -z ${DEBEMAIL+x} ]] && export DEBEMAIL=root@localhost
+
+new_debs=
+for i in "${!repo_list[@]}"
+do
+    msg "building $i..."
+    unset tmpdir pkgdir pkgname pkgversion helperpkg
+    tmpdir=$(mktemp -d)
+    cd "$tmpdir"
+    wget "$GITHUB_ROOT/${i}/archive/master.tar.gz"
+    tar -xf 'master.tar.gz'
+    pkgdir=$(find . -maxdepth 1 -type d -not -name '.*' | sed 's_^./__;q')
+    cd "$pkgdir" || {
+        confirm "Error: failed to change to $pkgdir
+Install other repos anyway?" 1
+        cleanup
+        continue
+    }
+    [[ ! -d debian ]] && {
+        confirm "Error: Missing a ./debian directory in $i-- not a debian package?
+Install other repos anyway?" 1
+        cleanup
+        continue
+    }
+    [[ ! -r debian/source/format || "$(<debian/source/format)" != "3.0 (quilt)" ]] && {
+        confirm "Error: $i is in the wrong source format (not '3.0 (quilt)')
+Install other repos anyway?" 1
+        cleanup
+        continue
+    }
+    [[ -r debian/control && -r debian/changelog ]] || {
+        confirm "Error: one of debian/control or debian/changelog is missing.
+Install other repos anyway?" 1
+        cleanup
+        continue
+    }
+    pkgname=$(grep -- ^Source: debian/control | cut -d' ' -f2)
+    pkgversion="$(sed -rn "s/^.*\(([^)]+)\).*$/\1/;s/-[^-]+$//p;q"  debian/changelog)"
+    dh_make -y -s -p "${pkgname}_${pkgversion}" --createorig || true
+    sudo mk-build-deps --install --remove debian/control || {
+        confirm "Error: mk-build-deps failed.
+Install other repos anyway?" 1
+        cleanup
+        continue
+    }
+    helperpkg="${pkgname}-build-deps"
+    if dpkg-query -s "$helperpkg" &>/dev/null ; then
+        sudo dpkg --remove "$helperpkg" || {
+            confirm "Error: 'dpkg --remove $helperpkg' failed.
+Install other repos anyway?" 1
+            cleanup
+            continue
+        }
+    fi
+    dpkg-buildpackage -us -uc -b || {
+        confirm "Error: dpkg-buildpackage failed.
+Install other repos anyway?" 1
+        cleanup
+        continue
+    }
+    cd "$tmpdir"
+    for i in *.deb
+    do
+        new_debs+="${i%%_*} "
+        mv -n -- "$i" "$builddir/debs/"
+    done
+    cleanup
+done
+
+bigmsg "populating and updating local repo"
+sudo cp -n "$builddir/debs"/*.deb /var/local/debs
+cd "$LOCAL_REPO"
+dpkg-scanpackages . 2>> "$log_dir/dpkg-scanpackages.log" | gzip -c | sudo tee Packages.gz >/dev/null
+
+cd "$scriptdir"
+sudo apt-get update  || giveup "There was a problem with 'apt-get update'.
+There may be some information in ${logfile}." 1
+
+case $mode in
+upgrade)
+    sudo apt-get upgrade || giveup "'apt-get upgrade' returned an error.
+There may be some information in ${logfile}." 1
+    ;;
+add)
+    if [[ $new_debs ]]; then
+        bigmsg "These new packages have been added to your local repository: $new_debs.
+Use apt-get or synaptic to install the ones you want."
+    else
+        errmsg "No .deb files were created."
+    fi
+    ;;
+esac
+
+exit 0
