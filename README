@@ -25,6 +25,10 @@ cd bunsen-netinstall-master
 The installation process will start.
 Follow any prompts that appear on the screen.
 
+There is also a script: upgrade-bunsen-packages
+which can be run to upgrade the BunsenLabs packages
+without having to reinstall the system.
+
 A folder called .bunsen-netinstall-logs will be added to your home folder.
 (The file ~/.bunsen-netinstall-logs/install.log will contain
 verbose information about the install process.)
@@ -45,6 +49,7 @@ FILES IN THIS COLLECTION
 README: this file
 LICENSE: a copy of the GPL3 license
 install: the installation script
+bunsen-upgrade-pkgs: script to upgrade the BunsenLabs packages
 copyright: GNU licence statement
 greeting: message to user
 pkgs-recs: packages to install with recommends
