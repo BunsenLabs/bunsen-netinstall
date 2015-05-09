@@ -162,9 +162,8 @@ upgrade)
     bigmsg "Starting upgrade of BunsenLabs packages."
     ;;
 add)
-    repos=${!repo_list[@]}
     bigmsg "Adding new BunsenLabs GitHub repositories:
-$repos"
+${!repo_list[*]}"
     ;;
 *)
     giveup "$mode: mode not recognized" 1
@@ -197,8 +196,7 @@ Upgrade the other repos anyway?" 1
         bigmsg "No repositories to upgrade."
         exit 0
     }
-    repos=${!repo_list[@]}
-    confirm "These repositories will be upgraded: $repos
+    confirm "These repositories will be upgraded: ${!repo_list[*]}
 Continue?" 0
 }
 
