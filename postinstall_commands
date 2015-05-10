@@ -24,7 +24,8 @@ sudo update-alternatives --set libgksu-gconf-defaults /usr/share/libgksu/debian/
 sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 
 # set cursor theme to pre-empt Adwaita
-sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for libgksu-gconf-defaults"
+sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for x-cursor-theme"
+sudo update-alternatives --set desktop-grub /usr/share/backgrounds/bunsen/bunsen-images/bl-default/bl-grub.png || errmsg "failed to edit alternative for desktop-grub"
 
 # to pre-empt /usr/lib/bunsen/bunsen-user-setup/bl-user-setup
 #[[ -w "$HOME/.gtk-bookmarks" ]] && sed --in-place "s/REPLACEME/$user/" $HOME/.gtk-bookmarks || errmsg "failed to edit .gtk-bookmarks"
