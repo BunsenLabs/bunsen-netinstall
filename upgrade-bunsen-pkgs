@@ -318,7 +318,8 @@ There may be some information in ${logfile}." 1
     ;;
 add)
     if [[ $new_debs ]]; then
-        bigmsg "These new packages have been added to your local repository: $new_debs.
+        bigmsg "These new packages have been added to your local repository:
+  $new_debs.
 Use apt-get or synaptic to install the ones you want."
     else
         errmsg "No .deb files were created."

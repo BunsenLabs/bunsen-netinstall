@@ -7,7 +7,7 @@ backup_dir="/backup/bunsen-alpha-netinstall" # replaced system files will be mov
 backup_suffix="~bunsen-alpha-netinst-$(date +%FT%T)~" # for backed-up files
 
 # files and directories which must be packaged with this script (array):
-necessary_files=(sysfiles1 sysfiles2 bunsen-netinstall-logs pkgs-recs pkgs-norecs gen_sources preinstall_commands postinstall_commands github_install git2deb-bl copyright README LICENSE)
+necessary_files=(sysfiles1 sysfiles2 bunsen-netinstall-logs pkgs-recs pkgs-norecs gen_sources preinstall_commands postinstall_commands github_install git2deb-bl upgrade-bunsen-pkgs copyright README LICENSE)
 
 # Default behaviour is to add files in sysfiles1 & 2 to
 # the existing system directories.
