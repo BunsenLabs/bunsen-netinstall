@@ -179,7 +179,7 @@ Please fix this issue and run the script again." 1
         [[ $status = ii ]] || continue
         msg "Checking $package..."
         unset reponame chlog remote_version
-        reponame=$(get_repo $package)
+        reponame=$(get_repo "$package")
         chlog="${GITHUB_CONTENT_ROOT}/${reponame}/master/debian/changelog"
         remote_version="$(curl -s "$chlog" | sed -rn "0,/${reponame}/s/.+\(([0-9]+[a-zA-Z0-9.+~:-]*)\).*/\1/p;")" || {
             confirm "Failed to get changelog for $reponame

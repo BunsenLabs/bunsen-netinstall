@@ -51,7 +51,7 @@ msg() {
 bigmsg() {
     tput bold
     echo "
-$1
+    $1
 ------------------------------------------------"
     tput sgr0
     sleep 2
@@ -60,14 +60,16 @@ $1
 errmsg() {
     tput bold
     echo "######## ERROR ########
-$1
+    $1
 ------------------------------------------------"
     tput sgr0
     sleep 4
 }
 
 log() {
-    echo "$1" >> "$logfile"
+    echo "
+$1
+" >> "$logfile"
 }
 
 warnlog() {
@@ -435,7 +437,7 @@ recs=($( sed 's/\#.*$//' pkgs-recs )) && [[ ${#recs[@]} -gt 0 ]] && {
     confirm "There was a problem installing some packages.
 There may be some information in ${logfile}.
 You might want to exit the script, comment out packages causing problems
-in pkgs-manual, and run the script again.
+in pkgs-recs, and run the script again.
 If the missing packages are unimportant, you might prefer to continue
 with the install and fix the issues later.
 Would you like to ignore the errors and continue now,
