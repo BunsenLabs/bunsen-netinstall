@@ -7,13 +7,7 @@ readonly builddir="$HOME/build"
 bigmsg "installing packaging tools"
 sudo apt-get install --no-install-recommends devscripts dh-make equivs || giveup "Failed to install packaging tools." 1
 
-bigmsg "setting up local repo"
 sudo mkdir -p /var/local/debs || giveup "Failed to make directory /var/local/debs" 1
-entry='# local debs
-deb file:///var/local/debs ./
-'
-printf '%s' "$entry" | sudo tee /etc/apt/sources.list.d/local_repo.list >/dev/null
-grep -q "$entry" /etc/apt/sources.list.d/local_repo.list || giveup "Failed to add local repo to apt sources" 1
 
 bigmsg "building debs from github"
 mkdir -p "$builddir/debs"
@@ -22,12 +16,18 @@ for i in https://github.com/BunsenLabs/bunsen-{welcome,pipemenus,common,utilitie
 do
     bigmsg "building ${i##*/}..."
     "$scriptdir/git2deb-bl" "$i" || giveup "Failed to build ${i##*/}." 1
+    sudo cp "$builddir/debs"/${i##*/}*.deb /var/local/debs
 done
 
-bigmsg "populating and updating local repo"
-sudo cp "$builddir/debs"/*.deb /var/local/debs
+bigmsg "setting up local repo"
 cd /var/local/debs
 dpkg-scanpackages . 2>> "$log_dir/dpkg-scanpackages.log" | gzip -c | sudo tee Packages.gz >/dev/null
+
+entry='# local debs
+deb file:///var/local/debs ./
+'
+printf '%s' "$entry" | sudo tee /etc/apt/sources.list.d/local_repo.list >/dev/null
+grep -q "$entry" /etc/apt/sources.list.d/local_repo.list || giveup "Failed to add local repo to apt sources" 1
 
 cd "$scriptdir"
 sudo apt-get --quiet update  || giveup "There was a problem with 'apt-get update'.
