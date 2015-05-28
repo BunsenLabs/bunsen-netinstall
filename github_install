@@ -14,6 +14,19 @@ mkdir -p "$builddir/debs"
 cd "$builddir/debs"
 for i in https://github.com/BunsenLabs/bunsen-{welcome,pipemenus,common,utilities,configs,faenza-icon-theme,docs,images,conky,themes,os-release}
 do
+    built=false
+    for j in "$builddir/debs/${i##*/}"_*.deb
+    do
+        [[ -f $j ]] && {
+            bigmsg "$j already exists.
+  There is no need to build it again.
+  Run $HOME/.bunsen-netinstall-logs/upgrade-bunsen-pkgs -u
+  to upgrade packages after the installation."
+            built=true
+            break
+        }
+    done
+    $built && continue
     bigmsg "building ${i##*/}..."
     "$scriptdir/git2deb-bl" "$i" || giveup "Failed to build ${i##*/}." 1
 done
