@@ -25,7 +25,7 @@ cd bunsen-netinstall-master
 The installation process will start.
 Follow any prompts that appear on the screen.
 
-There is also a script: upgrade-bunsen-packages
+There is also a script: upgrade-bunsen-pkgs
 which can be run to upgrade the BunsenLabs packages
 without having to reinstall the system.
 
