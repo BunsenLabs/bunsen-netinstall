@@ -494,6 +494,12 @@ bigmsg "Adjusting some system settings."
     . postinstall_commands
 }
 
+option 'Would you like to put a copy of the upgrade script
+"upgrade-bunsen-pkgs" in your ~/bin directory,
+so you can use it later?' && {
+    mkdir -p $HOME/bin
+    cp -f upgrade-bunsen-pkgs "$HOME"/bin
+}
 
 bigmsg "INSTALL FINISHED!"
 confirm "You need to restart your computer to log into your new system.
