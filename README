@@ -62,7 +62,6 @@ github_install: commands to build .deb files and install them from a local repos
 git2deb-bl: script to build .deb files from a git repository
 config: sets some directory paths etc
 bunsen-netinstall-logs: folder to copy into user's home directory
-undo: an experimental script to attempt to return the system to the state it was in before running the install script
 
 DEBIAN NETINSTALL HINTS
 
