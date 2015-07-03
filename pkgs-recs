@@ -19,7 +19,8 @@ hsetroot
 conky-all
 compton
 #terminator
-xfce4-terminal
+#xfce4-terminal
+gnome-terminal
 geany
 mirage
 synaptic
