@@ -29,7 +29,7 @@ readonly PKGGLOB='bunsen-*'
 # Associative array: repositories whose names differ from a package they install
 # format: [packagename]=repositoryname
 # Edit as necessary.
-declare -A REPOS=([bunsen1-wallpapers]=bunsen1-theme [bunsen-meta-printer-support]=bunsen-welcome [bunsen-meta-java]=bunsen-welcome [bunsen-meta-libreoffice]=bunsen-welcome [bunsen-meta-vcs]=bunsen-welcome [bunsen-meta-ssh]=bunsen-welcome [bunsen-meta-lamp]=bunsen-welcome [bunsen-meta-packaging]=bunsen-welcome )
+declare -A REPOS=([bunsen1-wallpapers]=bunsen1-theme [bunsen-meta-printer-support]=bunsen-welcome [bunsen-meta-java]=bunsen-welcome [bunsen-meta-libreoffice]=bunsen-welcome [bunsen-meta-vcs]=bunsen-welcome [bunsen-meta-ssh]=bunsen-welcome [bunsen-meta-lamp]=bunsen-welcome [bunsen-meta-packaging]=bunsen-welcome [bunsen-images-extra]=bunsen-images)
 readonly REPOS
 
 # get name of repository which builds package
