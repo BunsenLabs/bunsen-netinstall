@@ -18,9 +18,9 @@ nitrogen
 hsetroot
 conky-all
 compton
-#terminator
+terminator
 #xfce4-terminal
-gnome-terminal
+#gnome-terminal
 geany
 mirage
 synaptic
