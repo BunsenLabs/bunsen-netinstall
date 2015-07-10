@@ -133,6 +133,7 @@ python-notify
 flashplugin-nonfree
 gnome-keyring
 libpam-gnome-keyring
+at-spi2-core
 evince
 gnumeric
 galculator
