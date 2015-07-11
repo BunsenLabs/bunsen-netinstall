@@ -7,9 +7,9 @@ xorg
 openbox
 obconf
 thunar
-lightdm
+#lightdm # moved to pkgs-norecs to avoid lightdm-gtk-greeter bringing in desktop-base
 obmenu
-desktop-base
+#desktop-base
 tint2
 clipit
 suckless-tools
@@ -101,7 +101,7 @@ fonts-droid
 fonts-freefont-ttf
 fonts-liberation
 ttf-mscorefonts-installer
-dmz-cursor-theme
+#dmz-cursor-theme
 gtk2-engines-murrine
 gtk2-engines-pixbuf
 gtk2-engines
