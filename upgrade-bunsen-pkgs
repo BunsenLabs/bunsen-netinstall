@@ -186,6 +186,11 @@ net_test || giveup "You do not seem to have a working network connection.
 Please fix this issue and run the script again." 1
 
 [[ $mode = upgrade ]] && {
+    bigmsg "Checking online repositories before using github"
+    sudo apt-get update  || giveup "There was a problem with 'apt-get update'.
+There may be some information in ${logfile}." 1
+    sudo apt-get upgrade || giveup "'apt-get upgrade' returned an error.
+There may be some information in ${logfile}." 1
 # get list of repos to upgrade
     while read package status version; do
         [[ $status = ii ]] || continue
@@ -209,6 +214,7 @@ Upgrade the other repos anyway?" 1
         exit 0
     }
     confirm "These repositories will be upgraded: ${!repo_list[*]}
+(You will be asked to accept unauthenticated packages.)
 Continue?" 0
 }
 
@@ -326,7 +332,7 @@ if [[ $new_debs ]]; then
     cd "$scriptdir"
 
     sudo apt-get update  || giveup "There was a problem with 'apt-get update'.
-    There may be some information in ${logfile}." 1
+There may be some information in ${logfile}." 1
 else
     giveup "No .deb files were created." 1
 fi
