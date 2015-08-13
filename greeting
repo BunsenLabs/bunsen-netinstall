@@ -1,8 +1,8 @@
-This is an experimental installer for BunsenLabs Linux.
-It will use the bunsenlabs repositories on GitHub
-to build .deb files, put them in a locally created repository
-and install them from there.
-The exact content of those files will vary with time,
-as will the likelihood of building a viable system.
+This is a beta network installer for BunsenLabs Linux.
+It will use the BunsenLabs Apt repository
+to download and install necessary packages,
+along with packages from the Debian repositories,
+and do any other necessary configuration.
 
-Please consider this as purely for TESTING purposes!
+While there is a good chance of installing a working system,
+please be ready to deal with any bugs that show up!

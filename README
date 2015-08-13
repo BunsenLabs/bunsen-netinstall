@@ -1,15 +1,18 @@
 This is a collection of files intended to install
-an alpha version of BunsenLabs Linux
+a beta version of BunsenLabs Linux
 on a basic command-line-only Debian Jessie system.
-It will use the BunsenLabs repositories on GitHub
-to build .deb files, put them in a locally created repository
-and install them from there.
-The exact content of those files will vary with time,
-as will the likelihood of building a viable system.
+It will use the BunsenLabs Apt repository ( http://pkg.bunsenlabs.org/ )
+to install BunsenLabs packages.
 
-WARNING: THIS INSTALLER IS FOR TESTING PURPOSES ONLY.
-No support will be provided on the forums
-for any problems that may occur, though bug reports are welcome!
+A script bl-github-upgrade is also provided.
+This will download GitHub repositories and build .deb packages locally.
+Most users will not need this.
+
+WARNING: THIS INSTALLER IS FOR TESTING PURPOSES.
+Full support will not be provided on the forums
+for problems that may occur, though bug reports are very welcome!
+
+http://bunsenlabs.org/
 
 HOW TO USE
 
@@ -25,9 +28,11 @@ cd bunsen-netinstall-master
 The installation process will start.
 Follow any prompts that appear on the screen.
 
-There is also a script: upgrade-bunsen-pkgs
+There is also a script: bl-github-upgrade
 which can be run to upgrade the BunsenLabs packages
-without having to reinstall the system.
+from the GitHub repository in order to get the latest versions.
+Usually the Apt repository holds packages which are recent enough,
+without having to use this script.
 
 A folder called .bunsen-netinstall-logs will be added to your home folder.
 (The file ~/.bunsen-netinstall-logs/install.log will contain
@@ -49,19 +54,23 @@ FILES IN THIS COLLECTION
 README: this file
 LICENSE: a copy of the GPL3 license
 install: the installation script
-bunsen-upgrade-pkgs: script to upgrade the BunsenLabs packages
 copyright: GNU licence statement
 greeting: message to user
 pkgs-recs: packages to install with recommends
 pkgs-norecs: packages to install without recommends
 sysfiles1: system files to copy in before installing packages (mainly apt-related)
 sysfiles2: system files to copy in after installing packages
+apt-keys: commands to download and install the BunsenLabs Apt GPG key
+gen_sources: commands to edit /etc/apt/sources.list
 preinstall_commands: commands to run before installing packages and files
 postinstall_commands: commands to run after installing packages and files
-github_install: commands to build .deb files and install them from a local repository
-git2deb-bl: script to build .deb files from a git repository
 config: sets some directory paths etc
 bunsen-netinstall-logs: folder to copy into user's home directory
+bl-github-upgrade: script to upgrade the BunsenLabs packages
+
+(no longer used)
+github_install: commands to build .deb files and install them from a local repository
+git2deb-bl: script to build .deb files from a git repository
 
 DEBIAN NETINSTALL HINTS
 
