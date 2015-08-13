@@ -3,6 +3,7 @@
 
 # base
 policykit-1 # comments after entries are OK too
+policykit-1-gnome
 xorg
 openbox
 obconf
@@ -15,7 +16,7 @@ clipit
 suckless-tools
 gmrun
 nitrogen
-hsetroot
+#hsetroot
 conky-all
 compton
 terminator
@@ -32,21 +33,23 @@ arandr
 iceweasel
 wireless-tools
 firmware-linux
-firmware-iwlwifi
+#firmware-iwlwifi
 firmware-ralink
-firmware-ipw2x00
+#firmware-ipw2x00
 firmware-realtek
+firmware-b43-installer
+firmware-b43legacy-installer
 intel-microcode
 amd64-microcode
 network-manager-gnome
-network-manager-openvpn-gnome
-network-manager-pptp-gnome
-network-manager-vpnc-gnome
+#network-manager-openvpn-gnome
+#network-manager-pptp-gnome
+#network-manager-vpnc-gnome
 #whois
-avahi-utils
-avahi-daemon
+#avahi-utils
+#avahi-daemon
 ftp
-openssh-client
+#openssh-client
 #sshfs
 
 # utilities
@@ -68,7 +71,7 @@ gsimplecal
 fuse
 gvfs
 gvfs-fuse
-fusesmb
+#fusesmb
 unrar
 unace
 unalz
@@ -79,6 +82,7 @@ zip
 xz-utils
 arj
 bzip2
+p7zip-full
 bash-completion
 libnss-mdns
 gvfs-bin
@@ -98,13 +102,16 @@ cpufrequtils
 xscreensaver
 fonts-dejavu
 fonts-droid
-fonts-freefont-ttf
+#fonts-freefont-ttf
 fonts-liberation
+fonts-cantarell
+fonts-inconsolata
 ttf-mscorefonts-installer
 #dmz-cursor-theme
+gnome-themes-standard
 gtk2-engines-murrine
 gtk2-engines-pixbuf
-gtk2-engines
+#gtk2-engines
 #gimp
 #gimp-plugin-registry
 
@@ -113,7 +120,7 @@ vlc
 vlc-plugin-notify
 lame
 pulseaudio
-pulseaudio-module-x11
+#pulseaudio-module-x11
 xfce4-mixer
 xfce4-volumed
 pavucontrol
@@ -147,10 +154,30 @@ xfce4-power-manager
 ghostscript
 e2fsprogs
 xfsprogs
-reiserfsprogs
-reiser4progs
+#reiserfsprogs
+#reiser4progs
 jfsutils
 ntfs-3g
 apt-xapian-index
 #screen
-user-setup
+#user-setup
+hdparm
+hddtemp
+smartmontools
+
+uuid-runtime
+va-driver-all
+vdpau-va-driver
+
+# bunsenlabs
+bunsen-common
+bunsen-configs
+bunsen-conky
+bunsen-docs
+bunsen-faenza-icon-theme
+bunsen-images
+bunsen-os-release
+bunsen-pipemenus
+bunsen-themes
+bunsen-utilities
+bunsen-welcome

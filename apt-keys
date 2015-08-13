@@ -1,0 +1,18 @@
+# This file is sourced by the install script just before installing
+# the main packages.
+# You can add code to install APT GPG keys here.
+#
+# LOGGING:
+# bigmsg "..." will output a bold message to the terminal and logfile.
+# End your command lines with:
+#  > >( tee -a "$logfile" ) 2>&1 || giveup "Some message..." 1
+# so that output will be logged, and success checked.
+
+BUNSEN_APT_FINGERPRINT='3172 4784 0522 7490 BBB7  43E6 A067 3F72 FE62 D9C5'
+
+bigmsg "Installing BunsenLabs APT key."
+
+wget http://pkg.bunsenlabs.org/BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to download BunsenLabs APT key." 1
+KEY_FINGERPRINT=$(gpg --with-fingerprint BunsenLabs-RELEASE.asc | sed -rn 's/^\s*Key fingerprint = (([0-9A-Z]{4}\s*)+).*$/\1/p')
+[[ $KEY_FINGERPRINT = $BUNSEN_APT_FINGERPRINT ]] || giveup "Downloaded Apt key fingerprint is not correct" 1
+sudo apt-key add BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install BunsenLabs APT key." 1

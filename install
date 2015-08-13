@@ -359,16 +359,7 @@ before running the script again." 1
 
 bigmsg "Adjusting package management (apt) settings."
 
-if [[ -s extra_repos ]]; then
-    if [[ $(</etc/apt/sources.list) = *$(<extra_repos)* ]]
-    then
-        msg "extra_repos already appended to /etc/apt/sources.list"
-    else
-        msg "adding extra repositories to sources.list"
-        sed '/deb-src/s/^/#/' /etc/apt/sources.list 2> >( tee -a "$logfile" ) > sysfiles1/etc/apt/sources.list || giveup "There was a problem editing sources.list." 1
-        cat extra_repos 2> >( tee -a "$logfile" ) >> sysfiles1/etc/apt/sources.list || giveup "There was a problem appending extra_repos to sources.list." 1
-    fi
-elif [[ -r gen_sources ]]; then
+if [[ -r gen_sources ]]; then
     if [[ -s  sysfiles1/etc/apt/sources.list ]]; then
         msg "sysfiles1/etc/apt/sources.list already generated"
     else
@@ -448,10 +439,10 @@ or exit and try to fix the problems?" 1
 bigmsg "New packages installed"
 
 # get stuff from GitHub, make local repo, install from there
-bigmsg "Importing packages from GitHub"
-[[ -r github_install ]] && {
-    . github_install
-}
+#bigmsg "Importing packages from GitHub"
+#[[ -r github_install ]] && {
+#    . github_install
+#}
 
 
 bigmsg "Copying in new system files.
@@ -494,11 +485,14 @@ bigmsg "Adjusting some system settings."
     . postinstall_commands
 }
 
-option 'Would you like to put a copy of the upgrade script
-"upgrade-bunsen-pkgs" in your ~/bin directory,
+option 'Would you like to put a copy of the github upgrade script
+"bl-github-upgrade" in your ~/bin directory,
 so you can use it later?' && {
     mkdir -p $HOME/bin
-    cp -f upgrade-bunsen-pkgs "$HOME"/bin
+    cp -f bl-github-upgrade "$HOME"/bin
+    bigmsg "Make sure $HOME/bin is in your PATH
+(edit ~/.profile if necessary)
+and run bl-github-upgrade -h to see options."
 }
 
 bigmsg "INSTALL FINISHED!"

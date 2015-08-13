@@ -1,8 +1,8 @@
 #!/bin/bash
 # check versions of installed BunsenLabs packages
-# upgrade if version on GitHub is newer
+# and upgrade if version on GitHub is newer
 
-help="  upgrade-bunsen-pkgs
+help="  bl-github-upgrade
 Upgrade BunsenLabs installed packages by rebuilding from
 GitHub repositories, or add other repositories.
 Options:
