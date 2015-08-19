@@ -46,7 +46,7 @@ galculator
 galternatives
 gdebi
 geany
-geany-plugins
+#geany-plugins
 ghostscript
 gigolo
 gksu
@@ -126,7 +126,7 @@ unrar
 unzip
 update-inetd
 usbutils
-user-setup
+#user-setup
 uuid-runtime
 va-driver-all
 vdpau-va-driver

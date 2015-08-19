@@ -492,7 +492,7 @@ so you can use it later?' && {
     mkdir -p $HOME/bin
     cp -f bl-github-upgrade "$HOME"/bin
     bigmsg "Make sure $HOME/bin is in your PATH
-    (edit ~/.profile if necessary)
+    (edit ~/.profile and ~/.xsessionrc if necessary)
     and run bl-github-upgrade -h to see options."
 }
 
