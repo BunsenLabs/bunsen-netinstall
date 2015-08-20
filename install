@@ -233,12 +233,13 @@ log "Packages originally auto-installed by the Debian netinstaller are recorded 
 msg "Installing rsync."
 sudo apt-get --quiet install rsync  || giveup "Failed to install necessary package 'rsync'." 1
 
-[[ ${#snapshots[@]} -gt 0 ]] && {
+[[ ${snapshots[0]} != "none" ]] && {
     bigmsg "Making snapshots of some files or directories"
     for i in "${snapshots[@]}"
     do
         [[ $i ]] || continue # blank line
         i="${i%/}" # remove any trailing slash
+        sudo test -e "$i" || { errmsg "$i set in \"snapshots\" in file \"config\" does not exist"; continue;}
         sudo test -e "${snapshots_dir}${i}" && { msg "snapshot of $i already made"; continue;}
         msg "making snapshot of $i in ${snapshots_dir}"
         sudo mkdir -p "${snapshots_dir}${i%/*}"  || errmsg "Failed to make directory ${snapshots_dir}${i%/*}"

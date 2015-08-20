@@ -20,11 +20,11 @@ necessary_files=(sysfiles1 sysfiles2 bunsen-netinstall-logs pkgs-recs pkgs-norec
 #replaced_dirs=("/etc/skel" )
 replaced_dirs=("none")
 
-### optional - snapshots need not be set ###
 # On the first run of the script any directories or files here
 # will be copied to a snapshots directory and left untouched.
 # They might be useful if trying to restore the original system.
-# (Space-separated list, paths containing spaces quoted.)
+# (Space-separated list, paths containing spaces quoted, or "none".)
 # (snapshots is an array)
 #snapshots=()
-snapshots=("/etc/skel")
+#snapshots=("/etc/skel")
+snapshots=("none")
