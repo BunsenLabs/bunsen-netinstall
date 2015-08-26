@@ -14,7 +14,7 @@ readonly LOCAL_KEY_FILE=./BunsenLabs-Release.asc
 
 bigmsg "Installing BunsenLabs APT key."
 
-if ! wget -O "$LOCAL_KEY_FILE" "$BUNSEN_APT_KEY_URL" > >(tee -a "$logfile") 2>&1; then
+if ! wget -O "$LOCAL_KEY_FILE" "$BUNSEN_APT_KEY_URL"; then
   giveup "Failed to retrieve the remote PGP key." 1
 fi
 
@@ -24,6 +24,6 @@ if [[ "$BUNSEN_APT_FINGERPRINT" != "$BUNSEN_APT_LOCAL_FINGERPRINT" ]]; then
   giveup "Local and remote PGP keys do not match: Invalid key!" 1
 fi
 
-if ! sudo apt-key add "$LOCAL_KEY_FILE" > >(tee -a "$logfile") 2>&1; then
+if ! sudo apt-key add "$LOCAL_KEY_FILE"; then
   giveup "Failed to install the signing key." 1
 fi
