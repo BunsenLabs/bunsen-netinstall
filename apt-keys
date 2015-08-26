@@ -15,7 +15,7 @@ readonly LOCAL_KEY_FILE=./BunsenLabs-Release.asc
 bigmsg "Installing BunsenLabs APT key."
 
 if ! wget -O "$LOCAL_KEY_FILE" "$BUNSEN_APT_KEY_URL" > >(tee -a "$logfile") 2>&1; then
-  giveup "Failed to retrieve the remote PGP key."
+  giveup "Failed to retrieve the remote PGP key." 1
 fi
 
 readonly BUNSEN_APT_LOCAL_FINGERPRINT=$(gpg --with-fingerprint "$LOCAL_KEY_FILE" | grep '^\s\+Key'| cut -d= -f2 | tr -d ' ')
