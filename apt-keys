@@ -8,11 +8,22 @@
 #  > >( tee -a "$logfile" ) 2>&1 || giveup "Some message..." 1
 # so that output will be logged, and success checked.
 
-BUNSEN_APT_FINGERPRINT='3172 4784 0522 7490 BBB7  43E6 A067 3F72 FE62 D9C5'
+readonly BUNSEN_APT_FINGERPRINT=3172478405227490BBB743E6A0673F72FE62D9C5
+readonly BUNSEN_APT_KEY_URL="http://pkg.bunsenlabs.org/BunsenLabs-RELEASE.asc"
+readonly LOCAL_KEY_FILE=./BunsenLabs-Release.asc
 
 bigmsg "Installing BunsenLabs APT key."
 
-wget http://pkg.bunsenlabs.org/BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to download BunsenLabs APT key." 1
-KEY_FINGERPRINT=$(gpg --with-fingerprint BunsenLabs-RELEASE.asc | sed -rn 's/^\s*Key fingerprint = (([0-9A-Z]{4}\s*)+).*$/\1/p')
-[[ $KEY_FINGERPRINT = $BUNSEN_APT_FINGERPRINT ]] || giveup "Downloaded Apt key fingerprint is not correct" 1
-sudo apt-key add BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install BunsenLabs APT key." 1
+if ! wget -O "$LOCAL_KEY_FILE" "$BUNSEN_APT_KEY_URL" > >(tee -a "$logfile") 2>&1; then
+  giveup "Failed to retrieve the remote PGP key."
+fi
+
+readonly BUNSEN_APT_LOCAL_FINGERPRINT=$(gpg --with-fingerprint "$LOCAL_KEY_FILE" | grep '^\s\+Key'| cut -d= -f2 | tr -d ' ')
+
+if [[ "$BUNSEN_APT_FINGERPRINT" != "$BUNSEN_APT_LOCAL_FINGERPRINT" ]]; then
+  giveup "Local and remote PGP keys do not match: Invalid key!" 1
+fi
+
+if ! sudo apt-key add "$LOCAL_KEY_FILE" > >(tee -a "$logfile") 2>&1; then
+  giveup "Failed to install the signing key." 1
+fi
