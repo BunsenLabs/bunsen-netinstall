@@ -7,7 +7,7 @@ backup_dir="/backup/bunsen-netinstall" # replaced system files will be moved her
 backup_suffix="~bunsen-netinst-$(date +%FT%T)~" # for backed-up files
 
 # files and directories which must be packaged with this script (array):
-necessary_files=(sysfiles1 sysfiles2 bunsen-netinstall-logs pkgs-recs pkgs-norecs apt-keys gen_sources preinstall_commands postinstall_commands bl-github-upgrade copyright README LICENSE)
+necessary_files=(sysfiles1 sysfiles2 bunsen-netinstall-logs-templates pkgs-recs pkgs-norecs apt-keys BunsenLabs-RELEASE.asc gen_sources preinstall_commands postinstall_commands bl-github-upgrade copyright README LICENSE)
 
 # Default behaviour is to add files in sysfiles1 & 2 to
 # the existing system directories.
