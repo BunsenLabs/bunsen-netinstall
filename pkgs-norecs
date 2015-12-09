@@ -20,6 +20,7 @@ conky-all
 cpufrequtils
 curl
 crda
+dmz-cursor-theme
 dosfstools
 eject
 enchant
@@ -61,9 +62,10 @@ gtk2-engines-murrine
 gvfs
 gvfs-backends
 #gvfs-bin
-#gvfs-fuse
+gvfs-fuse
+hdparm
+hddtemp
 hexchat
-#hsetroot
 htop
 hwdata
 i965-va-driver
@@ -72,15 +74,18 @@ iceweasel
 #jfsutils
 lame
 libpam-gnome-keyring
+libreoffice-writer
 libnotify-bin
 #libnss-mdns
 lightdm
+light-locker
 lm-sensors
 locales
 lsb-release
 lxappearance
 lzop
 mirage
+mlocate
 network-manager-gnome
 #network-manager-openvpn-gnome
 #network-manager-pptp-gnome
@@ -92,6 +97,7 @@ obconf
 obmenu
 openbox
 #openssh-client
+p7zip-full
 pavucontrol
 pciutils
 pcmciautils
@@ -108,8 +114,9 @@ rpl
 rsync
 rzip
 scrot
-suckless-tools
 smartmontools
+suckless-tools
+sudo
 synaptic
 terminator
 thunar
@@ -119,6 +126,7 @@ thunar-volman
 tint2
 transmission-gtk
 ttf-mscorefonts-installer
+tumbler
 unace
 unalz
 unar
@@ -126,7 +134,7 @@ unrar
 unzip
 update-inetd
 usbutils
-#user-setup
+user-setup
 uuid-runtime
 va-driver-all
 vdpau-va-driver
@@ -147,7 +155,7 @@ xfce4-volumed
 #xfsprogs
 xinput
 xorg
-xscreensaver
+#xscreensaver
 xsel
 xz-utils
 #yelp
