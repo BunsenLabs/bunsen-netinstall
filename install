@@ -171,13 +171,16 @@ done
 [[ $missing_files ]] && giveup "Some necessary files or folders were missing: $missing_files" 1 || msg "Necessary files: OK"
 
 # setup logfile
-[[ -d "$log_dir" ]] || { cp -r bunsen-netinstall-logs-templates "$log_dir" || giveup "failed to copy logfiles directory into $HOME" 1; }
+[[ -d "$log_dir" ]] || {
+    mkdir -p "$log_dir" || giveup "failed to create $log_dir in $HOME" 1
+    cp bunsen-netinstall-logs-templates/* "$log_dir" || giveup "failed to copy logfiles directory contents into $log_dir" 1
+}
 cat "$logfile" >> "$log_dir"/install.log
 rm "$logfile" # finished with temporary logfile
 logfile="$log_dir"/install.log # this logfile will remain after the install
 exec > >( tee -a "$logfile" ) 2>&1
-bigmsg "messages are being saved to $logfile"
-cp -f pkgs-recs pkgs-norecs config bl-github-upgrade "$log_dir"
+bigmsg "Messages are being saved to $logfile"
+cp -f pkgs-recs pkgs-norecs config "$log_dir"
 
 # check debian version FIXME Is /etc/debian_version the best way?
 grep -q '\(jessie\|\(^\|[^a-zA-Z0-9.]\)8\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
@@ -487,15 +490,17 @@ bigmsg "Adjusting some system settings."
     . postinstall_commands
 }
 
-#option 'Would you like to put a copy of the github upgrade script
-#"bl-github-upgrade" in your ~/bin directory,
-#so you can use it later?' && {
-    #mkdir -p $HOME/bin
-    #cp -f bl-github-upgrade "$HOME"/bin
-    #bigmsg "Make sure $HOME/bin is in your PATH
-    #(edit ~/.profile and ~/.xsessionrc if necessary)
-    #and run bl-github-upgrade -h to see options."
-#}
+option 'Would you like to put a copy of the github upgrade script
+"bl-github-upgrade" in your ~/bin directory,
+so you can use it later?
+(This is for upgrading packages directly from the GitHub repositories
+and uses a lot of extra disk space: most users will not need it.)' && {
+    mkdir -p $HOME/bin
+    cp -f bl-github-upgrade "$HOME"/bin
+    bigmsg "Make sure $HOME/bin is in your PATH
+    (edit ~/.profile and ~/.xsessionrc if necessary)
+    and run bl-github-upgrade -h to see options."
+}
 
 bigmsg "INSTALL FINISHED!"
 confirm "You need to restart your computer to log into your new system.

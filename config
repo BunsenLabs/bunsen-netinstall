@@ -2,7 +2,7 @@
 # You may change these if you want, but they must be set,
 # and this file must be present.
 
-log_dir="$HOME/.bunsen-netinstall-logs" # place to store install logs and other data
+log_dir="$HOME/.cache/bunsen-netinstall-logs" # place to store install logs and other data
 backup_dir="/backup/bunsen-netinstall" # replaced system files will be moved here
 backup_suffix="~bunsen-netinst-$(date +%FT%T)~" # for backed-up files
 
