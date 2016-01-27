@@ -6,6 +6,7 @@ amd64-microcode
 anacron
 apt-transport-https
 apt-xapian-index
+aptitude
 arandr
 arj
 at-spi2-core
@@ -27,6 +28,7 @@ enchant
 evince
 fbxkb
 fdpowermon
+feh
 file-roller
 filezilla
 firmware-b43-installer
@@ -34,7 +36,7 @@ firmware-b43legacy-installer
 firmware-linux
 #firmware-ralink
 #firmware-realtek
-flashplugin-nonfree
+#flashplugin-nonfree
 fonts-cantarell
 fonts-dejavu
 fonts-droid
@@ -53,12 +55,17 @@ gigolo
 gksu
 gmrun
 gnome-keyring
-gnome-themes-standard
+#gnome-themes-standard
 gnumeric
 gparted
 gsimplecal
-gtk2-engines-pixbuf
-gtk2-engines-murrine
+gstreamer1.0-libav
+gstreamer1.0-plugins-bad
+gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
+gstreamer1.0-plugins-ugly
+#gtk2-engines-pixbuf
+#gtk2-engines-murrine
 gvfs
 gvfs-backends
 #gvfs-bin
@@ -70,7 +77,7 @@ htop
 hwdata
 i965-va-driver
 iceweasel
-#intel-microcode
+intel-microcode
 #jfsutils
 lame
 libpam-gnome-keyring
@@ -86,6 +93,7 @@ lxappearance
 lzop
 mirage
 mlocate
+modemmanager
 network-manager-gnome
 #network-manager-openvpn-gnome
 #network-manager-pptp-gnome
@@ -96,7 +104,7 @@ ntp
 obconf
 obmenu
 openbox
-#openssh-client
+openssh-client
 p7zip-full
 pavucontrol
 pciutils
@@ -133,6 +141,7 @@ unar
 unrar
 unzip
 update-inetd
+usb-modeswitch
 usbutils
 user-setup
 uuid-runtime
@@ -142,10 +151,10 @@ vlc
 vlc-plugin-notify
 volti
 wireless-tools
-wmctrl
+#wmctrl
 xdg-user-dirs
 xdg-utils
-xdotool
+#xdotool
 xfburn
 #xfce4-mixer
 xfce4-notifyd
@@ -158,6 +167,7 @@ xorg
 #xscreensaver
 xsel
 xz-utils
+yad
 #yelp
-zenity
+#zenity
 zip
