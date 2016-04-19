@@ -28,7 +28,7 @@ sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 
 # add grub background
 #sudo mkdir -p /usr/share/images/desktop-base || errmsg "failed to create /usr/share/images/desktop-base"
-#sudo update-alternatives --install /usr/share/images/desktop-base/desktop-grub.png  desktop-grub /usr/share/backgrounds/bunsen/bunsen-images/bl-default/bl-grub.png 30 || errmsg "failed to add alternative for desktop-grub"
+#sudo update-alternatives --install /usr/share/images/desktop-base/desktop-grub.png  desktop-grub /usr/share/images/bunsen/grub/default.png 30 || errmsg "failed to add alternative for desktop-grub"
 #sudo update-grub || errmsg "failed to update grub"
 
 # to pre-empt /usr/lib/bunsen/bunsen-user-setup/bl-user-setup
