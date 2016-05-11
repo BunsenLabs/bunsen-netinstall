@@ -13,6 +13,7 @@ at-spi2-core
 #avahi-daemon
 #avahi-utils
 bash-completion
+btrfs-tools
 #bzip2 #dep
 catfish
 clipit
@@ -59,6 +60,9 @@ gnome-keyring
 gnumeric
 gparted
 gsimplecal
+gstreamer0.10-plugins-good
+gstreamer0.10-plugins-bad
+gstreamer0.10-plugins-ugly
 gstreamer1.0-libav
 gstreamer1.0-plugins-bad
 gstreamer1.0-plugins-base
