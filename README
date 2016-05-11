@@ -1,18 +1,12 @@
 This is a collection of files intended to install
-a beta version of BunsenLabs Linux
+a close approximation of BunsenLabs Linux
 on a basic command-line-only Debian Jessie system.
 It will use the BunsenLabs Apt repository ( http://pkg.bunsenlabs.org/ )
 to install BunsenLabs packages.
 
-A script bl-github-upgrade is also provided.
-This will download GitHub repositories and build .deb packages locally.
-Most users will not need this.
-
-WARNING: THIS INSTALLER IS FOR TESTING PURPOSES.
-Full support will not be provided on the forums
-for problems that may occur, though bug reports are very welcome!
-
-http://bunsenlabs.org/
+Bug reports are very welcome!
+Please visit the bunsenlabs forums:
+http://forums.bunsenlabs.org/
 
 HOW TO USE
 
@@ -32,16 +26,17 @@ There is also a script: bl-github-upgrade
 which can be run to upgrade the BunsenLabs packages
 from the GitHub repository in order to get the latest versions.
 Usually the Apt repository holds packages which are recent enough,
-without having to use this script.
+without having to use this script, 
+which will install a lot of extra packages and use disk space.
 
-A folder called .bunsen-netinstall-logs will be added to your home folder.
-(The file ~/.bunsen-netinstall-logs/install.log will contain
+A folder called bunsen-netinstall-logs will be added to your ~/.cache folder.
+(The file bunsen-netinstall-logs/install.log will contain
 verbose information about the install process.)
 This folder may safely be removed if the installation was successful,
 and no issues arose subsequently.
 
-A folder /backup on your root file system will hold backups of
-system files replaced during the install.
+A folder /backup/bunsen-netinstall on your root file system will hold 
+backups of system files replaced during the install.
 
 The script itself has been separated off from the files holding
 specific data about the installation. This is intended to make
@@ -65,7 +60,7 @@ gen_sources: commands to edit /etc/apt/sources.list
 preinstall_commands: commands to run before installing packages and files
 postinstall_commands: commands to run after installing packages and files
 config: sets some directory paths etc
-bunsen-netinstall-logs: folder to copy into user's home directory
+bunsen-netinstall-logs: folder to copy into user's ~/.cache directory
 bl-github-upgrade: script to upgrade the BunsenLabs packages
 
 (no longer used)

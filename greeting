@@ -1,4 +1,4 @@
-This is a beta network installer for BunsenLabs Linux.
+This is a network installer for BunsenLabs Linux.
 It will use the BunsenLabs Apt repository
 to download and install necessary packages,
 along with packages from the Debian repositories,
