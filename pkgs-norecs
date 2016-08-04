@@ -116,7 +116,7 @@ pciutils
 pcmciautils
 policykit-1-gnome
 pulseaudio
-#pulseaudio-module-x11
+pulseaudio-module-x11
 python-keybinder
 python-notify
 python-xdg
@@ -155,6 +155,7 @@ vdpau-va-driver
 vlc
 vlc-plugin-notify
 volti
+volumeicon-alsa
 wireless-tools
 #wmctrl
 xdg-user-dirs
