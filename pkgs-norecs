@@ -32,6 +32,7 @@ fdpowermon
 feh
 file-roller
 filezilla
+firefox-esr
 firmware-b43-installer
 firmware-b43legacy-installer
 firmware-linux
@@ -81,7 +82,7 @@ hexchat
 htop
 hwdata
 i965-va-driver
-iceweasel
+#iceweasel
 intel-microcode
 #jfsutils
 lame
