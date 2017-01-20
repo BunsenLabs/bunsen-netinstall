@@ -413,7 +413,7 @@ There may be around 1000 packages to install,
 
 norecs=($( sed 's/\#.*$//' pkgs-norecs )) && [[ ${#norecs[@]} -gt 0 ]] && {
     bigmsg "Installing packages, without recommends."
-    sudo apt-get --no-install-recommends --quiet install ${norecs[@]}  || {
+    sudo apt-get --no-install-recommends --quiet install "${norecs[@]}"  || {
         warnlog "'apt-get --no-install-recommends --quiet install' returned an error"
         confirm "There was a problem installing some packages.
     There may be some information in ${logfile}.
@@ -428,7 +428,7 @@ norecs=($( sed 's/\#.*$//' pkgs-norecs )) && [[ ${#norecs[@]} -gt 0 ]] && {
 
 recs=($( sed 's/\#.*$//' pkgs-recs )) && [[ ${#recs[@]} -gt 0 ]] && {
     bigmsg "Installing packages, with recommends."
-    sudo apt-get -o APT::Install-Recommends=true --quiet install $( sed 's/\#.*$//' pkgs-recs )  || {
+    sudo apt-get -o APT::Install-Recommends=true --quiet install "${recs[@]}"  || {
     warnlog "'apt-get -o APT::Install-Recommends=true --quiet install' returned an error"
     confirm "There was a problem installing some packages.
 There may be some information in ${logfile}.
@@ -495,7 +495,7 @@ option 'Would you like to put a copy of the github upgrade script
 so you can use it later?
 (This is for upgrading packages directly from the GitHub repositories
 and uses a lot of extra disk space: most users will not need it.)' && {
-    mkdir -p $HOME/bin
+    mkdir -p "$HOME/bin"
     cp -f bl-github-upgrade "$HOME"/bin
     bigmsg "Make sure $HOME/bin is in your PATH
     (edit ~/.profile and ~/.xsessionrc if necessary)
