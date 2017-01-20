@@ -41,7 +41,9 @@ firmware-linux
 #flashplugin-nonfree
 fonts-cantarell
 fonts-dejavu
-fonts-droid
+#fonts-droid
+fonts-noto
+fonts-noto-mono
 fonts-inconsolata
 fonts-liberation
 ftp
@@ -61,9 +63,9 @@ gnome-keyring
 gnumeric
 gparted
 gsimplecal
-gstreamer0.10-plugins-good
-gstreamer0.10-plugins-bad
-gstreamer0.10-plugins-ugly
+#gstreamer0.10-plugins-good
+#gstreamer0.10-plugins-bad
+#gstreamer0.10-plugins-ugly
 gstreamer1.0-libav
 gstreamer1.0-plugins-bad
 gstreamer1.0-plugins-base
@@ -108,7 +110,7 @@ nitrogen
 ntfs-3g
 ntp
 obconf
-obmenu
+#obmenu
 openbox
 openssh-client
 p7zip-full
@@ -117,7 +119,7 @@ pciutils
 pcmciautils
 policykit-1-gnome
 pulseaudio
-pulseaudio-module-x11
+#pulseaudio-module-x11
 python-keybinder
 python-notify
 python-xdg
@@ -155,7 +157,7 @@ va-driver-all
 vdpau-va-driver
 vlc
 vlc-plugin-notify
-volti
+#volti
 volumeicon-alsa
 wireless-tools
 #wmctrl
@@ -167,7 +169,7 @@ xfburn
 xfce4-notifyd
 xfce4-power-manager
 xfce4-screenshooter
-xfce4-volumed
+#xfce4-volumed
 #xfsprogs
 xinput
 xorg
