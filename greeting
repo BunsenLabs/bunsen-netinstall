@@ -1,8 +1,11 @@
-This is a network installer for BunsenLabs Linux.
+This is an EXPERIMENTAL network installer for
+BunsenLabs Linux on Debian Stretch.
+
 It will use the BunsenLabs Apt repository
 to download and install necessary packages,
 along with packages from the Debian repositories,
 and do any other necessary configuration.
 
-While there is a good chance of installing a working system,
-please be ready to deal with any bugs that show up!
+As this is intended only for development and testing at the moment,
+do not use this "helium-dev" version of the installer for
+any systems where breakage would be a problem!

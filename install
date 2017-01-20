@@ -154,7 +154,7 @@ echo "
 $( < greeting )
 
 This script is expected to be run just after completing a netinstall
-installation of the Debian Jessie CORE SYSTEM ONLY.
+installation of the Debian Stretch CORE SYSTEM ONLY.
 (See \"Debian Netinstall Hints\" in the README file.)
 "
 confirm "Would you like to start the install now?" 0
@@ -183,8 +183,8 @@ bigmsg "Messages are being saved to $logfile"
 cp -f pkgs-recs pkgs-norecs config "$log_dir"
 
 # check debian version FIXME Is /etc/debian_version the best way?
-grep -q '\(jessie\|\(^\|[^a-zA-Z0-9.]\)8\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
-    confirm "You do not appear to have Debian Jessie installed.
+grep -q '\(stretch\|\(^\|[^a-zA-Z0-9.]\)9\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
+    confirm "You do not appear to have Debian Stretch installed.
 If you think this is incorrect,
 you may wish to continue with the installation,
 otherwise it would be safer to stop.

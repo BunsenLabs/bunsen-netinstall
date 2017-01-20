@@ -1,6 +1,12 @@
 This is a collection of files intended to install
 a close approximation of BunsenLabs Linux
 on a basic command-line-only Debian Stretch system.
+
+**NOTE**
+This is an EXPERIMENTAL script, intended for developers and testers
+to investigate problems with migrating BunsenLabs from Debian Jessie to Stretch.
+DO NOT USE IT for systems where breakage would be a problem!
+
 For now, it will use the "bunsen-hydrogen" suite from
 the BunsenLabs Apt repository ( http://pkg.bunsenlabs.org/debian )
 to install BunsenLabs packages, 
