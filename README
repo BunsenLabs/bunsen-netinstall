@@ -1,8 +1,10 @@
 This is a collection of files intended to install
 a close approximation of BunsenLabs Linux
-on a basic command-line-only Debian Jessie system.
-It will use the BunsenLabs Apt repository ( http://pkg.bunsenlabs.org/ )
-to install BunsenLabs packages.
+on a basic command-line-only Debian Stretch system.
+For now, it will use the "bunsen-hydrogen" suite from
+the BunsenLabs Apt repository ( http://pkg.bunsenlabs.org/debian )
+to install BunsenLabs packages, 
+but will eventually switch to the "bunsen-helium" suite.
 
 Bug reports are very welcome!
 Please visit the bunsenlabs forums:
@@ -10,24 +12,22 @@ http://forums.bunsenlabs.org/
 
 HOW TO USE
 
-Boot into your Debian Netinstall cli system,
+Download a Debian Stretch "netinst" .iso file from here:
+https://www.debian.org/devel/debian-installer/
+and use it to install a basic cli system.
+(See "DEBIAN NETINSTALL HINTS" below.)
+
+Boot into your Debian Netinstall Stretch cli system,
 log in and run these commands, as a normal user:
 (A fresh copy of this bunsen-netinstall package will be downloaded.)
 
-wget https://github.com/bunsenlabs/bunsen-netinstall/archive/master.tar.gz
-tar -xpf master.tar.gz
-cd bunsen-netinstall-master
+wget https://github.com/bunsenlabs/bunsen-netinstall/archive/helium-dev.tar.gz
+tar -xpf helium-dev.tar.gz
+cd bunsen-netinstall-helium-dev
 ./install
 
 The installation process will start.
 Follow any prompts that appear on the screen.
-
-There is also a script: bl-github-upgrade
-which can be run to upgrade the BunsenLabs packages
-from the GitHub repository in order to get the latest versions.
-Usually the Apt repository holds packages which are recent enough,
-without having to use this script, 
-which will install a lot of extra packages and use disk space.
 
 A folder called bunsen-netinstall-logs will be added to your ~/.cache folder.
 (The file bunsen-netinstall-logs/install.log will contain
@@ -61,15 +61,15 @@ preinstall_commands: commands to run before installing packages and files
 postinstall_commands: commands to run after installing packages and files
 config: sets some directory paths etc
 bunsen-netinstall-logs: folder to copy into user's ~/.cache directory
-bl-github-upgrade: script to upgrade the BunsenLabs packages
 
 (no longer used)
 github_install: commands to build .deb files and install them from a local repository
 git2deb-bl: script to build .deb files from a git repository
+bl-github-upgrade: script to upgrade the BunsenLabs packages
 
 DEBIAN NETINSTALL HINTS
 
-Installing Debian Jessie by the netinstall CD is
+Installing Debian Stretch by the netinstall CD is
 similar to using the standard installer.
 
 Two points to watch if you want to use
@@ -92,4 +92,4 @@ they have been preselected.
 Use the up/down arrows to move, and the spacebar to toggle selection.)
 
 The netinstall download and links to documentation can be found here:
-http://www.debian.org/CD/netinst/
+https://www.debian.org/devel/debian-installer/
