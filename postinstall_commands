@@ -44,6 +44,6 @@ cd arc-openbox-master
 for i in Arc{,-Dark{,er}}
 do
     sudo mkdir -p "/usr/share/themes/$i"
-    sudo cp -r "$i/openbox-3" "/usr/share/themes/$i
+    sudo cp -r "$i/openbox-3" "/usr/share/themes/$i"
 done
 
