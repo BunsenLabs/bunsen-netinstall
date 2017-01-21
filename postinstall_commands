@@ -36,3 +36,14 @@ sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 #[[ -e $HOME/images/wallpapers/shared ]] || ln -s /usr/share/backgrounds $HOME/images/wallpapers/shared || errmsg "failed to add symlink to shared wallpapers"
 
 #touch $HOME/.config/bunsen/bl-setup || errmsg "failed to touch .config/bunsen/bl-setup"
+
+# temporarily install arc-openbox theme
+wget https://github.com/dglava/arc-openbox/archive/master.tar.gz -O arc-ob-master.tar.gz
+tar -xf arc-ob-master.tar.gz
+cd arc-openbox-master
+for i in Arc{,-Dark{,er}}
+do
+    sudo mkdir -p "/usr/share/themes/$i"
+    sudo cp -r "$i/openbox-3" "/usr/share/themes/$i
+done
+
