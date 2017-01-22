@@ -414,8 +414,8 @@
       <action name="Execute">
         <command>amixer set -D pulse Master toggle</command>
       </action>
--->
     </keybind>
+-->
     <keybind key="W-x">
       <action name="Execute">
         <startupnotify>
