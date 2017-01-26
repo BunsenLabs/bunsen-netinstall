@@ -75,7 +75,7 @@ gstreamer1.0-plugins-base
 gstreamer1.0-plugins-good
 gstreamer1.0-plugins-ugly
 gstreamer1.0-pulseaudio
-#gtk2-engines-pixbuf
+gtk2-engines-pixbuf
 #gtk2-engines-murrine
 gvfs
 gvfs-backends
@@ -177,6 +177,7 @@ xfce4-screenshooter
 xinput
 xorg
 #xscreensaver
+xserver-xorg-input-synaptics
 xsel
 xz-utils
 yad
