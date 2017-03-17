@@ -92,8 +92,6 @@ intel-microcode
 #jfsutils
 lame
 libinput-tools
-libinput-list-devices
-libinput-debug-events
 libpam-gnome-keyring
 libreoffice-writer
 libnotify-bin
