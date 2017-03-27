@@ -81,6 +81,7 @@ gvfs
 gvfs-backends
 #gvfs-bin
 gvfs-fuse
+hardinfo
 hdparm
 hddtemp
 hexchat
@@ -94,6 +95,7 @@ lame
 libinput-tools
 libpam-gnome-keyring
 libreoffice-writer
+libreoffice-gtk
 libnotify-bin
 #libnss-mdns
 lightdm
