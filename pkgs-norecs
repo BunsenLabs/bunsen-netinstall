@@ -16,6 +16,7 @@ bash-completion
 btrfs-tools
 #bzip2 #dep
 catfish
+chntpw
 clipit
 compton
 conky-all
@@ -24,6 +25,7 @@ curl
 crda
 dmz-cursor-theme
 dosfstools
+efibootmgr
 eject
 enchant
 evince
@@ -76,6 +78,7 @@ gvfs
 gvfs-backends
 #gvfs-bin
 gvfs-fuse
+hardinfo
 hdparm
 hddtemp
 hexchat
@@ -88,6 +91,7 @@ intel-microcode
 lame
 libpam-gnome-keyring
 libreoffice-writer
+libreoffice-gtk
 libnotify-bin
 #libnss-mdns
 lightdm
@@ -156,7 +160,7 @@ va-driver-all
 vdpau-va-driver
 vlc
 vlc-plugin-notify
-volti
+#volti
 volumeicon-alsa
 wireless-tools
 #wmctrl
@@ -168,7 +172,7 @@ xfburn
 xfce4-notifyd
 xfce4-power-manager
 xfce4-screenshooter
-xfce4-volumed
+#xfce4-volumed
 #xfsprogs
 xinput
 xorg
