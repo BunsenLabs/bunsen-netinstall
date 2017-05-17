@@ -19,6 +19,7 @@ bash-completion
 btrfs-tools
 #bzip2 #dep
 catfish
+chntpw
 clipit
 compton
 conky-all
@@ -27,6 +28,7 @@ curl
 crda
 dmz-cursor-theme
 dosfstools
+efibootmgr
 eject
 enchant
 evince
