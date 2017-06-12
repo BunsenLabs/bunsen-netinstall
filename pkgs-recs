@@ -8,8 +8,8 @@ bunsen-conky
 bunsen-docs
 bunsen-faenza-icon-theme
 bunsen-images
-bunsen-keyring
-bunsen-os-release
+#bunsen-keyring
+#bunsen-os-release
 bunsen-pipemenus
 #bunsen-themes
 bunsen-thunar
