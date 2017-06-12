@@ -233,8 +233,9 @@ log "Packages originally installed by the Debian netinstaller are recorded in $l
 log "Packages originally auto-installed by the Debian netinstaller are recorded in $log_dir/netinstall-auto-apps"
 [[ -f "$log_dir"/netinstall-auto-apps ]] || apt-mark showauto > "$log_dir"/netinstall-auto-apps
 
-msg "Installing rsync."
-sudo apt-get --quiet install rsync  || giveup "Failed to install necessary package 'rsync'." 1
+# FIXME put this in a config file?
+msg "Installing rsync and apt-transport-https."
+sudo apt-get --quiet install rsync apt-transport-https || giveup "Failed to install necessary package 'rsync' or 'apt-transport-https'." 1
 
 [[ ${snapshots[0]} != "none" ]] && {
     bigmsg "Making snapshots of some files or directories"
