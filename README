@@ -68,11 +68,6 @@ postinstall_commands: commands to run after installing packages and files
 config: sets some directory paths etc
 bunsen-netinstall-logs: folder to copy into user's ~/.cache directory
 
-(no longer used)
-github_install: commands to build .deb files and install them from a local repository
-git2deb-bl: script to build .deb files from a git repository
-bl-github-upgrade: script to upgrade the BunsenLabs packages
-
 DEBIAN NETINSTALL HINTS
 
 Installing Debian Stretch by the netinstall CD is

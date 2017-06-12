@@ -127,6 +127,7 @@ pavucontrol
 pciutils
 pcmciautils
 policykit-1-gnome
+policykit-1
 pulseaudio
 #pulseaudio-module-x11
 python-keybinder
@@ -185,6 +186,7 @@ xorg
 #xscreensaver
 #xserver-xorg-input-synaptics
 #xserver-xorg-input-evdev
+xserver-xorg-video-intel
 xsel
 xz-utils
 yad
