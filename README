@@ -1,5 +1,5 @@
 This is a collection of files intended to install
-a close approximation of BunsenLabs Linux
+an experimental BunsenLabs "helium-dev" setup
 on a basic command-line-only Debian Stretch system.
 
 **NOTE**
@@ -7,10 +7,11 @@ This is an EXPERIMENTAL script, intended for developers and testers
 to investigate problems with migrating BunsenLabs from Debian Jessie to Stretch.
 DO NOT USE IT for systems where breakage would be a problem!
 
-For now, it will use the "bunsen-hydrogen" suite from
-the BunsenLabs Apt repository ( http://pkg.bunsenlabs.org/debian )
+For now, it will use the "helium" suite from
+the BunsenLabs helium-dev repository 
+( https://kernel.bunsenlabs.org/lab/stretch/debian/ )
 to install BunsenLabs packages, 
-but will eventually switch to the "bunsen-helium" suite.
+but will eventually switch to a "helium" suite on the main BunsenLabs server.
 
 Bug reports are very welcome!
 Please visit the bunsenlabs forums:

@@ -14,7 +14,7 @@ done
 
 # add user to necessary extra groups
 # NB You should also check sysfiles2/etc/adduser.conf for default groups to add new users to
-for i in netdev #scanner #bluetooth fuse #cbnetwork
+for i in netdev fuse #scanner #bluetooth #cbnetwork
 do
     sudo adduser $user $i || errmsg "failed to add user: $user to group: $i"
 done
@@ -38,12 +38,12 @@ sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 #touch $HOME/.config/bunsen/bl-setup || errmsg "failed to touch .config/bunsen/bl-setup"
 
 # temporarily install arc-openbox theme
-wget https://github.com/dglava/arc-openbox/archive/master.tar.gz -O arc-ob-master.tar.gz
-tar -xf arc-ob-master.tar.gz
-cd arc-openbox-master
-for i in Arc{,-Dark{,er}}
-do
-    sudo mkdir -p "/usr/share/themes/$i"
-    sudo cp -r "$i/openbox-3" "/usr/share/themes/$i"
-done
+#wget https://github.com/dglava/arc-openbox/archive/master.tar.gz -O arc-ob-master.tar.gz
+#tar -xf arc-ob-master.tar.gz
+#cd arc-openbox-master
+#for i in Arc{,-Dark{,er}}
+#do
+#    sudo mkdir -p "/usr/share/themes/$i"
+#    sudo cp -r "$i/openbox-3" "/usr/share/themes/$i"
+#done
 

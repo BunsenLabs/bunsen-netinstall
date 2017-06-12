@@ -144,7 +144,7 @@ trap 'giveup "Script terminated." 1' 1 2 3 15
 
 log "
 ########################################################################
-Starting netinstall script for $user at $(date)"
+Starting helium-dev netinstall script for $user at $(date)"
 
 clear
 tput bold

@@ -17,4 +17,4 @@ bigmsg "Installing BunsenLabs APT key."
 #[[ $KEY_FINGERPRINT = $BUNSEN_APT_FINGERPRINT ]] || giveup "Downloaded Apt key fingerprint is not correct" 1
 
 # an apt-key file is now packaged with this script.
-sudo apt-key add BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install BunsenLabs APT key." 1
+sudo apt-key add helium-dev.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install helium-dev APT key." 1
