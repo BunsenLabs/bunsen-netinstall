@@ -24,7 +24,7 @@ sudo update-alternatives --set libgksu-gconf-defaults /usr/share/libgksu/debian/
 sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 
 # set cursor theme to pre-empt Adwaita
-#sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for x-cursor-theme"
+sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for x-cursor-theme"
 
 # add grub background
 #sudo mkdir -p /usr/share/images/desktop-base || errmsg "failed to create /usr/share/images/desktop-base"

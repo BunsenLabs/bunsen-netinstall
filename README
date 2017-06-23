@@ -8,8 +8,8 @@ to investigate problems with migrating BunsenLabs from Debian Jessie to Stretch.
 DO NOT USE IT for systems where breakage would be a problem!
 
 For now, it will use the "helium" suite from
-the BunsenLabs helium-dev repository 
-( https://kernel.bunsenlabs.org/lab/stretch/debian/ )
+an experimental BunsenLabs helium-dev repository 
+( https://kelaino.bunsenlabs.org/~johnraff/debian )
 to install BunsenLabs packages, 
 but will eventually switch to a "helium" suite on the main BunsenLabs server.
 
