@@ -491,17 +491,17 @@ bigmsg "Adjusting some system settings."
     . postinstall_commands
 }
 
-option 'Would you like to put a copy of the github upgrade script
-"bl-github-upgrade" in your ~/bin directory,
-so you can use it later?
-(This is for upgrading packages directly from the GitHub repositories
-and uses a lot of extra disk space: most users will not need it.)' && {
-    mkdir -p "$HOME/bin"
-    cp -f bl-github-upgrade "$HOME"/bin
-    bigmsg "Make sure $HOME/bin is in your PATH
-    (edit ~/.profile and ~/.xsessionrc if necessary)
-    and run bl-github-upgrade -h to see options."
-}
+#option 'Would you like to put a copy of the github upgrade script
+#"bl-github-upgrade" in your ~/bin directory,
+#so you can use it later?
+#(This is for upgrading packages directly from the GitHub repositories
+#and uses a lot of extra disk space: most users will not need it.)' && {
+    #mkdir -p "$HOME/bin"
+    #cp -f bl-github-upgrade "$HOME"/bin
+    #bigmsg "Make sure $HOME/bin is in your PATH
+    #(edit ~/.profile and ~/.xsessionrc if necessary)
+    #and run bl-github-upgrade -h to see options."
+#}
 
 bigmsg "INSTALL FINISHED!"
 confirm "You need to restart your computer to log into your new system.
