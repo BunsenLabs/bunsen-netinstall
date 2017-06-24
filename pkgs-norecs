@@ -185,7 +185,7 @@ xinput
 xorg
 #xscreensaver
 xserver-xorg-input-synaptics
-#xserver-xorg-input-evdev
+xserver-xorg-input-evdev
 xserver-xorg-video-intel
 xsel
 xz-utils
