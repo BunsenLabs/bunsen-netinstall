@@ -42,7 +42,8 @@ firmware-b43-installer
 firmware-b43legacy-installer
 firmware-linux
 #firmware-ralink
-#firmware-realtek
+firmware-realtek
+firmware-iwlwifi
 #flashplugin-nonfree
 fonts-cantarell
 fonts-dejavu
@@ -186,6 +187,7 @@ xorg
 #xscreensaver
 xserver-xorg-input-synaptics
 xserver-xorg-input-evdev
+xserver-xorg-video-all
 xserver-xorg-video-intel
 xsel
 xz-utils
