@@ -185,8 +185,9 @@ xfce4-screenshooter
 xinput
 xorg
 #xscreensaver
-xserver-xorg-input-synaptics
-xserver-xorg-input-evdev
+#xserver-xorg-input-synaptics
+#xserver-xorg-input-evdev
+xserver-xorg-input-all
 xserver-xorg-video-all
 xserver-xorg-video-intel
 xsel
