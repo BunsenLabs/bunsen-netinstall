@@ -26,6 +26,7 @@ conky-all
 cpufrequtils
 curl
 crda
+dbus-x11
 dmz-cursor-theme
 dosfstools
 efibootmgr
