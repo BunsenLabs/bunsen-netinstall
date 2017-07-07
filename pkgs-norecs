@@ -1,7 +1,7 @@
 # Packages here will be installed without recommends.
 
 # temporary, till bunsen themes made:
-arc-theme
+#arc-theme
 
 #alsa-base
 alsa-utils
