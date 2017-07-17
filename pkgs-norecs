@@ -16,7 +16,7 @@ at-spi2-core
 #avahi-daemon
 #avahi-utils
 bash-completion
-btrfs-tools
+btrfs-progs
 #bzip2 #dep
 catfish
 chntpw
