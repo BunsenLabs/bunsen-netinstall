@@ -27,6 +27,9 @@ set -o nounset # do not accept unset variables
 # If not running in terminal, exit with message
 [[ -t 0 && -t 1 && -t 2 ]] || { echo "$0: This script must be run from a terminal" >&2; exit 1; }
 
+# If running in a TTY, disable screen blanking
+[[ "$TERM" = "linux" ]] && setterm -blank 0
+
 [[ -r config ]] || { echo "$0: Cannot find necessary file \"config\"" >&2; exit 1; }
 . config
 for i in log_dir backup_dir backup_suffix necessary_files replaced_dirs
