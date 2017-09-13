@@ -106,6 +106,7 @@ libreoffice-writer
 libreoffice-gtk
 libnotify-bin
 #libnss-mdns
+libqt5svg5
 lightdm
 light-locker
 lm-sensors
@@ -141,6 +142,7 @@ pulseaudio
 python-keybinder
 python-notify
 python-xdg
+qt5-style-plugins
 #reiser4progs
 #reiserfsprogs
 rfkill
