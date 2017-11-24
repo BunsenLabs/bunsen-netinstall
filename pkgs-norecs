@@ -135,6 +135,7 @@ paper-icon-theme
 pavucontrol
 pciutils
 pcmciautils
+pnmixer
 policykit-1-gnome
 policykit-1
 pulseaudio
@@ -178,7 +179,7 @@ vdpau-va-driver
 vlc
 vlc-plugin-notify
 #volti
-volumeicon-alsa
+#volumeicon-alsa
 wireless-tools
 #wmctrl
 xdg-user-dirs
