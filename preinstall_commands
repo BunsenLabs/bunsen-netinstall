@@ -6,4 +6,4 @@ msg "adjusting permissions of new system files before installing"
 chmod --preserve-root --recursive u=Xrw,g=Xr,o=Xr sysfiles1 || errmsg "failed to reset permissions in sysfiles1"
 chmod --preserve-root --recursive u=Xrw,g=Xr,o=Xr sysfiles2 || errmsg "failed to reset permissions in sysfiles2"
 # set special permissions on some file
-chmod --preserve-root g=,o= sysfiles2/etc/polkit-1/localauthority || errmsg "failed to change permissions on sysfiles2/etc/polkit-1/localauthority"
+#chmod --preserve-root g=,o= sysfiles2/etc/polkit-1/localauthority || errmsg "failed to change permissions on sysfiles2/etc/polkit-1/localauthority"
