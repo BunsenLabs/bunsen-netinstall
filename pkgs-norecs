@@ -50,12 +50,12 @@ firmware-realtek
 firmware-iwlwifi
 #flashplugin-nonfree
 fonts-cantarell
-fonts-dejavu
+#fonts-dejavu
 #fonts-droid
 fonts-noto
 fonts-noto-mono
 fonts-inconsolata
-fonts-liberation
+#fonts-liberation
 ftp
 fuse
 #fusesmb
@@ -162,7 +162,7 @@ thunar-media-tags-plugin
 thunar-volman
 tint2
 transmission-gtk
-ttf-mscorefonts-installer
+#ttf-mscorefonts-installer
 tumbler
 unace
 unalz
