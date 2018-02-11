@@ -182,6 +182,7 @@ vlc-plugin-notify
 #volumeicon-alsa
 wireless-tools
 #wmctrl
+xcape
 xdg-user-dirs
 xdg-utils
 #xdotool
