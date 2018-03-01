@@ -54,6 +54,7 @@ fonts-cantarell
 #fonts-droid
 fonts-noto
 fonts-noto-mono
+fonts-noto-cjk
 fonts-inconsolata
 #fonts-liberation
 ftp
@@ -100,6 +101,7 @@ i965-va-driver
 intel-microcode
 #jfsutils
 lame
+less
 libinput-tools
 libpam-gnome-keyring
 libreoffice-writer
