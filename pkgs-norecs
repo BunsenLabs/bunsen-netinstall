@@ -85,7 +85,7 @@ gstreamer1.0-plugins-ugly
 gstreamer1.0-pulseaudio
 gtk2-engines-pixbuf
 #gtk2-engines-murrine
-gtk3-nocsd
+#gtk3-nocsd
 gvfs
 gvfs-backends
 #gvfs-bin
