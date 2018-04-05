@@ -56,7 +56,7 @@ fonts-noto
 fonts-noto-mono
 fonts-noto-cjk
 fonts-inconsolata
-#fonts-liberation
+fonts-liberation
 ftp
 fuse
 #fusesmb
