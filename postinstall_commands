@@ -26,24 +26,5 @@ done
 # set cursor theme to pre-empt Adwaita
 sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for x-cursor-theme"
 
-# add grub background
-#sudo mkdir -p /usr/share/images/desktop-base || errmsg "failed to create /usr/share/images/desktop-base"
-#sudo update-alternatives --install /usr/share/images/desktop-base/desktop-grub.png  desktop-grub /usr/share/images/bunsen/grub/default.png 30 || errmsg "failed to add alternative for desktop-grub"
-#sudo update-grub || errmsg "failed to update grub"
-
-# to pre-empt /usr/lib/bunsen/bunsen-user-setup/bl-user-setup
-#[[ -w "$HOME/.gtk-bookmarks" ]] && sed --in-place "s/REPLACEME/$user/" $HOME/.gtk-bookmarks || errmsg "failed to edit .gtk-bookmarks"
-#[[ -e $HOME/images/wallpapers/shared ]] || ln -s /usr/share/backgrounds $HOME/images/wallpapers/shared || errmsg "failed to add symlink to shared wallpapers"
-
-#touch $HOME/.config/bunsen/bl-setup || errmsg "failed to touch .config/bunsen/bl-setup"
-
-# temporarily install arc-openbox theme
-#wget https://github.com/dglava/arc-openbox/archive/master.tar.gz -O arc-ob-master.tar.gz
-#tar -xf arc-ob-master.tar.gz
-#cd arc-openbox-master
-#for i in Arc{,-Dark{,er}}
-#do
-#    sudo mkdir -p "/usr/share/themes/$i"
-#    sudo cp -r "$i/openbox-3" "/usr/share/themes/$i"
-#done
-
+# Add install date to /etc/bunsen/bunsen_install
+echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install
