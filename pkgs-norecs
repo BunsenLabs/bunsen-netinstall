@@ -1,8 +1,5 @@
 # Packages here will be installed without recommends.
 
-# temporary, till bunsen themes made:
-#arc-theme
-
 #alsa-base
 alsa-utils
 amd64-microcode
