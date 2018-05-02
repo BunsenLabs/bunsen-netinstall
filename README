@@ -1,17 +1,6 @@
 This is a collection of files intended to install
-an experimental BunsenLabs "helium-dev" setup
+a close approximation of the BunsenLabs Linux
 on a basic command-line-only Debian Stretch system.
-
-**NOTE**
-This is an EXPERIMENTAL script, intended for developers and testers
-to investigate problems with migrating BunsenLabs from Debian Jessie to Stretch.
-DO NOT USE IT for systems where breakage would be a problem!
-
-For now, it will use the "helium" suite from
-an experimental BunsenLabs helium-dev repository 
-( https://kelaino.bunsenlabs.org/~johnraff/debian )
-to install BunsenLabs packages, 
-but will eventually switch to a "helium" suite on the main BunsenLabs server.
 
 Bug reports are very welcome!
 Please visit the bunsenlabs forums:
@@ -20,7 +9,7 @@ http://forums.bunsenlabs.org/
 HOW TO USE
 
 Download a Debian Stretch "netinst" .iso file from here:
-https://www.debian.org/devel/debian-installer/
+https://www.debian.org/CD/netinst/
 and use it to install a basic cli system.
 (See "DEBIAN NETINSTALL HINTS" below.)
 
@@ -42,7 +31,7 @@ verbose information about the install process.)
 This folder may safely be removed if the installation was successful,
 and no issues arose subsequently.
 
-A folder /backup/bunsen-netinstall on your root file system will hold 
+A folder /backup/bunsen-netinstall on your root file system will hold
 backups of system files replaced during the install.
 
 The script itself has been separated off from the files holding
@@ -94,4 +83,4 @@ they have been preselected.
 Use the up/down arrows to move, and the spacebar to toggle selection.)
 
 The netinstall download and links to documentation can be found here:
-https://www.debian.org/devel/debian-installer/
+https://www.debian.org/CD/netinst/
