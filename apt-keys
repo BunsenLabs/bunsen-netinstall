@@ -16,5 +16,16 @@ bigmsg "Installing BunsenLabs APT key."
 #KEY_FINGERPRINT=$(gpg --with-fingerprint BunsenLabs-RELEASE.asc | sed -rn 's/^\s*Key fingerprint = (([0-9A-Z]{4}\s*)+).*$/\1/p')
 #[[ $KEY_FINGERPRINT = $BUNSEN_APT_FINGERPRINT ]] || giveup "Downloaded Apt key fingerprint is not correct" 1
 
-# an apt-key file is now packaged with this script.
-sudo apt-key add BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install helium-dev APT key." 1
+# An apt-key file is now packaged with this script.
+#sudo apt-key add BunsenLabs-RELEASE.asc > >( tee -a "$logfile" ) 2>&1 || giveup "Failed to install helium-dev APT key." 1
+# 'apt-key add' deprecated, see 'man apt-key'
+# Key is now shipped in-place.
+
+apt_keydir='/etc/apt/trusted.gpg.d'
+if [[ -f "${apt_keydir}/BunsenLabs-RELEASE.asc ]]
+then
+	msg "BunsenLabs APT key found."
+else
+	giveup "BunsenLabs APT key not found in $apt_keydir." 1
+fi
+
