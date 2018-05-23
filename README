@@ -17,9 +17,9 @@ Boot into your Debian Netinstall Stretch cli system,
 log in and run these commands, as a normal user:
 (A fresh copy of this bunsen-netinstall package will be downloaded.)
 
-wget https://github.com/bunsenlabs/bunsen-netinstall/archive/helium-dev.tar.gz
-tar -xpf helium-dev.tar.gz
-cd bunsen-netinstall-helium-dev
+wget https://github.com/bunsenlabs/bunsen-netinstall/archive/helium.tar.gz
+tar -xpf helium.tar.gz
+cd bunsen-netinstall-helium
 ./install
 
 The installation process will start.
