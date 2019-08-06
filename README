@@ -1,3 +1,7 @@
+WARNING
+This "lithium" version of the netinstall script is not yet ready for release.
+Do NOT use it for anything other than testing.
+--------------------------------------------------------
 This is a collection of files intended to install
 a close approximation of the BunsenLabs Linux
 on a basic command-line-only Debian Stretch system.
