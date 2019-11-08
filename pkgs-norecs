@@ -55,6 +55,7 @@ fuse
 #fusesmb
 galculator
 galternatives
+gddrescue
 gdebi
 geany
 #geany-plugins
@@ -182,7 +183,7 @@ vlc-plugin-notify
 wireless-tools
 #wmctrl
 xbindkeys
-xbindkeys-config
+#xbindkeys-config
 xcape
 xdg-user-dirs
 xdg-utils
