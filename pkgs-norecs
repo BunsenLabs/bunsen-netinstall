@@ -9,6 +9,7 @@ apt-xapian-index
 aptitude
 arandr
 arj
+at
 at-spi2-core
 #avahi-daemon
 #avahi-utils
@@ -63,7 +64,7 @@ ghostscript
 gigolo
 gmrun
 gnome-keyring
-#gnome-themes-standard
+gnome-themes-standard
 gparted
 gsimplecal
 gstreamer1.0-libav
@@ -115,7 +116,7 @@ lxappearance
 lxmenu-data
 lxterminal
 lzop
-mirage
+#mirage
 mlocate
 modemmanager
 network-manager
@@ -147,6 +148,7 @@ qt5-style-plugins
 #reiser4progs
 #reiserfsprogs
 rfkill
+ristretto
 rpl
 rsync
 rzip
@@ -158,6 +160,7 @@ synaptic
 #terminator
 thunar
 thunar-archive-plugin
+thunar-gtkhash
 thunar-media-tags-plugin
 thunar-volman
 tint2
