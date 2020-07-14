@@ -89,12 +89,15 @@ hfsprogs
 htop
 hwdata
 i965-va-driver
+inotify-tools
 intel-microcode
 inxi
 #jfsutils
 jgmenu
 lame
 less
+libblockdev-crypto2
+libexo-1-0
 libinput-tools
 libpam-gnome-keyring
 libreoffice-calc
@@ -113,7 +116,6 @@ lsb-release
 lshw
 lvm2
 lxappearance
-lxmenu-data
 lxterminal
 lzop
 #mirage
@@ -128,7 +130,6 @@ nitrogen
 ntfs-3g
 ntp
 obconf
-obmenu
 openbox
 openssh-client
 p7zip-full
