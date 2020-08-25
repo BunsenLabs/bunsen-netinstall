@@ -24,7 +24,15 @@ done
 #sudo update-gconf-defaults || errmsg "failed to update gconf defaults"
 
 # set cursor theme to pre-empt Adwaita
-sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for x-cursor-theme"
+#sudo update-alternatives --set x-cursor-theme /usr/share/icons/DMZ-White/cursor.theme || errmsg "failed to edit alternative for x-cursor-theme"
+
+# dmz-cursor-theme may have been installed after bunsen-configs
+# so re-run the cursor theme setting in bunsen-configs' postinst script.
+DEFAULT_CURSOR_THEME='/usr/share/icons/DMZ-White/cursor.theme'
+if update-alternatives --list x-cursor-theme 2>/dev/null | grep -q "$DEFAULT_CURSOR_THEME"
+then
+    sudo update-alternatives --set x-cursor-theme "$DEFAULT_CURSOR_THEME"
+fi
 
 # Add install date to /etc/bunsen/bunsen_install
 echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install

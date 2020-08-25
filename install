@@ -13,10 +13,11 @@
 # USAGE
 # This script should come in a folder called bunsen-?-netinstall,
 # along with a collection of other necessary files.
-# Change directory (cd) into that folder and run
+# Change directory (cd) into that folder and run this script:
 # ./install
 # to start the installation process.
-# A folder called .bunsen-netinstall-logs will be added to your home folder.
+# A folder bunsen-netinstall-logs will be added to your home folder,
+# to a location set in the "config" file (probably ~/.cache).
 # This may safely be removed if the installation was successful.
 # A folder /backup (or other name) on your root file system will hold
 # backups of system files replaced during the install.
@@ -157,7 +158,7 @@ echo "
 $( < greeting )
 
 This script is expected to be run just after completing a netinstall
-installation of the Debian Stretch CORE SYSTEM ONLY.
+installation of the Debian Buster CORE SYSTEM ONLY.
 (See \"Debian Netinstall Hints\" in the README file.)
 "
 confirm "Would you like to start the install now?" 0
@@ -186,8 +187,8 @@ bigmsg "Messages are being saved to $logfile"
 cp -f pkgs-recs pkgs-norecs config "$log_dir"
 
 # check debian version FIXME Is /etc/debian_version the best way? Use lsb_release -cs ?
-grep -q '\(stretch\|\(^\|[^a-zA-Z0-9.]\)9\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
-    confirm "You do not appear to have Debian Stretch installed.
+grep -q '\(buster\|\(^\|[^a-zA-Z0-9.]\)9\($\|[^a-zA-Z0-9]\)\)' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
+    confirm "You do not appear to have Debian Buster installed.
 If you think this is incorrect,
 you may wish to continue with the installation,
 otherwise it would be safer to stop.
@@ -367,6 +368,9 @@ before running the script again." 1
 ########## end file copying functions ##########
 
 bigmsg "Adjusting package management (apt) settings."
+
+# gen_sources aims to preserve whatever mirrors user has configured
+# while adding 'contrib' and 'non-free'
 
 if [[ -r gen_sources ]]; then
     if [[ -s  sysfiles1/etc/apt/sources.list ]]; then
