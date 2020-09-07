@@ -35,4 +35,4 @@ then
 fi
 
 # Add install date to /etc/bunsen/bunsen_install
-echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install
+sudo echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install
