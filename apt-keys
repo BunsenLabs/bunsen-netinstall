@@ -22,7 +22,7 @@ bigmsg "Installing BunsenLabs APT key."
 # Key is now shipped in-place.
 
 apt_keydir='/etc/apt/trusted.gpg.d'
-if [[ -f "${apt_keydir}/BunsenLabs-RELEASE.asc ]]
+if [[ -f "${apt_keydir}/BunsenLabs-RELEASE.asc" ]]
 then
 	msg "BunsenLabs APT key found."
 else
