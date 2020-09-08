@@ -14,7 +14,7 @@ done
 
 # add user to necessary extra groups
 # NB You should also check sysfiles2/etc/adduser.conf for default groups to add new users to
-for i in netdev #scanner #bluetooth #fuse #cbnetwork
+for i in netdev systemd-journal #scanner #bluetooth #fuse #cbnetwork
 do
     sudo adduser $user $i || errmsg "failed to add user: $user to group: $i"
 done
@@ -29,7 +29,7 @@ done
 # dmz-cursor-theme may have been installed after bunsen-configs
 # so re-run the cursor theme setting in bunsen-configs' postinst script.
 DEFAULT_CURSOR_THEME='/usr/share/icons/DMZ-White/cursor.theme'
-if update-alternatives --list x-cursor-theme 2>/dev/null | grep -q "$DEFAULT_CURSOR_THEME"
+if update-alternatives --list x-cursor-theme 2>/dev/null | grep -q "$DEFAULT_CURSOR_THEME" || errmsg "failed to edit alternative for x-cursor-theme"
 then
     sudo update-alternatives --set x-cursor-theme "$DEFAULT_CURSOR_THEME"
 fi
