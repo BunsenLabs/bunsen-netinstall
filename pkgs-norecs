@@ -201,6 +201,7 @@ xfce4-screenshooter
 xfsprogs
 xinput
 xorg
+xsel
 xserver-xorg-input-all
 xserver-xorg-input-synaptics
 xserver-xorg-input-evdev
@@ -209,7 +210,7 @@ xserver-xorg-input-wacom
 xserver-xorg-video-all
 xserver-xorg-video-intel
 xserver-xorg-video-qxl
-xsel
+xsettingsd
 xz-utils
 yad
 zip

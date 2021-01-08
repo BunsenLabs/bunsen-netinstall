@@ -14,7 +14,7 @@ done
 
 # add user to necessary extra groups
 # NB You should also check sysfiles2/etc/adduser.conf for default groups to add new users to
-for i in netdev systemd-journal #scanner #bluetooth #fuse #cbnetwork
+for i in netdev systemd-journal lpadmin scanner #bluetooth #fuse #cbnetwork
 do
     sudo adduser $user $i || errmsg "failed to add user: $user to group: $i"
 done
