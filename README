@@ -1,26 +1,28 @@
+NOTE: This "beryllium" netinstall script should
+still be considered experimental, there may be bugs!
+If you find any, reports are very welcome!
+Please visit the bunsenlabs forums:
+https://forums.bunsenlabs.org/viewforum.php?id=14
+
 This is a collection of files intended to install
 a close approximation of BunsenLabs Linux
 on a basic command-line-only Debian Buster system.
 
-Bug reports are very welcome!
-Please visit the bunsenlabs forums:
-http://forums.bunsenlabs.org/
-
 HOW TO USE
 
-Download a Debian Buster "netinst" .iso file from here:
-https://www.debian.org/CD/netinst/
+Download a Debian Bullseye "netinst" .iso file from here:
+https://www.debian.org/devel/debian-installer/
 and use it to install a basic cli system.
 Make sure sudo is enabled.
 (See "DEBIAN NETINSTALL HINTS" below.)
 
-Boot into your Debian Netinstall Buster cli system,
+Boot into your Debian Netinstall Bullseye cli system,
 log in and run these commands, as a normal user:
 (A fresh copy of this bunsen-netinstall package will be downloaded.)
 
-wget https://github.com/bunsenlabs/bunsen-netinstall/archive/lithium.tar.gz
-tar -xpf lithium.tar.gz
-cd bunsen-netinstall-lithium
+wget https://github.com/bunsenlabs/bunsen-netinstall/archive/beryllium.tar.gz
+tar -xpf beryllium.tar.gz
+cd bunsen-netinstall-beryllium
 ./install
 
 The installation process will start.
@@ -61,7 +63,7 @@ bunsen-netinstall-logs: folder to copy into user's ~/.cache directory
 
 DEBIAN NETINSTALL HINTS
 
-Installing Debian Buster by the netinstall CD is
+Installing Debian Bullseye by the netinstall CD is
 similar to using the standard installer.
 
 Two points to watch if you want to use
@@ -83,5 +85,5 @@ the netinstall installer will add what is needed.
 they have been preselected.
 Use the up/down arrows to move, and the spacebar to toggle selection.)
 
-The netinstall download and links to documentation can be found here:
-https://www.debian.org/CD/netinst/
+The debian development versions of the netinstall iso files are here:
+https://www.debian.org/devel/debian-installer/
