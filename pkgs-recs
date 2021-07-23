@@ -4,14 +4,13 @@
 ## bunsenlabs
 bunsen-common
 bunsen-configs
-bunsen-configs-pulse
 bunsen-conky
 bunsen-docs
 bunsen-exit
 bunsen-fortune
 bunsen-images
 bunsen-keyring
-bunsen-os-release
+#bunsen-os-release
 bunsen-papirus-icon-theme
 bunsen-pipemenus
 bunsen-themes

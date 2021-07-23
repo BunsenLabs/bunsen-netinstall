@@ -18,13 +18,13 @@ btrfs-progs
 #bzip2 #dep
 catfish
 chntpw
-clipit
 compton
 conky-all
 cpufrequtils
 cryptsetup
 curl
 crda
+dbus-user-session
 dbus-x11
 dmz-cursor-theme
 dosfstools
@@ -81,7 +81,7 @@ gvfs-backends
 #gvfs-bin
 gvfs-fuse
 hardinfo
-haveged
+#haveged
 hdparm
 hddtemp
 hexchat
@@ -101,7 +101,7 @@ libexo-1-0
 libinput-tools
 libpam-gnome-keyring
 libreoffice-calc
-libreoffice-gtk2
+libreoffice-gtk3
 libreoffice-writer
 libnotify-bin
 #libnss-mdns
@@ -117,6 +117,7 @@ lshw
 lvm2
 lxappearance
 lxterminal
+lz4
 lzop
 #mirage
 mlocate
@@ -194,6 +195,7 @@ xdg-utils
 #xdotool
 xfburn
 #xfce4-mixer
+xfce4-clipman
 xfce4-notifyd
 xfce4-power-manager
 xfce4-screenshooter
