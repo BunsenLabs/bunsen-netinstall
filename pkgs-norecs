@@ -147,6 +147,7 @@ python-keybinder
 python-notify
 python-xdg
 qt5-style-plugins
+qt5-gtk-platformtheme
 #reiser4progs
 #reiserfsprogs
 rfkill
@@ -194,6 +195,7 @@ xdg-user-dirs
 xdg-utils
 #xdotool
 xfburn
+xfce4-appfinder
 #xfce4-mixer
 xfce4-clipman
 xfce4-notifyd
