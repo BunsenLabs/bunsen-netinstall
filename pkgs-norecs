@@ -1,6 +1,7 @@
 # Packages here will be installed without recommends.
 
 #alsa-base
+alsa-ucm-conf
 alsa-utils
 amd64-microcode
 anacron
@@ -18,7 +19,7 @@ btrfs-progs
 #bzip2 #dep
 catfish
 chntpw
-compton
+colordiff
 conky-all
 cpufrequtils
 cryptsetup
@@ -26,6 +27,7 @@ curl
 crda
 dbus-user-session
 dbus-x11
+dmidecode
 dmz-cursor-theme
 dosfstools
 efibootmgr
@@ -41,10 +43,11 @@ filezilla
 firefox-esr
 firmware-b43-installer
 firmware-b43legacy-installer
+firmware-iwlwifi
 firmware-linux
 #firmware-ralink
 firmware-realtek
-firmware-iwlwifi
+firmware-sof-signed
 fonts-cantarell
 fonts-noto
 fonts-noto-cjk
@@ -138,6 +141,7 @@ papirus-icon-theme
 pavucontrol
 pciutils
 pcmciautils
+picom
 pnmixer
 policykit-1
 policykit-1-gnome
