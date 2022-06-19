@@ -132,7 +132,7 @@ network-manager-gnome
 #network-manager-vpnc-gnome
 nitrogen
 ntfs-3g
-ntp
+#ntp
 obconf
 openbox
 openssh-client
