@@ -46,6 +46,12 @@ exec > >( tee -a "$logfile" ) 2>&1
 
 user=$USER
 
+# Debian release that this BunsenLabs system will be based on (lowercase)
+debian_base=bullseye
+
+# in case script is run after installing bunsen-os-release (lowercase too)
+bunsen_codename=beryllium
+
 msg() {
     echo "
     $1
@@ -143,6 +149,15 @@ net_test() {
     return 1
 }
 
+usingDebStable() {
+    local reported_codename=$( lsb_release -cs )
+    case ${reported_codename,,} in
+    "$debian_base"|"$bunsen_codename") return 0 ;;
+    esac
+    warnlog "'lsb_release -cs' reported wrong codename: $reported_codename"
+    return 1
+}
+
 trap 'giveup "Script terminated." 1' 1 2 3 15
 [[ $user = root ]] && giveup "This script should be run by a normal user, not root" 1
 
@@ -158,7 +173,7 @@ echo "
 $( < greeting )
 
 This script is expected to be run just after completing a netinstall
-installation of the Debian Buster CORE SYSTEM ONLY.
+installation of the Debian Bullseye CORE SYSTEM ONLY.
 (See \"Debian Netinstall Hints\" in the README file.)
 "
 confirm "Would you like to start the install now?" 0
@@ -187,8 +202,10 @@ bigmsg "Messages are being saved to $logfile"
 cp -f pkgs-recs pkgs-norecs config "$log_dir"
 
 # check debian version FIXME Is /etc/debian_version the best way? Use lsb_release -cs ?
-grep -qE '(\<buster\>|(^|[^a-zA-Z0-9.])10($|[^a-zA-Z0-9]))' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
-    confirm "You do not appear to have Debian Buster installed.
+#grep -qE '(\<bullseye\>|(^|[^a-zA-Z0-9.])11($|[^a-zA-Z0-9]))' /etc/debian_version && msg "Debian version: OK"|| { warnlog "/etc/debian_version reads: $(cat /etc/debian_version)"
+usingDebStable && msg "Debian version: OK" || {
+    confirm "You do not appear to have Debian Bullseye
+or BunsenLabs Beryllium installed.
 If you think this is incorrect,
 you may wish to continue with the installation,
 otherwise it would be safer to stop.
