@@ -6,12 +6,14 @@ https://forums.bunsenlabs.org/viewforum.php?id=14
 
 This is a collection of files intended to install
 a close approximation of BunsenLabs Linux
-on a basic command-line-only Debian Buster system.
+on a basic command-line-only Debian Bullseye system.
 
 HOW TO USE
 
-Download a Debian Bullseye "netinst" .iso file from here:
-https://www.debian.org/devel/debian-installer/
+Download a Debian Bullseye "netinst" 64 bit .iso file from here:
+https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/11.4.0+nonfree/amd64/iso-cd/firmware-11.4.0-amd64-netinst.iso
+or 32 bit file here:
+https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/11.4.0+nonfree/i386/iso-cd/firmware-11.4.0-i386-netinst.iso
 and use it to install a basic cli system.
 Make sure sudo is enabled.
 (See "DEBIAN NETINSTALL HINTS" below.)
@@ -42,6 +44,11 @@ specific data about the installation. This is intended to make
 customization easier. It should not be necessary to edit "install".
 Even if the script is upgraded in the future, the same config files
 should still work.
+
+If you want to customize the installation process before running the installer
+then use a cli editor like nano or vim to edit any of the files to your taste.
+You might particularly want to look at pkgs-recs and pkgs-norecs, but
+there are other things you might want to adjust, eg to install on Devuan...
 
 FILES IN THIS COLLECTION
 

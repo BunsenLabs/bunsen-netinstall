@@ -1,7 +1,7 @@
 This is a network installer for
-BunsenLabs Linux on Debian Buster.
+BunsenLabs Linux on Debian Bullseye.
 
-It will use the BunsenLabs Lithium Apt repository
+It will use the BunsenLabs Beryllium Apt repository
 to download and install necessary packages,
 along with packages from the Debian repositories,
 and do any other necessary configuration.
