@@ -9,8 +9,9 @@ bunsen-docs
 bunsen-exit
 bunsen-fortune
 bunsen-images
+bunsen-images-base
 bunsen-keyring
-#bunsen-os-release
+bunsen-os-release
 bunsen-papirus-icon-theme
 bunsen-pipemenus
 bunsen-themes

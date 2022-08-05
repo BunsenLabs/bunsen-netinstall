@@ -23,6 +23,7 @@ colordiff
 conky-all
 cpufrequtils
 cryptsetup
+cryptsetup-initramfs
 curl
 crda
 dbus-user-session
@@ -32,8 +33,9 @@ dmz-cursor-theme
 dosfstools
 efibootmgr
 eject
-enchant
+enchant-2
 evince
+exfatprogs
 f2fs-tools
 fbxkb
 #fdpowermon
@@ -55,7 +57,7 @@ fonts-noto-mono
 fonts-inconsolata
 fonts-liberation
 ftp
-fuse
+fuse3
 #fusesmb
 galculator
 galternatives
@@ -100,7 +102,7 @@ jgmenu
 lame
 less
 libblockdev-crypto2
-libexo-1-0
+libglib2.0-bin
 libinput-tools
 libpam-gnome-keyring
 libreoffice-calc
@@ -122,9 +124,10 @@ lxappearance
 lxterminal
 lz4
 lzop
-#mirage
+mdadm
 mlocate
 modemmanager
+mtools
 network-manager
 network-manager-gnome
 #network-manager-openvpn-gnome
@@ -146,12 +149,9 @@ pnmixer
 policykit-1
 policykit-1-gnome
 pulseaudio
-python
-python-keybinder
-python-notify
-python-xdg
+python3
+python3-xdg
 qt5-style-plugins
-qt5-gtk-platformtheme
 #reiser4progs
 #reiserfsprogs
 rfkill
@@ -160,7 +160,9 @@ rpl
 rsync
 rzip
 scrot
+sensible-utils
 smartmontools
+speedtest-cli
 suckless-tools
 sudo
 synaptic
@@ -185,7 +187,7 @@ usbutils
 user-setup
 uuid-runtime
 va-driver-all
-vdpau-va-driver
+#vdpau-va-driver
 vlc
 vlc-plugin-notify
 #volti
