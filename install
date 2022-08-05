@@ -340,6 +340,7 @@ before running the script again." 1
     done
 }
 
+# This function is no longer needed. User files are installed by bl-user-setup on first login.
 install_userdir() { # recursively copy contents of $1 into $2, make backups of replaced files in $2 and keep records of changes
     [[ $# = 2 ]] || giveup "install_userdir() needs two arguments" 1
     [[ -d $1 ]] || giveup "$1 is not an existing directory." 1
