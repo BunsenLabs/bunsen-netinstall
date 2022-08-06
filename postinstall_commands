@@ -12,10 +12,16 @@ do
     fi
 done
 
-# add user to necessary extra groups
+# add user to some extra groups
 # NB You should also check sysfiles2/etc/adduser.conf for default groups to add new users to
-for i in netdev systemd-journal lpadmin scanner #bluetooth #fuse #cbnetwork
+for i in audio video cdrom plugdev floppy lp dip
 do
+    sudo addgroup "$i"
+    sudo adduser $user $i || errmsg "failed to add user: $user to group: $i"
+done
+for i in netdev systemd-journal lpadmin scanner bluetooth
+do
+    sudo addgroup --system "$i"
     sudo adduser $user $i || errmsg "failed to add user: $user to group: $i"
 done
 
@@ -34,5 +40,11 @@ then
     sudo update-alternatives --set x-cursor-theme "$DEFAULT_CURSOR_THEME"
 fi
 
+# Now bunsen-os-release is installed, refresh boot menu.
+if command -v update-grub > /dev/null ; then
+    update-grub || errmsg "Failed to update grub"
+fi
+
 # Add install date to /etc/bunsen/bunsen_install
-sudo echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install
+#sudo echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install
+sudo tee -a <<< "Install date: $(date --utc +%FT%T)" /etc/bunsen/bunsen_install
