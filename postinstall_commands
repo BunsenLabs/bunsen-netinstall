@@ -35,14 +35,16 @@ done
 # dmz-cursor-theme may have been installed after bunsen-configs
 # so re-run the cursor theme setting in bunsen-configs' postinst script.
 DEFAULT_CURSOR_THEME='/usr/share/icons/DMZ-White/cursor.theme'
-if update-alternatives --list x-cursor-theme 2>/dev/null | grep -q "$DEFAULT_CURSOR_THEME" || errmsg "failed to edit alternative for x-cursor-theme"
+if update-alternatives --list x-cursor-theme 2>/dev/null | grep -q "$DEFAULT_CURSOR_THEME"
 then
     sudo update-alternatives --set x-cursor-theme "$DEFAULT_CURSOR_THEME"
+else
+    errmsg "failed to edit alternative for x-cursor-theme"
 fi
 
 # Now bunsen-os-release is installed, refresh boot menu.
 if command -v update-grub > /dev/null ; then
-    update-grub || errmsg "Failed to update grub"
+    sudo update-grub || errmsg "Failed to update grub"
 fi
 
 # Add install date to /etc/bunsen/bunsen_install
