@@ -152,6 +152,7 @@ pulseaudio
 python3
 python3-xdg
 qt5-style-plugins
+qt5-gtk-platformtheme
 #reiser4progs
 #reiserfsprogs
 rfkill
