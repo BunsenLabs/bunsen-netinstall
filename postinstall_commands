@@ -43,9 +43,7 @@ else
 fi
 
 # Now bunsen-os-release is installed, refresh boot menu.
-if command -v update-grub > /dev/null ; then
-    sudo update-grub || errmsg "Failed to update grub"
-fi
+sudo update-grub || errmsg "Failed to update grub"
 
 # Add install date to /etc/bunsen/bunsen_install
 #sudo echo "Install date: $(date --utc +%FT%T)" >> /etc/bunsen/bunsen_install
