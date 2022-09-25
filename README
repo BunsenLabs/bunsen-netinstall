@@ -10,10 +10,8 @@ on a basic command-line-only Debian Bullseye system.
 
 HOW TO USE
 
-Download a Debian Bullseye "netinst" 64 bit .iso file from here:
-https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/11.4.0+nonfree/amd64/iso-cd/firmware-11.4.0-amd64-netinst.iso
-or 32 bit file here:
-https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/11.4.0+nonfree/i386/iso-cd/firmware-11.4.0-i386-netinst.iso
+Download latest Debian Bullseye "netinst" .iso file for your architecture from 
+https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/current/ 
 and use it to install a basic cli system.
 Make sure sudo is enabled.
 (See "DEBIAN NETINSTALL HINTS" below.)
