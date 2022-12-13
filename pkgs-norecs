@@ -167,6 +167,7 @@ speedtest-cli
 suckless-tools
 sudo
 synaptic
+systemd-timesyncd
 #terminator
 thunar
 thunar-archive-plugin
