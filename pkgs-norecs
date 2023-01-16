@@ -108,6 +108,7 @@ libpam-gnome-keyring
 libreoffice-calc
 libreoffice-gtk3
 libreoffice-writer
+librsvg2-common
 libnotify-bin
 #libnss-mdns
 libqt5svg5
