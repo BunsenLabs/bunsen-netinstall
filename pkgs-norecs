@@ -25,7 +25,6 @@ cpufrequtils
 cryptsetup
 cryptsetup-initramfs
 curl
-crda
 dbus-user-session
 dbus-x11
 dmidecode
@@ -69,7 +68,7 @@ ghostscript
 gigolo
 gmrun
 gnome-keyring
-gnome-themes-standard
+gnome-themes-extra
 gparted
 gsimplecal
 gstreamer1.0-libav
@@ -104,14 +103,14 @@ less
 libblockdev-crypto2
 libglib2.0-bin
 libinput-tools
+libnotify-bin
 libpam-gnome-keyring
+libqt5svg5
 libreoffice-calc
 libreoffice-gtk3
 libreoffice-writer
 librsvg2-common
-libnotify-bin
 #libnss-mdns
-libqt5svg5
 lightdm
 lightdm-gtk-greeter
 lightdm-gtk-greeter-settings
@@ -147,9 +146,11 @@ pavucontrol
 pciutils
 pcmciautils
 picom
+pkexec
 pnmixer
-policykit-1
 policykit-1-gnome
+polkitd
+polkitd-pkla
 pulseaudio
 python3
 python3-xdg
@@ -229,3 +230,4 @@ xz-utils
 yad
 zip
 zstd
+
