@@ -58,6 +58,7 @@ pkgs-recs: packages to install with recommends
 pkgs-norecs: packages to install without recommends  
 sysfiles1: system files to copy in before installing packages (mainly apt-related)  
 sysfiles2: system files to copy in after installing packages  
+apt-keys: script to install the BunsenLabs Apt key
 gen_sources: commands to edit /etc/apt/sources.list  
 preinstall_commands: commands to run before installing packages and files  
 postinstall_commands: commands to run after installing packages and files  

@@ -25,6 +25,7 @@ cpufrequtils
 cryptsetup
 cryptsetup-initramfs
 curl
+dillo
 dbus-user-session
 dbus-x11
 dmidecode
@@ -58,7 +59,7 @@ fonts-liberation
 ftp
 fuse3
 #fusesmb
-galculator
+#galculator
 galternatives
 gddrescue
 gdebi
