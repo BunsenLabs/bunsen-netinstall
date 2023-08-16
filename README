@@ -1,29 +1,30 @@
-NOTE: This "beryllium" netinstall script should
-still be considered experimental, there may be bugs!
+NOTE: This "boron" netinstall script should still be considered experimental, 
+there may be bugs!
 If you find any, reports are very welcome!
-Please visit the bunsenlabs forums:
-https://forums.bunsenlabs.org/viewforum.php?id=14
+Please visit the bunsenlabs forums: https://forums.bunsenlabs.org/viewforum.php?id=14
 
-This is a collection of files intended to install
-a close approximation of BunsenLabs Linux
-on a basic command-line-only Debian Bullseye system.
+This is a collection of files intended to install a close approximation of 
+BunsenLabs Linux on a basic command-line-only Debian Bookworm system.
 
 HOW TO USE
+==========
 
-Download latest Debian Bullseye "netinst" .iso file for your architecture from 
-https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/current/ 
+https://cdimage.debian.org/cdimage/
+Download latest Debian bookworm "netinst" .iso file for your architecture.
+i386: https://cdimage.debian.org/cdimage/release/current/i386/iso-cd/
+amd64: https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/
 and use it to install a basic cli system.
+
 Make sure sudo is enabled.
 (See "DEBIAN NETINSTALL HINTS" below.)
 
-Boot into your Debian Netinstall Bullseye cli system,
-log in and run these commands, as a normal user:
+Boot your Debian cli system, log in and run these commands, as a normal user:
 (A fresh copy of this bunsen-netinstall package will be downloaded.)
 
-wget https://github.com/bunsenlabs/bunsen-netinstall/archive/beryllium.tar.gz
-tar -xpf beryllium.tar.gz
-cd bunsen-netinstall-beryllium
-./install
+    wget https://github.com/bunsenlabs/bunsen-netinstall/archive/boron.tar.gz
+    tar -xpf boron.tar.gz
+    cd bunsen-netinstall-boron
+    ./install
 
 The installation process will start.
 Follow any prompts that appear on the screen.
@@ -49,7 +50,7 @@ You might particularly want to look at pkgs-recs and pkgs-norecs, but
 there are other things you might want to adjust, eg to install on Devuan...
 
 FILES IN THIS COLLECTION
-
+========================
 README: this file
 LICENSE: a copy of the GPL3 license
 install: the installation script
@@ -67,28 +68,26 @@ config: sets some directory paths etc
 bunsen-netinstall-logs: folder to copy into user's ~/.cache directory
 
 DEBIAN NETINSTALL HINTS
+========================
 
-Installing Debian Bullseye by the netinstall CD is
-similar to using the standard installer.
+Installing Debian Bookworm by the netinstall CD is similar to using the 
+standard installer.
 
-Two points to watch if you want to use
-this netinstall script afterwards:
+Two points to watch if you want to use this netinstall script afterwards:
 
-1) At the "Set up users and passwords" screen,
-DO NOT enter a password for root.
+1) At the "Set up users and passwords" screen, DO NOT enter a password for root.
 Type nothing and press "continue".
 Do this again at "Re-enter password to verify".
 Enter your own name and password as normal.
-You will then be given 'sudo' permissions,
-which will be needed in the script.
+You will then be given 'sudo' permissions, which will be needed in the script.
 
-2) At the "software selection" stage DESELECT EVERYTHING
-except "standard system utilities".
-You will have a core system only, on which
-the netinstall installer will add what is needed.
-(Some software items will be marked with an asterisk, indicating that
-they have been preselected.
-Use the up/down arrows to move, and the spacebar to toggle selection.)
+2) At the "software selection" stage DESELECT EVERYTHING except "standard 
+system utilities".
+You will have a core system only, on which the netinstall installer will add 
+what is needed.
+(Some software items will be marked with an asterisk, indicating that they have
+been preselected. Use the up/down arrows to move, and the spacebar to toggle 
+selection.)
 
 The debian development versions of the netinstall iso files are here:
 https://www.debian.org/devel/debian-installer/
