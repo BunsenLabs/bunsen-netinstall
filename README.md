@@ -1,7 +1,7 @@
-**NOTE:**  This *"boron"* netinstall script should still be considered  
-experimental, there may be bugs!  
-If you find any, reports are very welcome!  
-Please visit the bunsenlabs forums: https://forums.bunsenlabs.org/viewforum.php?id=14  
+**NOTE:**  This *"boron"* netinstall script should still be considered  experimental, 
+there may be bugs!  
+If you find any, reports are very welcome! Please visit the bunsenlabs forums: 
+https://forums.bunsenlabs.org/viewforum.php?id=14  
 
 This is a collection of files intended to install a close approximation of   
 BunsenLabs Linux on a basic command-line-only Debian Bookworm system.  
@@ -49,8 +49,7 @@ are other things you might want to adjust, eg to install on Devuan...
 FILES IN THIS COLLECTION  
 ------------------------
 
-README: this file
-README: this file.md  
+README.md: this file  
 LICENSE: a copy of the GPL3 license  
 install: the installation script  
 copyright: GNU licence statement  
@@ -59,7 +58,6 @@ pkgs-recs: packages to install with recommends
 pkgs-norecs: packages to install without recommends  
 sysfiles1: system files to copy in before installing packages (mainly apt-related)  
 sysfiles2: system files to copy in after installing packages  
-apt-keys: commands to install the BunsenLabs Apt GPG key  
 gen_sources: commands to edit /etc/apt/sources.list  
 preinstall_commands: commands to run before installing packages and files  
 postinstall_commands: commands to run after installing packages and files  
@@ -69,12 +67,12 @@ bunsen-netinstall-logs: folder to copy into user's ~/.cache directory
 DEBIAN NETINSTALL HINTS  
 -----------------------
 
-Installing Debian Bookworm by the netinstall CD is similar to using the 
-standard installer.
+Installing Debian Bookworm by the netinstall CD is similar to using the standard 
+installer.
 
 Two points to watch if you want to use this netinstall script afterwards:
 
-1) At the "Set up users and passwords" screen, DO NOT enter a password for root.
+1) At the "Set up users and passwords" screen, **DO NOT** enter a password for root.
 Type nothing and press "continue".
 Do this again at "Re-enter password to verify".
 Enter your own name and password as normal.
