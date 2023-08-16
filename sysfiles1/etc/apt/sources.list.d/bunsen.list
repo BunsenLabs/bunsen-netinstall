@@ -1,2 +1,2 @@
-deb https://pkg.bunsenlabs.org/debian beryllium main
+deb https://pkg.bunsenlabs.org/debian boron main
 #deb-src https://pkg.bunsenlabs.org/debian beryllium main
