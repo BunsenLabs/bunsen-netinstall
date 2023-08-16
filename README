@@ -9,7 +9,6 @@ BunsenLabs Linux on a basic command-line-only Debian Bookworm system.
 HOW TO USE
 ==========
 
-https://cdimage.debian.org/cdimage/
 Download latest Debian bookworm "netinst" .iso file for your architecture.
 i386: https://cdimage.debian.org/cdimage/release/current/i386/iso-cd/
 amd64: https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/
