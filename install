@@ -47,10 +47,10 @@ exec > >( tee -a "$logfile" ) 2>&1
 user=$USER
 
 # Debian release that this BunsenLabs system will be based on (lowercase)
-debian_base=bullseye
+debian_base=bookworm
 
 # in case script is run after installing bunsen-os-release (lowercase too)
-bunsen_codename=beryllium
+bunsen_codename=boron
 
 msg() {
     echo "
