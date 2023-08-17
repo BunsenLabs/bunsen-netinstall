@@ -13,7 +13,8 @@ bunsen-exit
 bunsen-fortune
 bunsen-images
 # bunsen-images-extra
-bunsen-keyring
+# bunsen-keyring
+bunsen-archive-keyring
 bunsen-numix-icon-theme
 bunsen-os-release
 # bunsen-paper-icon-theme
