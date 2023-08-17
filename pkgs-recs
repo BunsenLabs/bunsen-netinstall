@@ -9,11 +9,14 @@ bunsen-configs
 bunsen-conky
 bunsen-docs
 bunsen-exit
+bunsen-faenza-icon-theme
 bunsen-fortune
 bunsen-images
-bunsen-images-base
+bunsen-images-extra
 bunsen-keyring
+bunsen-numix-icon-theme
 bunsen-os-release
+bunsen-paper-icon-theme
 bunsen-papirus-icon-theme
 bunsen-pipemenus
 bunsen-themes
