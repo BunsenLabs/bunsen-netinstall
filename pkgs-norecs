@@ -103,6 +103,7 @@ lame
 less
 libblockdev-crypto2
 libglib2.0-bin
+libgtk-3-0
 libinput-tools
 libnotify-bin
 libpam-gnome-keyring
@@ -142,7 +143,6 @@ obconf
 openbox
 openssh-client
 p7zip-full
-papirus-icon-theme
 pavucontrol
 pciutils
 pcmciautils
@@ -200,6 +200,7 @@ vlc-plugin-notify
 #volumeicon-alsa
 wireless-tools
 #wmctrl
+wpasupplicant
 xbindkeys
 #xbindkeys-config
 xcape
