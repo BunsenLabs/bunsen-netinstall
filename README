@@ -14,7 +14,7 @@ Boot into your Debian Netinstall cli system,
 log in and run these commands, as a normal user:
 (A fresh copy of this bunsen-netinstall package will be downloaded.)
 
-wget https://github.com/bunsenlabs/bunsen-netinstall/archive/master.tar.gz
+wget https://github.com/bunsenlabs/bunsen-netinstall/archive/hydrogen.tar.gz
 tar -xpf master.tar.gz
 cd bunsen-netinstall-master
 ./install
