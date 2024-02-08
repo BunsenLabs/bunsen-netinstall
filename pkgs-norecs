@@ -81,6 +81,7 @@ gstreamer1.0-pulseaudio
 gtk2-engines-pixbuf
 #gtk2-engines-murrine
 #gtk3-nocsd
+gtk-update-icon-cache
 gvfs
 gvfs-backends
 #gvfs-bin
@@ -233,4 +234,3 @@ xz-utils
 yad
 zip
 zstd
-
