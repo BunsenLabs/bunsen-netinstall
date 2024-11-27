@@ -152,7 +152,6 @@ pkexec
 pnmixer
 policykit-1-gnome
 polkitd
-polkitd-pkla
 pulseaudio
 python3
 python3-xdg
