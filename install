@@ -149,6 +149,32 @@ net_test() {
     return 1
 }
 
+# pass Debian or BunsenLabs
+check_repo() {
+    local repo_name="$1"
+    msg "checking $repo_name repository is online..."
+    case "$repo_name" in
+    Debian)
+        local repo_url='https://deb.debian.org/debian'
+        local dist="$debian_base"
+        ;;
+    BunsenLabs)
+        local repo_url='https://pkg.bunsenlabs.org/debian'
+        local dist="$bunsen_codename"
+        ;;
+    *)
+        giveup "Sorry, I don't understand the repository name $repo_name" 1
+        ;;
+    esac
+    if curl --output /dev/null --silent --head --fail "${repo_url}/dists/${dist}/InRelease"; then
+        msg "OK"
+        return 0
+    else
+        errmsg "$repo_name repository seems to be offline"
+        return 1
+    fi
+}
+
 usingDebStable() {
     local reported_codename=$( lsb_release -cs )
     case ${reported_codename,,} in
@@ -180,6 +206,12 @@ confirm "Would you like to start the install now?" 0
 
 net_test || giveup "You do not seem to have a working network connection.
 Please fix this issue and run the script again." 1
+
+# make sure repos are online
+for i in Debian BunsenLabs
+do
+    check_repo "$i" || giveup "Unable to continue without working $i repository" 1
+done
 
 # check for needed files
 missing_files=
@@ -240,16 +272,19 @@ select list in 'full' 'lite' 'base'
 do
     case "$list" in
     full)
+        log "$user chose the full install"
         pkgs_norecs_file=pkgs-norecs
         pkgs_recs_file=pkgs-recs
         break
         ;;
     lite)
+        log "$user chose the lite install"
         pkgs_norecs_file=pkgs-norecs-lite
         pkgs_recs_file=pkgs-recs-lite
         break
         ;;
     base)
+        log "$user chose the base install"
         pkgs_norecs_file=pkgs-norecs-base
         pkgs_recs_file=pkgs-recs-base
         break
