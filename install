@@ -166,7 +166,8 @@ check_repo() {
         giveup "Sorry, I don't understand the repository name $repo_name" 1
         ;;
     esac
-    if curl --output /dev/null --silent --head --fail "${repo_url}/dists/${dist}/InRelease"; then
+#    if curl --output /dev/null --silent --head --fail "${repo_url}/dists/${dist}/InRelease"; then
+    if wget --spider --quiet "${repo_url}/dists/${dist}/InRelease"; then
         msg "OK"
         return 0
     else
