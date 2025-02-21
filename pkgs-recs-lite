@@ -10,7 +10,6 @@ bunsen-configs-lite
 bunsen-conky
 bunsen-docs
 bunsen-exit
-# bunsen-faenza-icon-theme
 bunsen-fortune
 bunsen-images-base
 bunsen-numix-icon-theme
@@ -22,4 +21,4 @@ bunsen-themes
 bunsen-thunar
 bunsen-utilities
 bunsen-welcome
-#material-solarized-suruplusplus-icon-theme
+# material-solarized-suruplusplus-icon-theme

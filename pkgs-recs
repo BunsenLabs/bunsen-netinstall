@@ -9,11 +9,8 @@ bunsen-configs
 bunsen-conky
 bunsen-docs
 bunsen-exit
-# bunsen-faenza-icon-theme
 bunsen-fortune
 bunsen-images
-# bunsen-images-archives
-# bunsen-keyring
 bunsen-archive-keyring
 bunsen-numix-icon-theme
 bunsen-os-release
