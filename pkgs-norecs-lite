@@ -155,7 +155,7 @@ thunar-archive-plugin
 thunar-gtkhash
 #thunar-media-tags-plugin
 thunar-volman
-tint2
+#tint2
 transmission-gtk
 #tumbler
 #tumbler-plugins-extra

@@ -28,7 +28,7 @@ sensible-utils
 suckless-tools
 thunar
 thunar-volman
-tint2
+#tint2
 xbindkeys
 xcape
 xauth
