@@ -8,6 +8,7 @@ galternatives
 gmrun
 inxi
 jgmenu
+labbe-icons-bark
 libblockdev-crypto3
 libfuse2t64
 lightdm
@@ -16,7 +17,7 @@ lightdm-gtk-greeter-settings
 light-locker
 lxappearance
 mate-polkit
-nitrogen
+#nitrogen
 obconf
 openbox
 pkexec
@@ -32,10 +33,12 @@ thunar-volman
 xbindkeys
 xcape
 xauth
+xfce4-panel
 xinit
 xserver-xorg
 x11-xserver-utils
 xsettingsd
+xwwall
 yad
 
 ## bunsenlabs
@@ -45,6 +48,5 @@ bunsen-common
 bunsen-configs-base
 bunsen-exit
 bunsen-images-base
-bunsen-numix-icon-theme
-bunsen-themes-base
 bunsen-thunar
+bunsen-yaru-gtk

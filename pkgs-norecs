@@ -4,7 +4,6 @@ alsa-ucm-conf
 alsa-utils
 amd64-microcode
 anacron
-apt-xapian-index
 aptitude
 arandr
 arj
@@ -86,6 +85,8 @@ inotify-tools
 intel-microcode
 inxi
 jgmenu
+labbe-icons-bark
+labbe-icons-sage
 lame
 less
 libblockdev-crypto3
@@ -115,14 +116,13 @@ lxterminal
 lz4
 lzop
 mate-polkit
-material-solarized-suruplusplus-icon-theme
 mdadm
 modemmanager
 mtools
 ncal
 network-manager
 network-manager-gnome
-nitrogen
+#nitrogen
 ntfs-3g
 obconf
 openbox
@@ -186,6 +186,8 @@ xfburn
 xfce4-appfinder
 xfce4-clipman
 xfce4-notifyd
+xfce4-panel
+xfce4-panel-profiles
 xfce4-power-manager
 xfce4-screenshooter
 xfsprogs
@@ -198,8 +200,9 @@ xserver-xorg-input-evdev
 xserver-xorg-input-wacom
 xserver-xorg-video-all
 xserver-xorg-video-intel
-#xserver-xorg-video-qxl
+xserver-xorg-video-qxl
 xsettingsd
+xwwall
 xz-utils
 yad
 zip

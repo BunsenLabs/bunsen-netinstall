@@ -1,11 +1,9 @@
 # Packages here will be installed without recommends.
 
-#alsa-base
 alsa-ucm-conf
 alsa-utils
 amd64-microcode
 anacron
-#apt-xapian-index
 #aptitude
 arandr
 arj
@@ -49,7 +47,7 @@ firmware-realtek
 #fonts-noto-mono
 fonts-inconsolata
 fonts-liberation
-#ftp
+#ftp-ssl
 fuse3
 galternatives
 gddrescue
@@ -84,6 +82,8 @@ i965-va-driver
 intel-microcode
 inxi
 jgmenu
+labbe-icons-bark
+labbe-icons-sage
 less
 libblockdev-crypto3
 libfuse2t64
@@ -117,7 +117,7 @@ mtools
 ncal
 network-manager
 network-manager-gnome
-nitrogen
+#nitrogen
 ntfs-3g
 obconf
 openbox
@@ -157,7 +157,7 @@ thunar-gtkhash
 thunar-volman
 #tint2
 transmission-gtk
-#tumbler
+tumbler
 #tumbler-plugins-extra
 unace
 unalz
@@ -182,6 +182,7 @@ xfburn
 #xfce4-appfinder
 xfce4-clipman
 xfce4-notifyd
+xfce4-panel
 xfce4-power-manager
 #xfce4-screenshooter
 xfsprogs
@@ -194,8 +195,9 @@ xserver-xorg-input-evdev
 xserver-xorg-input-wacom
 xserver-xorg-video-all
 xserver-xorg-video-intel
-#xserver-xorg-video-qxl
+xserver-xorg-video-qxl
 xsettingsd
+xwwall
 xz-utils
 yad
 zip
