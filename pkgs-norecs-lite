@@ -134,7 +134,7 @@ pnmixer
 polkitd
 python3
 python3-xdg
-qt5-style-plugins
+#qt5-style-plugins
 qt5-gtk-platformtheme
 rfkill
 ristretto
@@ -146,6 +146,7 @@ scrot
 sensible-utils
 smartmontools
 speedtest-cli
+ssh-askpass-gnome
 suckless-tools
 sudo
 synaptic

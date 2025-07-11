@@ -26,6 +26,7 @@ python3-xdg
 rxvt-unicode
 scrot
 sensible-utils
+ssh-askpass-gnome
 suckless-tools
 thunar
 thunar-volman
