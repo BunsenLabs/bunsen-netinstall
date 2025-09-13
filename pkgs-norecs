@@ -15,6 +15,7 @@ catfish
 chntpw
 colordiff
 conky-all
+console-setup
 cryptsetup
 cryptsetup-initramfs
 curl
@@ -67,7 +68,6 @@ gstreamer1.0-plugins-bad
 gstreamer1.0-plugins-base
 gstreamer1.0-plugins-good
 gstreamer1.0-plugins-ugly
-gstreamer1.0-pulseaudio
 gtk2-engines-pixbuf
 gtk-update-icon-cache
 gvfs
@@ -135,7 +135,7 @@ picom
 pipewire-audio
 pkexec
 plocate
-pnmixer
+#pnmixer
 polkitd
 python3
 python3-xdg
@@ -189,7 +189,11 @@ xfce4-clipman
 xfce4-notifyd
 xfce4-panel
 xfce4-panel-profiles
+xfce4-indicator-plugin
+xfce4-pulseaudio-plugin
+xfce4-systemload-plugin
 xfce4-power-manager
+xfce4-battery-plugin
 xfce4-screenshooter
 xfsprogs
 xinput

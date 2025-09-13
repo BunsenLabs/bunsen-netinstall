@@ -2,6 +2,7 @@
 
 arandr
 conky-all
+console-setup
 dillo
 dmz-cursor-theme
 galternatives
@@ -35,6 +36,7 @@ xbindkeys
 xcape
 xauth
 xfce4-panel
+xfce4-indicator-plugin
 xinit
 xserver-xorg
 x11-xserver-utils
