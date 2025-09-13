@@ -1,5 +1,5 @@
 EXPERIMENTAL
-This "Carbon" branch is for development and testing purposes.
+This "Carbon" branch is still for development and testing purposes.
 Do not use it if you want to guarantee a working system!
 
 
@@ -16,13 +16,12 @@ https://github.com/BunsenLabs/bunsen-netinstall/issues
 HOW TO USE
 ----------
 
-Download the latest Debian trixie "netinstall" .iso file 
+Download the latest Debian trixie "netinstall" .iso file
 and use it to install a basic cli system.
 
-https://cdimage.debian.org/cdimage/weekly-builds/amd64/iso-cd/debian-testing-amd64-netinst.iso
+https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso
 
-At present only "weekly" amd64 builds are available, 
-and there is no longer a Debian i386 netinstall iso image.
+There is no longer a Debian i386 netinstall iso image.
 
 Make sure sudo is enabled. (See "DEBIAN NETINSTALL HINTS" below.)
 
@@ -119,4 +118,3 @@ what is needed.\
 (Some software items will be marked with an asterisk, indicating that they have
 been preselected. Use the up/down arrows to move, and the spacebar to toggle
 selection.)
-
