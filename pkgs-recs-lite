@@ -11,6 +11,7 @@ bunsen-conky
 bunsen-docs
 bunsen-exit
 bunsen-fortune
+bunsen-icons-base
 bunsen-images-base
 # bunsen-numix-icon-theme
 bunsen-os-release
@@ -21,4 +22,4 @@ bunsen-pipemenus
 bunsen-thunar
 bunsen-utilities
 bunsen-welcome
-bunsen-yaru-gtk
+bunsen-themes-base

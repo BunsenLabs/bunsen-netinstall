@@ -9,7 +9,6 @@ galternatives
 gmrun
 inxi
 jgmenu
-labbe-icons-bark
 libblockdev-crypto3
 libfuse2t64
 lightdm
@@ -49,6 +48,7 @@ bunsen-archive-keyring
 bunsen-common
 bunsen-configs-base
 bunsen-exit
+bunsen-icons-base
 bunsen-images-base
 bunsen-thunar
-bunsen-yaru-gtk
+bunsen-themes-base
