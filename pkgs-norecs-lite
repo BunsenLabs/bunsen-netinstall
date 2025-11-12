@@ -5,7 +5,6 @@ alsa-utils
 amd64-microcode
 anacron
 #aptitude
-arandr
 arj
 at
 at-spi2-core
@@ -32,7 +31,6 @@ evince
 exfatprogs
 f2fs-tools
 feh
-file-roller
 #filezilla
 #firefox-esr
 firmware-ath9k-htc
@@ -100,6 +98,7 @@ lightdm-gtk-greeter
 lightdm-gtk-greeter-settings
 linux-cpupower
 lm-sensors
+lxrandr
 locales
 lsb-release
 lshw
@@ -173,6 +172,7 @@ va-driver-all
 #vlc-plugin-notify
 wireless-tools
 wpasupplicant
+xarchiver
 xbindkeys
 xcape
 xdg-user-dirs
@@ -196,7 +196,6 @@ xserver-xorg-input-synaptics
 xserver-xorg-input-evdev
 xserver-xorg-input-wacom
 xserver-xorg-video-all
-xserver-xorg-video-intel
 xserver-xorg-video-qxl
 xsettingsd
 xwwall

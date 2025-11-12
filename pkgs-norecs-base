@@ -1,10 +1,10 @@
 # Packages here will be installed without recommends.
 
-arandr
 conky-all
 console-setup
 dillo
 dmz-cursor-theme
+fonts-liberation
 galternatives
 gmrun
 inxi
@@ -15,6 +15,7 @@ lightdm
 lightdm-gtk-greeter
 lightdm-gtk-greeter-settings
 lxappearance
+lxrandr
 mate-polkit
 #nitrogen
 obconf

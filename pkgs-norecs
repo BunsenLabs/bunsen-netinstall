@@ -5,7 +5,6 @@ alsa-utils
 amd64-microcode
 anacron
 aptitude
-arandr
 arj
 at
 at-spi2-core
@@ -33,7 +32,6 @@ exfatprogs
 f2fs-tools
 #fdpowermon
 feh
-file-roller
 filezilla
 firefox-esr
 firmware-ath9k-htc
@@ -109,7 +107,7 @@ lsb-release
 lshw
 lvm2
 lxappearance
-lxterminal
+lxrandr
 lz4
 lzop
 mate-polkit
@@ -176,6 +174,7 @@ vlc
 vlc-plugin-notify
 wireless-tools
 wpasupplicant
+xarchiver
 xbindkeys
 xcape
 xdg-user-dirs
@@ -192,6 +191,7 @@ xfce4-systemload-plugin
 xfce4-power-manager
 xfce4-battery-plugin
 xfce4-screenshooter
+xfce4-terminal
 xfsprogs
 xinput
 xorg
@@ -201,7 +201,6 @@ xserver-xorg-input-synaptics
 xserver-xorg-input-evdev
 xserver-xorg-input-wacom
 xserver-xorg-video-all
-xserver-xorg-video-intel
 xserver-xorg-video-qxl
 xsettingsd
 xwwall
