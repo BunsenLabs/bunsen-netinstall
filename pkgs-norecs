@@ -115,8 +115,8 @@ mdadm
 modemmanager
 mtools
 ncal
-network-manager
-network-manager-gnome
+network-manager-applet
+nm-connection-editor
 #nitrogen
 ntfs-3g
 obconf
