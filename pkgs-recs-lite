@@ -12,14 +12,13 @@ bunsen-docs
 bunsen-exit
 bunsen-fortune
 bunsen-icons-base
-bunsen-images-base
 # bunsen-numix-icon-theme
-bunsen-os-release
 # bunsen-paper-icon-theme
 # bunsen-papirus-icon-theme
+bunsen-images-base
+bunsen-themes-base
+bunsen-os-release
 bunsen-pipemenus
-# bunsen-themes
 bunsen-thunar
 bunsen-utilities
 bunsen-welcome
-bunsen-themes-base

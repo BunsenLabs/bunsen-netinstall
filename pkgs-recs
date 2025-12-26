@@ -3,6 +3,7 @@
 
 ## bunsenlabs
 # bunsen-apt-update-checker
+bunsen-archive-keyring
 bunsen-blob
 bunsen-common
 bunsen-configs
@@ -11,15 +12,13 @@ bunsen-docs
 bunsen-exit
 bunsen-fortune
 bunsen-icons-base
-bunsen-images
-bunsen-archive-keyring
 # bunsen-numix-icon-theme
-bunsen-os-release
 # bunsen-paper-icon-theme
 # bunsen-papirus-icon-theme
+bunsen-images
+bunsen-os-release
 bunsen-pipemenus
-# bunsen-themes
+bunsen-themes
 bunsen-thunar
 bunsen-utilities
 bunsen-welcome
-bunsen-themes

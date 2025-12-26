@@ -31,6 +31,7 @@ evince
 exfatprogs
 f2fs-tools
 feh
+file-roller
 #filezilla
 #firefox-esr
 firmware-ath9k-htc
@@ -103,7 +104,6 @@ locales
 lsb-release
 lshw
 lvm2
-lxappearance
 #lxterminal
 mate-polkit
 #mdadm
@@ -116,6 +116,7 @@ network-manager-applet
 nm-connection-editor
 #nitrogen
 ntfs-3g
+nwg-look
 obconf
 openbox
 openssh-client
@@ -172,7 +173,6 @@ va-driver-all
 #vlc-plugin-notify
 wireless-tools
 wpasupplicant
-xarchiver
 xbindkeys
 xcape
 xdg-user-dirs

@@ -32,6 +32,7 @@ exfatprogs
 f2fs-tools
 #fdpowermon
 feh
+file-roller
 filezilla
 firefox-esr
 firmware-ath9k-htc
@@ -106,7 +107,6 @@ locales
 lsb-release
 lshw
 lvm2
-lxappearance
 lxrandr
 lz4
 lzop
@@ -119,6 +119,7 @@ network-manager-applet
 nm-connection-editor
 #nitrogen
 ntfs-3g
+nwg-look
 obconf
 openbox
 openssh-client
@@ -174,9 +175,9 @@ vlc
 vlc-plugin-notify
 wireless-tools
 wpasupplicant
-xarchiver
 xbindkeys
 xcape
+xdg-desktop-portal-gtk
 xdg-user-dirs
 xdg-utils
 xfburn
