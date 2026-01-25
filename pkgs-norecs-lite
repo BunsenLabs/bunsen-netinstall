@@ -185,6 +185,7 @@ xfce4-panel
 xfce4-indicator-plugin
 xfce4-pulseaudio-plugin
 xfce4-power-manager
+xfce4-power-manager-plugins
 xfce4-battery-plugin
 #xfce4-screenshooter
 xfsprogs
