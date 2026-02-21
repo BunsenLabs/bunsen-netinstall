@@ -1,8 +1,3 @@
-EXPERIMENTAL
-This "Carbon" branch is still for development and testing purposes.
-Do not use it if you want to guarantee a working system!
-
-
 This is a collection of files intended to install a close approximation of
 BunsenLabs Linux on a basic command-line-only Debian Trixie system.
 
